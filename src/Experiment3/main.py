@@ -101,18 +101,18 @@ discriminator = gan.Discriminator((IMG_HEIGHT, IMG_WIDTH, 3)).model()
 #discriminator.summary()
 
 cross_entropy = tf.keras.losses.BinaryCrossentropy(from_logits=True)
-real_acc = tf.keras.metrics.SparseCategoricalAccuracy('real_acc')
-fake_acc = tf.keras.metrics.SparseCategoricalAccuracy('fake_acc')
+real_acc = tf.keras.metrics.BinaryAccuracy(name='real_acc')
+fake_acc = tf.keras.metrics.BinaryAccuracy(name='fake_acc')
 
 def discriminator_loss(real_output, fake_output):
     real_loss = cross_entropy(tf.ones_like(real_output), real_output)
     fake_loss = cross_entropy(tf.zeros_like(fake_output), fake_output)
     total_loss = 0.5 * (real_loss + fake_loss)
 
-    real_acc(tf.ones_like(real_output), real_output)
-    fake_acc(tf.zeros_like(fake_output), fake_output)
+    true_acc = real_acc(tf.ones_like(real_output), real_output)
+    false_acc = fake_acc(tf.zeros_like(fake_output), fake_output)
     
-    return total_loss
+    return total_loss, true_acc, false_acc
 
 def generator_loss(fake_output):
     return cross_entropy(tf.ones_like(fake_output), fake_output)
@@ -133,7 +133,7 @@ checkpoint = tf.train.Checkpoint(generator_optimizer=generator_optimizer,
 
 manager = tf.train.CheckpointManager(checkpoint, directory = checkpoint_dir, max_to_keep=3)
 
-EPOCHS = 100
+EPOCHS = 10
 noise_dim = 256
 num_examples_to_generate = 4
 
@@ -148,20 +148,21 @@ def train_step(real_images):
     disc_loss = 0
     with tf.GradientTape() as gen_tape, tf.GradientTape() as disc_tape:
         generated_images = generator(noise, training=True)
-
+        
         real_output = discriminator(real_images, training=True)
         fake_output = discriminator(generated_images, training=True)
         
         gen_loss = generator_loss(fake_output)
-        disc_loss = discriminator_loss(real_output, fake_output)
+        disc_loss, true_acc, false_acc = discriminator_loss(real_output, fake_output)
 
         gradients_of_generator = gen_tape.gradient(gen_loss, generator.trainable_variables)
         gradients_of_discriminator = disc_tape.gradient(disc_loss, discriminator.trainable_variables)
 
         generator_optimizer.apply_gradients(zip(gradients_of_generator, generator.trainable_variables))
-        discriminator_optimizer.apply_gradients(zip(gradients_of_discriminator, discriminator.trainable_variables))
+        if gen_loss < 4:
+            discriminator_optimizer.apply_gradients(zip(gradients_of_discriminator, discriminator.trainable_variables))
     
-    return gen_loss, disc_loss
+    return gen_loss, disc_loss, gradients_of_generator, gradients_of_discriminator, true_acc, false_acc
 
 def generate_and_save_images(model, epoch, test_input, titleadd = ""):
     # Notice `training` is set to False.
@@ -204,18 +205,20 @@ def train(dataset, epochs):
         start = time.time()
         i = 0
         for image_batch in dataset:
-            genL, discL = train_step(image_batch)
+            genL, discL, gen_grad, disc_grad, real_acc, fake_acc = train_step(image_batch)
 
             i += 1
             cycle += 1
             if i % 100 == 0:
                 print(f"Batch {i}/{STEPS_PER_EPOCH}")
 
-            with writer.as_default():
-                tf.summary.scalar('real acc', real_acc.result(), step=cycle)
-                tf.summary.scalar('fake acc', fake_acc.result(), step=cycle)
-                tf.summary.scalar('Gen Loss', genL, step=cycle)
-                tf.summary.scalar('Disc Loss', discL, step=cycle)
+                with writer.as_default():
+                    tf.summary.scalar('real acc', real_acc, step=cycle)
+                    tf.summary.scalar('fake acc', fake_acc, step=cycle)
+                    tf.summary.scalar('Gen Loss', genL, step=cycle)
+                    tf.summary.scalar('Disc Loss', discL, step=cycle)
+                # for grad in gen_grad:
+                #     tf.summary.histogram('Gen_grad', grad, step=cycle)
 
         generate_and_save_images(generator,
                                  epoch + 1,
