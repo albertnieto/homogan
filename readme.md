@@ -1,6 +1,6 @@
 # HOMOGAN
 
-## Glossary
+### Glossary
 * Generator (G)
 * Discriminator (D)
 * Fully Connected (FC)
@@ -11,7 +11,7 @@ Change from previous models:
 * The two FC input layers of the G changed to FConv.
 * Update restriction on the D -> D is not updated while G loss is >4.
 
-#### Results:
+### Results:
 Trainning size = 10.000\
 Trainning Epochs = 20\
 Batch Size = 16\
