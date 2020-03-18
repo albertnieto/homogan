@@ -133,7 +133,7 @@ checkpoint = tf.train.Checkpoint(generator_optimizer=generator_optimizer,
 
 manager = tf.train.CheckpointManager(checkpoint, directory = checkpoint_dir, max_to_keep=3)
 
-EPOCHS = 50
+EPOCHS = 20
 noise_dim = 256
 num_examples_to_generate = 4
 
@@ -158,10 +158,10 @@ def train_step(real_images):
         gradients_of_generator = gen_tape.gradient(gen_loss, generator.trainable_variables)
         gradients_of_discriminator = disc_tape.gradient(disc_loss, discriminator.trainable_variables)
 
-        if true_acc > 0.65:
-            generator_optimizer.apply_gradients(zip(gradients_of_generator, generator.trainable_variables))
-        if false_acc < 0.85:
-            discriminator_optimizer.apply_gradients(zip(gradients_of_discriminator, discriminator.trainable_variables))
+        #if true_acc > 0.65:
+        generator_optimizer.apply_gradients(zip(gradients_of_generator, generator.trainable_variables))
+        #if false_acc < 0.85:
+        discriminator_optimizer.apply_gradients(zip(gradients_of_discriminator, discriminator.trainable_variables))
     
     return gen_loss, disc_loss, gradients_of_generator, gradients_of_discriminator, true_acc, false_acc
 
