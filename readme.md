@@ -16,6 +16,9 @@ Trainning size = 10.000\
 Trainning Epochs = 20\
 Batch Size = 16\
 _Observation_: 
+|![](src/Experiment4/Gen_Loss.png)|![](src/Experiment4/Disc_Loss.png)|
+|:---:|:---:|
+|Generator Loss|Discriminator Loss|
 * Fake accuracy grows rapidly at the first epochs, reaching the value 0.95, but then decreases with each epoch and tends to stabilize around 0.7
 ![](src/Experiment4/fake_acc.png)
 * Real accuracy increases at the beginning, reaching the value 0.8, but then decreases with each epoch and tends to stabilize around 0.45
