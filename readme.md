@@ -23,3 +23,20 @@ __Observation__:
 ![](src/Experiment4/fake_acc.png)
 * Real accuracy increases at the beginning, reaching the value 0.8, but then decreases with each epoch and tends to stabilize around 0.45
 ![](src/Experiment4/real_acc.png)
+
+## Experiment 5
+Change from previous models: 
+* Removed restriction on D update
+
+### Results:
+Trainning size = 10.000\
+Trainning Epochs = 20\
+Batch Size = 16\
+__Observation__: 
+|![](src/Experiment5/Gen_Loss.png)|![](src/Experiment5/Disc_Loss.png)|
+|:---:|:---:|
+|Generator Loss|Discriminator Loss|
+* Fake accuracy 
+![](src/Experiment5/fake_acc.png)
+* Real accuracy 
+![](src/Experiment5/real_acc.png)
