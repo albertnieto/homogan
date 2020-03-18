@@ -15,7 +15,7 @@ Change from previous models:
 Trainning size = 10.000\
 Trainning Epochs = 20\
 Batch Size = 16\
-_Observation_: 
+__Observation__: 
 |![](src/Experiment4/Gen_Loss.png)|![](src/Experiment4/Disc_Loss.png)|
 |:---:|:---:|
 |Generator Loss|Discriminator Loss|
