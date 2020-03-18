@@ -12,9 +12,9 @@ Change from previous models:
 * Update restriction on the D -> D is not updated while G loss is >4.
 
 ### Results:
-Trainning size = 10.000
-Trainning Epochs = 20
-Batch Size = 16
+Trainning size = 10.000\
+Trainning Epochs = 20\
+Batch Size = 16\
 _Observation_: 
 * Fake accuracy grows rapidly at the first epochs, reaching the value 0.95, but then decreases with each epoch and tends to stabilize around 0.7
 * Real accuracy increases at the beginning, reaching the value 0.8, but then decreases with each epoch and tends to stabilize around 0.45
