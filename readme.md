@@ -22,3 +22,4 @@ _Observation_:
 * Fake accuracy grows rapidly at the first epochs, reaching the value 0.95, but then decreases with each epoch and tends to stabilize around 0.7
 ![](src/Experiment4/fake_acc.png)
 * Real accuracy increases at the beginning, reaching the value 0.8, but then decreases with each epoch and tends to stabilize around 0.45
+![](src/Experiment4/real_acc.png)
