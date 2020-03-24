@@ -1,94 +1,121 @@
 import tensorflow as tf
-from tensorflow.keras import layers, models
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Reshape
+from tensorflow.keras.layers import Flatten
+from tensorflow.keras.layers import Conv2D
+from tensorflow.keras.layers import Conv2DTranspose
+from tensorflow.keras.layers import LeakyReLU
+from tensorflow.keras.layers import Dropout
+import numpy as np
+import matplotlib.pyplot as plt
+from numpy.random import randn
+from numpy.random import randint
 
-class Generator(tf.keras.Model):
-    def __init__(self, generator_input_shape=(1,1,256)):
-        super(Generator, self).__init__()
-        self.generator_input_shape = generator_input_shape
-        
-        self.unconv1 = layers.Conv2DTranspose(1024, kernel_size=(1,1), padding="same", use_bias=False)
-        self.batchNorm1 = layers.BatchNormalization()
-        self.leakyRelu1 = layers.LeakyReLU()
+def Generator(latent_dim):
+      model = Sequential()
+      
+      n_nodes = 128 * 8 * 8
+      model.add(Dense(n_nodes, input_dim=latent_dim))
+      model.add(LeakyReLU(alpha=0.2))
+      model.add(Reshape((8, 8, 128)))
+      # upsample to 16x16
+      model.add(Conv2DTranspose(128, (4,4), strides=(2,2), padding='same'))
+      model.add(LeakyReLU(alpha=0.2))
+      # upsample to 32x32
+      model.add(Conv2DTranspose(128, (4,4), strides=(2,2), padding='same'))
+      model.add(LeakyReLU(alpha=0.2))
+      # upsample to 64x64
+      model.add(Conv2DTranspose(128, (4,4), strides=(2,2), padding='same'))
+      model.add(LeakyReLU(alpha=0.2))
+      # upsample to 128x128
+      model.add(Conv2DTranspose(128, (4,4), strides=(2,2), padding='same'))
+      model.add(LeakyReLU(alpha=0.2))
+      # output layer 128x128x3
+      model.add(Conv2D(3, (5,5), activation='tanh', padding='same'))
+      return model
 
-        self.unconv2 = layers.Conv2DTranspose(128, kernel_size=(8,8), padding="valid", use_bias=False)
-        self.batchNorm2 = layers.BatchNormalization()
-        self.leakyRelu2 = layers.LeakyReLU()
+#input of G
+def generate_latent_points(latent_dim, n_samples):
+      # generate points in the latent space
+      x_input = randn(latent_dim * n_samples)
+      # reshape into a batch of inputs for the network
+      x_input = x_input.reshape(n_samples, latent_dim)
+      return x_input
 
-        # self.unconv3 = layers.Conv2DTranspose(128, kernel_size=(5,5) ,  strides=(2,2), padding="same", use_bias=False)
-        # self.batchNorm3 = layers.BatchNormalization()
-        # self.leakyRelu3 = layers.LeakyReLU()
+# use the generator to generate n fake examples, with class labels
+def generate_fake_samples(g_model, latent_dim, n_samples):
+      # generate points in latent space
+      x_input = generate_latent_points(latent_dim, n_samples)
+      # predict outputs
+      X = g_model.predict(x_input)
+      # create 'fake' class labels (0)
+      y = np.zeros((n_samples, 1))
+      return X, y
 
-        self.unconv4 = layers.Conv2DTranspose(32, kernel_size=(5,5) ,  strides=(2,2), padding="same", use_bias=False)
-        self.batchNorm4 = layers.BatchNormalization()
-        self.leakyRelu4 = layers.LeakyReLU()
-                
-        self.unconv5 = layers.Conv2DTranspose(32, kernel_size=(5,5) ,  strides=(4,4), padding="same", use_bias=False)
-        self.conv1 = layers.Conv2D( 64  , ( 1 , 1 ) , padding='same', name="block_6", use_bias=False)
-        self.batchNorm5 = layers.BatchNormalization()
-        self.leakyRelu5 = layers.LeakyReLU()
+def Discriminator(in_shape=(128,128,3)):
+      model = Sequential()
+      # normal
+      model.add(Conv2D(128, (5,5), padding='same', input_shape=in_shape))
+      model.add(LeakyReLU(alpha=0.2))
+      # downsample to 64x64
+      model.add(Conv2D(128, (5,5), strides=(2,2), padding='same'))
+      model.add(LeakyReLU(alpha=0.2))
+      # downsample to 32x32
+      model.add(Conv2D(128, (5,5), strides=(2,2), padding='same'))
+      model.add(LeakyReLU(alpha=0.2))
+      # downsample to 16x16
+      model.add(Conv2D(128, (5,5), strides=(2,2), padding='same'))
+      model.add(LeakyReLU(alpha=0.2))
+      # downsample to 8x8
+      model.add(Conv2D(128, (5,5), strides=(2,2), padding='same'))
+      model.add(LeakyReLU(alpha=0.2))
+      # classifier
+      model.add(Flatten())
+      model.add(Dropout(0.4))
+      model.add(Dense(1, activation='sigmoid'))
+      # compile model
+      opt = Adam(lr=0.0002, beta_1=0.5)
+      model.compile(loss='binary_crossentropy', optimizer=opt, metrics=['accuracy'])
+      return model
 
-        self.unconv6 = layers.Conv2DTranspose(32, kernel_size=(3,3) ,  strides=(2,2), padding="same", use_bias=False)
-        self.conv2 = layers.Conv2D( 64  , ( 1 , 1 ) , padding='same', name="block_7", use_bias=False)
-        self.batchNorm6 = layers.BatchNormalization()
-        self.leakyRelu6 = layers.LeakyReLU()
+def define_gan(g_model, d_model):
+      # make weights in the discriminator not trainable
+      d_model.trainable = False
+      # connect them
+      model = Sequential()
+      # add generator
+      model.add(g_model)
+      # add the discriminator
+      model.add(d_model)
+      # compile model
+      opt = Adam(lr=0.0002, beta_1=0.5)
+      model.compile(loss='binary_crossentropy', optimizer=opt)
+      return model
 
-        self.img = layers.Conv2D( 3 , ( 1 , 1 ) , activation='tanh' , padding='same', name="final_block")
+# create and save a plot of generated images
+def show_generated(generated,epoch, n=5):
+      plt.figure(figsize=(10,10))
+      for i in range(n * n):
+          plt.subplot(n, n, i + 1)
+          plt.imshow(generated[i])
+          plt.axis('off')
+      plt.savefig('image_at_epoch_{:04d}.png'.format(epoch+1))
+      plt.show()    
 
-    def call(self, inputs):
-        x = self.leakyRelu1(self.batchNorm1(self.unconv1(inputs)))
-
-        x = self.leakyRelu2(self.batchNorm2(self.unconv2(x)))
-
-        # x = self.unconv3(x)
-        # x = self.leakyRelu3(self.batchNorm3(x))
-
-        x = self.unconv4(x)
-        x = self.leakyRelu4(self.batchNorm4(x))
-
-        x = self.unconv5(x)
-        x = self.leakyRelu5(self.batchNorm5(self.conv1(x)))
-
-        x = self.unconv6(x)
-        x = self.leakyRelu6(self.batchNorm6(self.conv2(x)))
-
-        return self.img(x)
-
-    #https://github.com/tensorflow/tensorflow/issues/25036
-    def model(self):
-        x = layers.Input(shape=self.generator_input_shape)
-        return models.Model(inputs=[x], outputs=self.call(x))
-
-class Discriminator(tf.keras.Model):
-    def __init__(self, input_shape, output_shape=1):
-        super(Discriminator, self).__init__()
-        self.discriminator_input_shape = input_shape
-        self.conv1 = layers.Conv2D(32, (5, 5), padding='same', input_shape=[128, 128, 3], name='block1_conv1')
-        self.batchNorm1 = layers.BatchNormalization()
-        self.leakyRelu1 = layers.LeakyReLU()
-        self.dropout1 = layers.Dropout(0.5)
-
-        self.conv3 = layers.Conv2D(32, (3, 3), strides=(2, 2), padding='valid', name='block1_conv3')
-        self.batchNorm3 = layers.BatchNormalization()
-        self.leakyRelu3 = layers.LeakyReLU()
-        self.dropout3 = layers.Dropout(0.5)
-
-        self.conv4 = layers.Conv2D(64, (3, 3), strides=(2, 2), padding='valid', name='block1_conv4')
-        self.batchNorm4 = layers.BatchNormalization()
-        self.leakyRelu4 = layers.LeakyReLU()
-        self.dropout4 = layers.Dropout(0.5)
-
-        self.flatten = layers.Flatten()
-        self.dense1 = layers.Dense(output_shape)
-    
-    def call(self, inputs):
-        x = self.dropout1(self.leakyRelu1(self.batchNorm1(self.conv1(inputs))))
-        x = self.dropout3(self.leakyRelu3(self.batchNorm3(self.conv3(x))))
-        x = self.dropout4(self.leakyRelu4(self.batchNorm4(self.conv4(x))))
-
-        x = self.flatten(x)
-        return self.dense1(x)
-    
-    #https://github.com/tensorflow/tensorflow/issues/25036
-    def model(self):
-        x = layers.Input(shape=self.discriminator_input_shape)
-        return models.Model(inputs=[x], outputs=self.call(x))
+# evaluate the discriminator and plot generated images
+def summarize_performance(epoch, g_model, d_model, image_batch, latent_dim, n_samples=100):
+      # prepare real samples
+      X_real = image_batch
+      y_real = np.ones((image_batch[0].shape[0], 1))
+      # evaluate discriminator on real examples
+      _, acc_real = d_model.evaluate(X_real, y_real, verbose=0)
+      # prepare fake examples
+      x_fake, y_fake = generate_fake_samples(g_model, latent_dim, n_samples)
+      # evaluate discriminator on fake examples
+      _, acc_fake = d_model.evaluate(x_fake, y_fake, verbose=0)
+      # summarize discriminator performance
+      print('>Accuracy [real: %.0f%%, fake: %.0f%%]' % (acc_real*100, acc_fake*100))
+      # show plot
+      show_generated(x_fake, epoch)  
