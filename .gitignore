@@ -5,3 +5,7 @@
 image_at*
 ckpt*
 checkpoint*
+training_checkpoints/
+__pycache__/
+logs/
+.ipynb_checkpoints
