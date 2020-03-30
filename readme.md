@@ -1,5 +1,43 @@
 # HOMOGAN
 
+##Experiments
+#### Experiment 1
+- Added normalization
+
+#### Experiment 2
+- Normalization
+
+#### Experiment 3
+- Normalization
+
+#### Experiment 4
+- Normalization
+
+#### Experiment 5
+- Normalization
+
+#### Experiment 6
+- Normalization
+
+#### Experiment 7
+- Normalization
+
+#### Experiment 8
+- Normalization
+
+#### Experiment 9
+- Normalization
+
+#### Experiment 10
+- Normalization
+
+#### Experiment 11
+- Normalization
+
+#### Experiment 12
+- Normalization
+
+
 ### Glossary
 * Generator (G)
 * Discriminator (D)
@@ -29,14 +67,19 @@ Change from previous models:
 * Removed restriction on D update
 
 ### Results:
+
 Trainning size = 10.000\
 Trainning Epochs = 20\
 Batch Size = 16\
-__Observation__: 
-|![](src/Experiment5/Gen_Loss.png)|![](src/Experiment5/Disc_Loss.png)|
-|:---:|:---:|
-|Generator Loss|Discriminator Loss|
-* Fake accuracy 
-![](src/Experiment5/fake_acc.png)
-* Real accuracy 
-![](src/Experiment5/real_acc.png)
+
+
+
+### Features
+
+- Support Standard Markdown / CommonMark and GFM(GitHub Flavored Markdown);
+- Full-featured: Real-time Preview, Image (cross-domain) upload, Preformatted text/Code blocks/Tables insert, Code fold, Search replace, Read only, Themes, Multi-languages, L18n, HTML entities, Code syntax highlighting...;
+- Markdown Extras : Support ToC (Table of Contents), Emoji, Task lists, @Links...;
+- Compatible with all major browsers (IE8+), compatible Zepto.js and iPad;
+- Support identification, interpretation, fliter of the HTML tags;
+- Support TeX (LaTeX expressions, Based on KaTeX), Flowchart and Sequence Diagram of Markdown extended syntax;
+- Support AMD/CMD (Require.js & Sea.js) Module Loader, and Custom/define editor plugins;
