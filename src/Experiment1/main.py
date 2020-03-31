@@ -40,7 +40,7 @@ class CelebA():
              - Select the features of interest,
              - Split the dataset into 'training', 'test' or 'validation' partition.
     '''
-    def __init__(self, main_folder='C:\\Users\\Jordi\\Anaconda3\\celeba-dataset\\', selected_features=None, drop_features=[]):
+    def __init__(self, main_folder='/content/celeba-dataset', selected_features=None, drop_features=[]):
         self.main_folder = main_folder
         self.images_folder   = os.path.join(main_folder, 'img_align_celeba/')
         self.attributes_path = os.path.join(main_folder, 'list_attr_celeba.csv')
@@ -132,7 +132,7 @@ data_dir = pathlib.Path(celeba.images_folder + "")
 image_count = len(list(data_dir.glob('*/*.jpg')))
 image_list = list(data_dir.glob('*/*.jpg'))
 image_list = [str(x) for x in image_list]
-len(image_list)
+NUM_IMAGES_USED = 10000
 print(len(list(data_dir.glob('*/*.jpg'))))
 
 
@@ -314,6 +314,18 @@ def plot_generated_images(noise,path_save=None,titleadd=""):
         else:
                 plt.show()
 
+checkpoint_dir = './training_checkpoints'
+
+if not os.path.exists(checkpoint_dir):
+    os.makedirs(checkpoint_dir)
+
+checkpoint_prefix = os.path.join(checkpoint_dir, "ckpt")
+checkpoint = tf.train.Checkpoint(generator=generator,
+                                 discriminator=discriminator)
+
+manager = tf.train.CheckpointManager(checkpoint, directory = checkpoint_dir, max_to_keep=3)
+
+
 nsample = 4
 noise = get_noise(nsample=nsample, nlatent_dim=noise_shape[0])
 plot_generated_images(noise)
@@ -336,7 +348,7 @@ combined.summary()
 
 
 def train(models, X_train, noise_plot, dir_result="./results_GAN/images",
-        save_model_folder = "./results_GAN/models", epochs=10000, batch_size=128):
+        save_model_folder = "./results_GAN/models", epochs=100, batch_size=1024):
     '''
     models     : tuple containins three tensors, (combined, discriminator, generator)
     X_train    : np.array containing images (Nsample, height, width, Nchannels)
@@ -344,30 +356,48 @@ def train(models, X_train, noise_plot, dir_result="./results_GAN/images",
     dir_result : the location where the generated plots for noise_plot are saved 
     
     '''
+    checkpoint.restore(manager.latest_checkpoint)
+    if manager.latest_checkpoint:
+        print("Restored from {}".format(manager.latest_checkpoint))
+    else:
+        print("Initializing from scratch.")
+
+    logdir = './logs/func/'
+    if not os.path.exists(logdir):
+        os.makedirs(logdir)
+
+    writer = tf.summary.create_file_writer(logdir)
+
+    tf.summary.trace_on(graph=True, profiler=True)
+    
+    
     combined, discriminator, generator = models
     nlatent_dim = noise_plot.shape[1]
     history = []
+    cycle = 0
     batches = int(10000/64)+1
-    for epoch in range(epochs):
-        i = 0
+    for i in range(epochs):
+        x = 0
         for image_batch in X_train:
             #batch = image_batch.numpy()
             # ---------------------
             #  Train Discriminator
             # ---------------------
-            if i % 100 == 0:
-                print(f"[Batch {i}/{batches}]")
+            if cycle % 10 == 0:
+              print(f"Batch: {x}/{NUM_IMAGES_USED/batch_size}")
+            x += 1      
+            cycle += 1
             images = image_batch[0]
+
             noise = get_noise(images.shape[0], nlatent_dim)
-            i += 1
             # Generate a half batch of new images
             gen_imgs = generator.predict(noise)
 
             
             # Train the discriminator q: better to mix them together?
-            d_loss_real = discriminator.train_on_batch(images, np.ones((images.shape[0], 1)))
-            d_loss_fake = discriminator.train_on_batch(gen_imgs, np.zeros((images.shape[0], 1)))
-            d_loss = 0.5 * np.add(d_loss_real, d_loss_fake)
+            d_loss1 = discriminator.train_on_batch(images, np.ones((images.shape[0], 1)))
+            d_loss2 = discriminator.train_on_batch(gen_imgs, np.zeros((images.shape[0], 1)))
+            d_loss = 0.5 * np.add(d_loss1, d_loss2)
 
 
             # ---------------------
@@ -383,19 +413,23 @@ def train(models, X_train, noise_plot, dir_result="./results_GAN/images",
             # Train the generator
             g_loss = combined.train_on_batch(noise, valid_y)
 
+            if cycle % 10 == 0:
+              with writer.as_default():
+                    tf.summary.scalar('Disc loss real', d_loss1[0], step=cycle)
+                    tf.summary.scalar('Disc loss fake', d_loss2[0], step=cycle)
+                    tf.summary.scalar('Gen Loss', g_loss, step=cycle)
             history.append({"D":d_loss[0],"G":g_loss})
         
 
-        if epoch % 10 == 0 or epoch == epochs - 1 :
-            print("storing weights on epoc " +  str(epoch))
-            combined.save_weights(save_model_folder + '/combined_checkpoint')
-            discriminator.save_weights(save_model_folder + '/discriminator_checkpoint')
-            generator.save_weights(save_model_folder + '/generator_checkpoint')
-                
-        print ("Epoch {:05.0f} [D loss: {:4.3f}, acc.: {:05.1f}%] [G loss: {:4.3f}]".format(
-                        epoch, d_loss[0], 100*d_loss[1], g_loss))
-        plot_generated_images(noise_plot, titleadd="Epoch {}".format(epoch))
-        plot_generated_images(noise_plot, path_save=dir_result+"/image_{:05.0f}.png".format(epoch), titleadd="Epoch {}".format(epoch))
+        # summarize loss on this batch
+        print('Epoch: %d,  Loss: D_real = %.3f, D_fake = %.3f,  G = %.3f' %   (i+1, d_loss1[0], d_loss2[0], g_loss))
+        # evaluate the model performance
+        if (i+1) % 1 == 0:
+          plot_generated_images(noise_plot, titleadd="Epoch {}".format(i))
+          plot_generated_images(noise_plot, path_save=dir_result+"/image_{:05.0f}.png".format(i), titleadd="Epoch {}".format(epoch))
+        if (i+1) % 20 == 0:
+          # Save the model every 10 i
+            checkpoint.save(file_prefix = checkpoint_prefix)
                                     
     return(history)
 
