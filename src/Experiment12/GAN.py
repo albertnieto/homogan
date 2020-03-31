@@ -30,7 +30,7 @@ def Generator(latent_dim, n_classes = 2):
       n_nodes = 128 * 8 * 8
       # image generator input
       in_lat = Input(shape=(1,1,latent_dim))
-      x = Conv2DTranspose(2048, kernel_size=(1,1), padding="same")(in_lat)
+      x = Conv2DTranspose(8192, kernel_size=(1,1), padding="same")(in_lat)
       x = LeakyReLU(alpha=0.2)(x)
       x = Reshape((8, 8, 128))(x)
 

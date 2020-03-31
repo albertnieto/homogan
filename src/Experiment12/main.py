@@ -82,13 +82,6 @@ def main(dataset_folder = "/content/celeba-dataset"):
       image = image/255
       return image, labels
 
-
-  #Labels and images are created
-  # labels = celeba.attributes.drop('image_id', 1)
-  # labels = labels.applymap(lambda x: 1 if x else 0) 
-  # labels = tf.constant(labels.values, dtype=tf.dtypes.float32)
-
-
   #Create data set and map it. Could be improved if we can load images previously
   # and avoid mapping it later.
   training_images = (tf.data.Dataset.from_tensor_slices((list(joined['image_id'][:NUM_IMAGES_USED]), list(joined['Male'][:NUM_IMAGES_USED]))))
@@ -126,7 +119,7 @@ def main(dataset_folder = "/content/celeba-dataset"):
   train_GEN = 3 #Train every batch
   train_DISC = 1 #Train every batch
 
-  def train(g_model, d_model, gan_model, dataset, latent_dim=100, n_epochs=100, train_GEN = 1, train_DISC = 1):
+  def train(g_model, d_model, gan_model, dataset,start_epoch = 0, latent_dim=100, n_epochs=100, train_GEN = 1, train_DISC = 1):
       checkpoint.restore(manager.latest_checkpoint)
       if manager.latest_checkpoint:
           print("Restored from {}".format(manager.latest_checkpoint))
@@ -142,9 +135,9 @@ def main(dataset_folder = "/content/celeba-dataset"):
       tf.summary.trace_on(graph=True, profiler=True)
 
       # manually enumerate epochs
-      cycle = 0
+      cycle = 0 + (start_epoch*(STEPS_PER_EPOCH))
       start = time.time()
-      for i in range(n_epochs):
+      for i in range(start_epoch, n_epochs):
           x = 0
           start_epoch = time.time()
           # enumerate batches over the training set
@@ -208,8 +201,9 @@ def main(dataset_folder = "/content/celeba-dataset"):
   theGan = gan.define_gan(generator, discriminator)
 
   with tf.device('/device:GPU:0'):
-      train(generator, discriminator, theGan, training_dataset, noise_dim, EPOCHS, train_GEN, train_DISC)
+      train(generator, discriminator, theGan, training_dataset, 21, noise_dim, EPOCHS, train_GEN, train_DISC)
 
   # checkpoint.restore(tf.train.latest_checkpoint(checkpoint_dir))
-  if __name__ == "__main__":
+if __name__ == "__main__":
+    print("algo")
     main()
