@@ -205,5 +205,4 @@ def main(dataset_folder = "/content/celeba-dataset"):
 
   # checkpoint.restore(tf.train.latest_checkpoint(checkpoint_dir))
 if __name__ == "__main__":
-    print("algo")
-    main()
+  main()
