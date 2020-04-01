@@ -22,6 +22,7 @@ def Generator(latent_dim, n_classes = 2):
       # embedding for categorical input
       li = Embedding(n_classes, 50)(in_label)
       # linear multiplication
+      print(li.shape)
       n_nodes = 8 * 8
       li = Dense(n_nodes)(li)
       # reshape to additional channel
@@ -82,8 +83,8 @@ def Discriminator(in_shape=(128,128,3), n_classes = 2):
       # embedding for categorical input
       emb = Embedding(n_classes, 25)(in_label)
       # scale up to image dimensions with linear activation
-      n_nodes = in_shape[0] * in_shape[1]
-      emb = Dense(n_nodes)(emb)
+      emb = Reshape((1, 1, 25))(emb)
+      emb = Conv2D(16384, (1,1), strides=(2,2), padding='same')(emb)
       # reshape to additional channel
       li = Reshape((in_shape[0], in_shape[1], 1))(emb)
       # image input

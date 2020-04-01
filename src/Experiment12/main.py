@@ -60,7 +60,7 @@ def main(dataset_folder = "/content/celeba-dataset"):
   IMG_HEIGHT = 128
   IMG_WIDTH = 128
   BUFFER_SIZE = 3000
-  BATCH_SIZE = 100
+  BATCH_SIZE = 50
   NUM_IMAGES_USED = len(image_list)
   noise_dim = 256
   STEPS_PER_EPOCH = np.ceil(NUM_IMAGES_USED/BATCH_SIZE)
@@ -201,7 +201,7 @@ def main(dataset_folder = "/content/celeba-dataset"):
   theGan = gan.define_gan(generator, discriminator)
 
   with tf.device('/device:GPU:0'):
-      train(generator, discriminator, theGan, training_dataset, 21, noise_dim, EPOCHS, train_GEN, train_DISC)
+      train(generator, discriminator, theGan, training_dataset, 0, noise_dim, EPOCHS, train_GEN, train_DISC)
 
   # checkpoint.restore(tf.train.latest_checkpoint(checkpoint_dir))
 if __name__ == "__main__":
