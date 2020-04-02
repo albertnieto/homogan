@@ -18,10 +18,6 @@ import matplotlib.pyplot as plt
 from numpy.random import randn
 from numpy.random import randint
 
-import architecture
-
-class Network():
-
 #input of G
 def generate_latent_points(latent_dim, n_samples, n_classes=2):
       # generate points in the latent space

@@ -21,6 +21,7 @@ import os
 import json
 
 from dataset.dataset import DatasetCeleba
+import lib
 import GAN as gan
 
 print(tf.__version__)
@@ -130,17 +131,16 @@ def main(dataset_folder = "/content/celeba-dataset",
   manager = tf.train.CheckpointManager(checkpoint, directory = checkpoint_dir, max_to_keep=3)
 
   EPOCHS = 100
-  train_GEN = 1 #Train every batch
-  train_DISC = 1 #Train every batch
-
+  train_GEN = 1   #Train every batch
+  train_DISC = 1  #Train every batch
 
   # create the gan
   theGan = gan.define_gan(generator, discriminator)
 
   with tf.device('/device:GPU:0'):
-      train(generator, discriminator, theGan, training_dataset, noise_dim, EPOCHS, train_GEN, train_DISC)
+      train(generator, discriminator, theGan, training_dataset, noise_dim, 
+      EPOCHS, train_GEN, train_DISC)
 
-  # checkpoint.restore(tf.train.latest_checkpoint(checkpoint_dir))
 
 if __name__ == "__main__":
   main()
