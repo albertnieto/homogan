@@ -24,6 +24,7 @@ import GAN as gan
 
 print(tf.__version__)
 tf.keras.backend.set_floatx('float32')
+
 def main(dataset_folder = "/content/celeba-dataset"):
 
   # ### Load and prepare the dataset
@@ -37,18 +38,13 @@ def main(dataset_folder = "/content/celeba-dataset"):
   ####Prepare dataset
 
   features = ['Male']
-  celeba = CelebA(selected_features=features, main_folder='/content/celeba-dataset')
+  celeba = CelebA(selected_features=features, main_folder=dataset_folder)
 
   feat_df = celeba.attributes
   feat_df['image_id'] = feat_df['image_id'].apply(
     lambda x: dataset_folder + '/img_align_celeba/img_align_celeba/'+x)
   feat_male = feat_df[feat_df.Male == 1][:5000]
   feat_female = feat_df[feat_df.Male == 0][:5000]
-
-  # feat_male['image_id'] = feat_male['image_id'].apply(
-  #   lambda x: '/content/celeba-dataset/img_align_celeba/img_align_celeba/'+x)
-  # feat_female['image_id'] = feat_female['image_id'].apply(
-  #   lambda x: '/content/celeba-dataset/img_align_celeba/img_align_celeba/'+x)
 
   image_list = feat_male['image_id'].tolist()
   image_list = image_list + feat_female['image_id'].tolist()
@@ -82,13 +78,6 @@ def main(dataset_folder = "/content/celeba-dataset"):
       image = image/255
       return image, labels
 
-
-  #Labels and images are created
-  # labels = celeba.attributes.drop('image_id', 1)
-  # labels = labels.applymap(lambda x: 1 if x else 0) 
-  # labels = tf.constant(labels.values, dtype=tf.dtypes.float32)
-
-
   #Create data set and map it. Could be improved if we can load images previously
   # and avoid mapping it later.
   training_images = (tf.data.Dataset.from_tensor_slices((list(joined['image_id'][:NUM_IMAGES_USED]), list(joined['Male'][:NUM_IMAGES_USED]))))
@@ -100,9 +89,9 @@ def main(dataset_folder = "/content/celeba-dataset"):
 
   # print(f"Device being used {tf.test.gpu_device_name()}")
 
-  generator = gan.Generator(noise_dim)
+  generator = gan.Generator(noise_dim,1)
   generator.summary()
-  discriminator = gan.Discriminator()
+  discriminator = gan.Discriminator(classe = 1)
   discriminator.summary()
   # exit()
   #Smoothing labels posive between 0.9-1.0 and negative between 0.0-0.1
@@ -122,8 +111,19 @@ def main(dataset_folder = "/content/celeba-dataset"):
           tensor[idx] = abs(tensor[idx]-1)
       return tf.convert_to_tensor(tensor, dtype=tf.float32)
 
+  checkpoint_dir = './training_checkpoints'
+
+  if not os.path.exists(checkpoint_dir):
+      os.makedirs(checkpoint_dir)
+
+  checkpoint_prefix = os.path.join(checkpoint_dir, "ckpt")
+  checkpoint = tf.train.Checkpoint(generator=generator,
+                                  discriminator=discriminator)
+
+  manager = tf.train.CheckpointManager(checkpoint, directory = checkpoint_dir, max_to_keep=3)
+
   EPOCHS = 100
-  train_GEN = 3 #Train every batch
+  train_GEN = 3 #Train every 3 batch
   train_DISC = 1 #Train every batch
 
   def train(g_model, d_model, gan_model, dataset, latent_dim=100, n_epochs=100, train_GEN = 1, train_DISC = 1):
@@ -146,7 +146,6 @@ def main(dataset_folder = "/content/celeba-dataset"):
       start = time.time()
       for i in range(n_epochs):
           x = 0
-          start_epoch = time.time()
           # enumerate batches over the training set
           for image_batch in dataset:
               n_batch = image_batch[0].shape[0]
@@ -184,25 +183,13 @@ def main(dataset_folder = "/content/celeba-dataset"):
                       tf.summary.flush(writer=writer)
           # summarize loss on this batch
           print('Epoch: %d,  Loss: D_real = %.3f, D_fake = %.3f,  G = %.3f' %   (i+1, d_loss1, d_loss2, g_loss))
-          print('Total time for epoch {} epochs is {} sec'.format(i, (time.time()-start_epoch)))
           # evaluate the model performance
-          if (i+1) % 5 == 0:
+          if (i+1) % 2 == 0:
               gan.summarize_performance(i, g_model, d_model, image_batch, latent_dim)     
-          if (i+1) % 10 == 0:
+          if (i+1) % 20 == 0:
             # Save the model every 10 epochs
               checkpoint.save(file_prefix = checkpoint_prefix)
-      print ('Total time for training {} epoch is {} sec'.format(i, (time.time()-start)))
-
-  checkpoint_dir = './training_checkpoints'
-
-  if not os.path.exists(checkpoint_dir):
-      os.makedirs(checkpoint_dir)
-
-  checkpoint_prefix = os.path.join(checkpoint_dir, "ckpt")
-  checkpoint = tf.train.Checkpoint(generator=generator,
-                                  discriminator=discriminator)
-
-  manager = tf.train.CheckpointManager(checkpoint, directory = checkpoint_dir, max_to_keep=3)
+      print ('Total time for training {} epochs is {} sec'.format(n_epochs, (time.time()-start)))
 
   # create the gan
   theGan = gan.define_gan(generator, discriminator)
@@ -211,5 +198,6 @@ def main(dataset_folder = "/content/celeba-dataset"):
       train(generator, discriminator, theGan, training_dataset, noise_dim, EPOCHS, train_GEN, train_DISC)
 
   # checkpoint.restore(tf.train.latest_checkpoint(checkpoint_dir))
-  if __name__ == "__main__":
-    main()
+
+if __name__ == "__main__":
+  main()
