@@ -3,7 +3,27 @@ Training a GAN from scratch and improve it by experiments
 
 ## Table of Contents
 
-[TOC]
+- [HomoGAN](#homogan)
+  * [Table of Contents](#table-of-contents)
+  * [Installation](#installation)
+  * [Running experiments](#running-experiments)
+  * [Dataset](#dataset)
+  * [Glossary](#glossary)
+  * [Experiments](#experiments)
+    + [Experiment 1](#experiment-1)
+    + [Experiment 2](#experiment-2)
+    + [Experiment 3](#experiment-3)
+    + [Experiment 4](#experiment-4)
+      - [Results](#results)
+    + [Experiment 5](#experiment-5)
+      - [Results](#results-1)
+    + [Experiment 6](#experiment-6)
+    + [Experiment 7](#experiment-7)
+    + [Experiment 8](#experiment-8)
+    + [Experiment 9](#experiment-9)
+    + [Experiment 10](#experiment-10)
+    + [Experiment 11](#experiment-11)
+    + [Experiment 12](#experiment-12)
 
 ## Installation
     $ git clone https://github.com/anieto95/homogan
