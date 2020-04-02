@@ -24,7 +24,7 @@ CelebFaces Attributes Dataset (CelebA) is a large-scale face attributes dataset 
 * Fully Connected (FC)
 * Fully Convolutional (FConv)
 
-##Experiments
+## Experiments
 ### Experiment 1
 - Added normalization
 
@@ -43,6 +43,7 @@ Change from previous models:
 Trainning size = 10.000\
 Trainning Epochs = 20\
 Batch Size = 16\
+
 __Observation__: 
 |![](src/Experiment4/Gen_Loss.png)|![](src/Experiment4/Disc_Loss.png)|
 |:---:|:---:|
@@ -60,6 +61,7 @@ Change from previous models:
 Trainning size = 10.000\
 Trainning Epochs = 20\
 Batch Size = 16\
+
 __Observation__: 
 |![](src/Experiment5/Gen_Loss.png)|![](src/Experiment5/Disc_Loss.png)|
 |:---:|:---:|
