@@ -1,7 +1,8 @@
 # HomoGAN
 Training a GAN from scratch and improve it by experiments 
 
-##Table of Contents
+## Table of Contents
+
 [TOC]
 
 ## Installation
