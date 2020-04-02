@@ -83,6 +83,25 @@ Trainning Epochs = 20\
 Batch Size = 16\
 
 __Observation__: 
+|![](src/Experiment5/Gen_Loss.png)|![](src/Experiment5/Disc_Loss.png)|
+|:---:|:---:|
+|Generator Loss|Discriminator Loss|
+* Fake accuracy 
+![](src/Experiment5/fake_acc.png)
+* Real accuracy 
+![](src/Experiment5/real_acc.png)
+
+### Experiment 6
+Change from previous models: 
+* Added label smoothing (0 -> {0-0.1} and 1 -> {0.9-1})
+* Added label flipping on 5% of labels
+
+#### Results
+Trainning size = 10.000\
+Trainning Epochs = 20\
+Batch Size = 16\
+
+__Observation__: 
 |![](src/Experiment6/Gen_Loss.png)|![](src/Experiment6/Disc_Loss.png)|
 |:---:|:---:|
 |Generator Loss|Discriminator Loss|
@@ -90,11 +109,6 @@ __Observation__:
 ![](src/Experiment6/fake_acc.png)
 * Real accuracy 
 ![](src/Experiment6/real_acc.png)
-
-### Experiment 6
-Change from previous models: 
-* Added label smoothing (0 -> {0-0.1} and 1 -> {0.9-1})
-* Added label flipping on 5% of labels
 
 ### Experiment 7
 - Normalization
