@@ -17,18 +17,21 @@ import matplotlib.pyplot as plt
 from numpy.random import randn
 from numpy.random import randint
 
-def Generator(latent_dim, classes):
+def Generator(latent_dim, n_classes = 2):
       in_label = Input(shape=(1,))
+      # embedding for categorical input
+      li = Embedding(n_classes, 50)(in_label)
       # linear multiplication
+      print(li.shape)
       n_nodes = 8 * 8
-      li = Dense(n_nodes)(in_label)
+      li = Dense(n_nodes)(li)
       # reshape to additional channel
       li = Reshape((8, 8, 1))(li)
       
       n_nodes = 128 * 8 * 8
       # image generator input
-      in_lat = Input(shape=(latent_dim,))
-      x = Dense(n_nodes)(in_lat)
+      in_lat = Input(shape=(1,1,latent_dim))
+      x = Conv2DTranspose(8192, kernel_size=(1,1), padding="same")(in_lat)
       x = LeakyReLU(alpha=0.2)(x)
       x = Reshape((8, 8, 128))(x)
 
@@ -59,7 +62,7 @@ def generate_latent_points(latent_dim, n_samples, n_classes=2):
       # generate points in the latent space
       x_input = randn(latent_dim * n_samples)
       # reshape into a batch of inputs for the network
-      x_input = x_input.reshape(n_samples, latent_dim)
+      x_input = x_input.reshape(n_samples,1,1, latent_dim)
       # generate labels
       labels = randint(0, n_classes, n_samples)
       return [x_input, labels]
@@ -74,12 +77,14 @@ def generate_fake_samples(g_model, latent_dim, n_samples):
       y = np.zeros((n_samples, 1))
       return [images, x_labels], y
 
-def Discriminator(classe, in_shape=(128,128,3)):
+def Discriminator(in_shape=(128,128,3), n_classes = 2):
   	  # label input 
       in_label = Input(shape=(1,))
+      # embedding for categorical input
+      emb = Embedding(n_classes, 25)(in_label)
       # scale up to image dimensions with linear activation
-      n_nodes = in_shape[0] * in_shape[1]
-      emb = Dense(n_nodes)(in_label)
+      emb = Reshape((1, 1, 25))(emb)
+      emb = Conv2D(16384, (1,1), strides=(2,2), padding='same')(emb)
       # reshape to additional channel
       li = Reshape((in_shape[0], in_shape[1], 1))(emb)
       # image input
