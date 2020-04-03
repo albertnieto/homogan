@@ -32,58 +32,6 @@ class DatasetCeleba():
     self.dataframe, self.image_list = self.parse_attributes()
     self.images_used = max(params["num_img_training"], len(self.image_list)) 
 
-  def download_celeba(self, k):
-    os.environ['KAGGLE_USERNAME'] = k["kaggleUser"]
-    os.environ['KAGGLE_KEY'] = k["kagglePass"]
-    rc = subprocess.call("./docs/download_celeba.sh")
-
-  def dict_smallest_feature(self, labels, dataframe):
-    def smallest_feature_from_iteration(log, small_label, small_value):
-      log = [set(i) for i in log]
-      
-
-    smallest_iteration_value = 99999999999
-    smallest_iteration = ''
-    iteration_log = []
-    label = ''
-
-    iterations = list(itertools.permutations(labels))
-    num_features = math.sqrt(len(iterations))
-
-    for iteration in iterations:  # equals to len(multilabeling_features)**2
-      query = dataframe
-      for iter_label in iteration:     # for each label of iteration
-        for i in range (0,1):
-          dataframe[getattr(dataframe, iter_label)==i] # check binary state
-
-      occurrences = query.size
-      
-      if smallest_iteration_value > occurrences:
-        smallest_iteration_value = occurrences
-        smallest_iteration = iteration
-
-      iteration_log.append((iteration, occurrences))
-
-    value, label = smallest_feature_from_iteration(iteration_log, 
-                                smallest_iteration, smallest_iteration_value)
-
-    return {"value": value, "label": label}
-
-  def feat_name(self, feats):
-        ret = []
-        if len(feats) > 0:
-          ret += [i[0] for i in feats]
-        return ret
-
-  def filtered_dataframe(self, df):
-    for i in self.filter_features:
-      df = df[getattr(df, i[0]) == i[1]]
-    return df
-
-  def multilabeled_features(self, df):
-    labels = self.feat_name(self.multilabeling_features)
-    smallest_feature = get_smallest_feature(labels, df)
-
   def parse_attributes(self):
     feat_df = self.celeba.attributes
     print(self.celeba_features)
@@ -93,11 +41,11 @@ class DatasetCeleba():
 
     # Filter dataset if filters
     if self.filter_features:
-      feat_df = filtered_dataframe(feat_df)
+      feat_df = filtered_dataframe(feat_df, self.filter_features)
 
     # Enable multilabeling features if 
     if self.multilabeling_features:
-      feat_df = multilabeled_features(feat_df)
+      feat_df = self.multilabeled_features(feat_df, self.multilabeling_features)
 
     image_list = feat_df['image_id'].tolist()
 
@@ -129,3 +77,43 @@ class DatasetCeleba():
 
     #Shuffle and batch
     training_dataset = training_dataset.shuffle(BUFFER_SIZE).batch(BATCH_SIZE)
+
+
+def download_celeba(k):
+  os.environ['KAGGLE_USERNAME'] = k["kaggleUser"]
+  os.environ['KAGGLE_KEY'] = k["kagglePass"]
+  rc = subprocess.call("./docs/download_celeba.sh")
+
+def feat_name(feats):
+      ret = []
+      if len(feats) > 0:
+        ret += [i[0] for i in feats]
+      return ret
+
+def filtered_dataframe(df, features):
+  for i in features:
+    df = df[getattr(df, i[0]) == i[1]]
+  return df
+
+def multilabeled_features(df, features):
+  labels = feat_name()
+  smallest_feature = dict_smallest_feature(labels, df)
+
+  
+
+def dict_smallest_feature(labels, dataframe):
+  ret_value = 99999999999
+  ret_label = ''
+
+  for label in labels:
+    i =   dataframe[getattr(dataframe, label)==0].size
+    i +=  dataframe[getattr(dataframe, label)==1].size
+
+    if i < ret_value:
+      ret_value = i
+      ret_label = label
+
+  value, label = smallest_feature_from_iteration(iteration_log, 
+                              smallest_iteration, smallest_iteration_value)
+
+  return {"value": value, "label": label}
