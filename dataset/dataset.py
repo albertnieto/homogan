@@ -23,7 +23,7 @@ class DatasetCeleba():
     self.dataset_folder = params["dataset_folder"]
     self.filter_features = filter_features(params["celeba_features"])
     self.multilabeling_features = multilabeling_features(params["celeba_features"])
-    self.celeba_features = self.feat_name(self.filter_features) + self.feat_name(self.multilabeling_features)
+    self.celeba_features = feat_name(self.filter_features) + feat_name(self.multilabeling_features)
 
     if not os.path.exists(self.dataset_folder):
       self.download_celeba(params["kaggle"])
@@ -34,7 +34,6 @@ class DatasetCeleba():
 
   def parse_attributes(self):
     feat_df = self.celeba.attributes
-    print(self.celeba_features)
     # Add path to image_id
     feat_df['image_id'] = feat_df['image_id'].apply(
       lambda x: self.dataset_folder + '/img_align_celeba/img_align_celeba/' + x)
@@ -45,7 +44,7 @@ class DatasetCeleba():
 
     # Enable multilabeling features if 
     if self.multilabeling_features:
-      feat_df = self.multilabeled_features(feat_df, self.multilabeling_features)
+      feat_df = multilabeled_features(feat_df, self.multilabeling_features)
 
     image_list = feat_df['image_id'].tolist()
 
@@ -96,24 +95,36 @@ def filtered_dataframe(df, features):
   return df
 
 def multilabeled_features(df, features):
-  labels = feat_name()
-  smallest_feature = dict_smallest_feature(labels, df)
+  labels = feat_name(features)
+  f = dict_smallest_feature(labels, df)
 
-  
+  min_feature = f["label"][0]
+  min_feature_value = f["label"][1]
+  min_value = f["value"]
+  inv_value = 0 if min_value == 1 else 1
+
+  reduced_labels = labels
+  reduced_labels.remove(min_feature)
+  iterations = list(itertools.permutations(reduced_labels))
+
+  df = df[getattr(df, min_feature)==min_value]
+
+  for i in iterations:
+    df = df[getattr(df, min_feature)==inv_value]
+    print(i)
 
 def dict_smallest_feature(labels, dataframe):
   ret_value = 99999999999
   ret_label = ''
 
   for label in labels:
-    i =   dataframe[getattr(dataframe, label)==0].size
-    i +=  dataframe[getattr(dataframe, label)==1].size
-
-    if i < ret_value:
-      ret_value = i
-      ret_label = label
-
-  value, label = smallest_feature_from_iteration(iteration_log, 
-                              smallest_iteration, smallest_iteration_value)
-
-  return {"value": value, "label": label}
+    i0 = len(dataframe[getattr(dataframe, label)==0].index)
+    i1 = len(dataframe[getattr(dataframe, label)==1].index)
+    if i0 < i1 and i0 < ret_value:
+      ret_value = i0
+      ret_label = (label, 0)
+    if i1 < i0 and i1 < ret_value:
+      ret_value = i1
+      ret_label = (label, 1)
+  
+  return {"value": ret_value, "label": ret_label}
