@@ -16,13 +16,13 @@ class DatasetCeleba():
     def get_features(feats):
       return [i[0] for i in feats]
 
-    def join_images_path(x):
-      return (lambda x: self.dataset_folder + '/img_align_celeba/img_align_celeba/' + x)
-
-    self.download_celeba(params["kaggle"])
-    
     self.features = get_features(params["celeba_features"])
     self.dataset_folder = params["dataset_folder"]
+    self.images_used = params["num_img_training"]
+
+    if not os.path.exists(self.dataset_folder):
+      self.download_celeba(params["kaggle"])
+    
     self.celeba = CelebA(selected_features=self.features, main_folder=self.dataset_folder)
     self.dataframe, self.image_list = self.parse_attributes(params["celeba_features"])
 
@@ -32,12 +32,15 @@ class DatasetCeleba():
     for i in feats:
       feat_df = feat_df[getattr(feat_df, i[0]) == i[1]]
 
-    feat_df['image_id'] = feat_df['image_id'].apply(join_images_path)
+    feat_df['image_id'] = feat_df['image_id'].apply(
+      lambda x: self.dataset_folder + '/img_align_celeba/img_align_celeba/' + x)
     image_list = feat_df['image_id'].tolist()
 
     return feat_df, image_list
 
+  # TODO download is optional
   def download_celeba(self, k):
+    
     os.environ['KAGGLE_USERNAME'] = k["kaggleUser"]
     os.environ['KAGGLE_KEY'] = k["kagglePass"]
     rc = subprocess.call("./docs/download_celeba.sh")
@@ -61,8 +64,8 @@ class DatasetCeleba():
     #Create data set and map it. Could be improved if we can load images 
     # previously and avoid mapping it later.
     training_images = (tf.data.Dataset.from_tensor_slices(
-                        (list(joined['image_id'][:NUM_IMAGES_USED]), 
-                          list(joined['Male'][:NUM_IMAGES_USED]))))
+                        (list(joined['image_id'][:self.images_used]), 
+                          list(df[:self.images_used]))))
 
     training_dataset = training_images.map(this.parse_function)
 
