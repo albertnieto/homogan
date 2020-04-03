@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import subprocess
+import itertools
 
 from dataset.celebaWrapper import CelebA
 '''Load and prepare the dataset
@@ -17,7 +18,7 @@ class DatasetCeleba():
       return [i if len(i)==1 for i in feats]
 
     def multilabeling_features(feats):
-      return [i[0] if len(i)>1 for i in feats]
+      return [i[0] if len(i)==2 for i in feats]
 
     self.celeba_features = max(params["celeba_features"], [])
     self.dataset_folder = max(params["dataset_folder"], [])
@@ -33,18 +34,31 @@ class DatasetCeleba():
     self.images_used = max(params["num_img_training"], len(self.image_list)) 
 
   def parse_attributes(self):
+    def filtered_dataframe(df):
+      for i in self.filter_features:
+        df = df[getattr(df, i[0]) == i[1]]
+      return df
+
+    def multilabeled_features(df):
+      iterations = list(itertools.permutations(self.multilabeling_features)) # equals to len(self.multilabeling_features)**2
+      print(iterations)
+      for i in iterations:
+        print(i)
+
     feat_df = self.celeba.attributes
 
-    if self.filter_features:
-      for i in self.filter_features:
-        feat_df = feat_df[getattr(df, i[0]) == i[1]]
-      return feat_df
-
-    if self.multilabeling_features:
-
-
+    # Add path to image_id
     feat_df['image_id'] = feat_df['image_id'].apply(
       lambda x: self.dataset_folder + '/img_align_celeba/img_align_celeba/' + x)
+
+    # Filter dataset if filters
+    if self.filter_features:
+      feat_df = filtered_dataframe(feat_df)
+
+    # Enable multilabeling features if 
+    if self.multilabeling_features:
+      feat_df = multilabeled_features(feat_df)
+
     image_list = feat_df['image_id'].tolist()
 
     return feat_df, image_list
