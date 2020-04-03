@@ -18,13 +18,13 @@ class DatasetCeleba():
 
     self.features = get_features(params["celeba_features"])
     self.dataset_folder = params["dataset_folder"]
-    self.images_used = params["num_img_training"]
 
     if not os.path.exists(self.dataset_folder):
       self.download_celeba(params["kaggle"])
     
     self.celeba = CelebA(selected_features=self.features, main_folder=self.dataset_folder)
     self.dataframe, self.image_list = self.parse_attributes(params["celeba_features"])
+    self.images_used = max(params["num_img_training"], len(self.image_list)) 
 
   def parse_attributes(self, feats):
     feat_df = self.celeba.attributes
@@ -38,9 +38,7 @@ class DatasetCeleba():
 
     return feat_df, image_list
 
-  # TODO download is optional
   def download_celeba(self, k):
-    
     os.environ['KAGGLE_USERNAME'] = k["kaggleUser"]
     os.environ['KAGGLE_KEY'] = k["kagglePass"]
     rc = subprocess.call("./docs/download_celeba.sh")
