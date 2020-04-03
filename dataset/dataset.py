@@ -94,25 +94,6 @@ def filtered_dataframe(df, features):
     df = df[getattr(df, i[0]) == i[1]]
   return df
 
-def multilabeled_features(df, features):
-  labels = feat_name(features)
-  f = dict_smallest_feature(labels, df)
-
-  min_feature = f["label"][0]
-  min_feature_value = f["label"][1]
-  min_value = f["value"]
-  inv_value = 0 if min_value == 1 else 1
-
-  reduced_labels = labels
-  reduced_labels.remove(min_feature)
-  iterations = list(itertools.permutations(reduced_labels))
-
-  df = df[getattr(df, min_feature)==min_value]
-
-  for i in iterations:
-    df = df[getattr(df, min_feature)==inv_value]
-    print(i)
-
 def dict_smallest_feature(labels, dataframe):
   ret_value = 99999999999
   ret_label = ''
@@ -128,3 +109,33 @@ def dict_smallest_feature(labels, dataframe):
       ret_label = (label, 1)
   
   return {"value": ret_value, "label": ret_label}
+
+def multilabeled_features(df, features):
+  def query(dataframe, column, operation, value): 
+    return operation(dataframe[column], value)
+
+  def add_queries(dataframe, *b):
+    return dataframe[(np.logical_and(*b))]
+
+  labels = feat_name(features)
+  f = dict_smallest_feature(labels, df)
+
+  min_feature = f["label"][0]
+  min_feature_value = f["label"][1]
+  min_value = f["value"]
+  inv_value = 0 if min_value == 1 else 1
+
+  reduced_labels = labels
+  reduced_labels.remove(min_feature)
+  rl_size = len(reduced_labels)
+  iterations = list(itertools.permutations(reduced_labels))
+
+  df_1 = df[getattr(df, min_feature)==min_value]
+  df_2 = df[getattr(df, min_feature)==inv_value]
+
+  query = []
+  for values in iterations:
+    for j in range(2):
+      for value in values:
+        pass
+  composite_list = [query[x:x+rl_size] for x in range(0, len(query), rl_size)]
