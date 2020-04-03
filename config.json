@@ -1,15 +1,14 @@
 {
-  "dataset_folder" : "/content/celeba-dataset",
   "architecture_used" : "model14",
 
   "IMG_HEIGHT" : 128,
   "IMG_WIDTH" : 128,
+  "NOISE_DIM" : 256,
   
   "datasetParam" : 
     {
       "BUFFER_SIZE" : 3000,
-      "BATCH_SIZE" : 100,
-      "NOISE_DIM" : 256
+      "BATCH_SIZE" : 100
     },
   "trainingParam" : 
     {
@@ -19,7 +18,13 @@
     },
   "celebaParam": 
     {
-      "celeba_features" : ["Female"],
+      "kaggle":
+        {
+          "kaggleUser" : "jordisans",
+          "kagglePass" : "7b52c518f92692f61d5967659a240ab2"
+        },
+      "dataset_folder" : "/content/celeba-dataset",
+      "celeba_features" : [["Male", 0]],
       "num_img_training" : 5000
     }
 }

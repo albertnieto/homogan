@@ -8,7 +8,6 @@ from keras.preprocessing.image import load_img
 from keras.preprocessing.image import img_to_array
 
 from easydict import EasyDict as edict
-from simplejson import loads
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -107,9 +106,10 @@ def train(g_model,
 
 def main(config_file='config.json'):
   #Load attributes as EasyDict from file as "a"
-  a = edict(loads(config_file))
-
-  training_dataset = DatasetCeleba()
+  with open(config_file) as f:
+    a = edict(json.loads(f.read()))
+  
+  training_dataset = DatasetCeleba(a["celebaParam"])
 
   g = generator_from_experiment(a.architecture_used, a.noise_dim)
   d = discriminator_from_experiment(a.architecture_used)
