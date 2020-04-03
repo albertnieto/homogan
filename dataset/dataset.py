@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import subprocess
 import itertools
+import math
 
 from dataset.celebaWrapper import CelebA
 '''Load and prepare the dataset
@@ -12,26 +13,38 @@ from dataset.celebaWrapper import CelebA
 '''
 
 class DatasetCeleba():
-
   def __init__(self, params):
     def filter_features(feats):
-      return [i if len(i)==1 for i in feats]
+      return [i for i in feats if len(i)==2]
 
     def multilabeling_features(feats):
-      return [i[0] if len(i)==2 for i in feats]
+      return [i for i in feats if len(i)==1]
 
-    self.celeba_features = max(params["celeba_features"], [])
-    self.dataset_folder = max(params["dataset_folder"], [])
+    def feat_name(feats):
+      ret = []
+      if len(feats) > 0:
+        ret += [i[0] for i in feats]
+      return ret
 
-    self.filter_features = filter_features(self.celeba_features)
-    self.multilabeling_features = multilabeling_features(self.celeba_features)
+    self.dataset_folder = params["dataset_folder"]
+
+    self.filter_features = filter_features(params["celeba_features"])
+    self.multilabeling_features = multilabeling_features(params["celeba_features"])
+
+    self.celeba_features = feat_name(self.filter_features) + feat_name(self.multilabeling_features)
 
     if not os.path.exists(self.dataset_folder):
       self.download_celeba(params["kaggle"])
     
-    self.celeba = CelebA(selected_features=self.features, main_folder=self.dataset_folder)
+    self.celeba = CelebA(selected_features=self.celeba_features, main_folder=self.dataset_folder)
+
     self.dataframe, self.image_list = self.parse_attributes()
     self.images_used = max(params["num_img_training"], len(self.image_list)) 
+
+  def download_celeba(self, k):
+    os.environ['KAGGLE_USERNAME'] = k["kaggleUser"]
+    os.environ['KAGGLE_KEY'] = k["kagglePass"]
+    rc = subprocess.call("./docs/download_celeba.sh")
 
   def parse_attributes(self):
     def filtered_dataframe(df):
@@ -40,13 +53,13 @@ class DatasetCeleba():
       return df
 
     def multilabeled_features(df):
-      iterations = list(itertools.permutations(self.multilabeling_features)) # equals to len(self.multilabeling_features)**2
-      print(iterations)
-      for i in iterations:
+      iterations = list(itertools.permutations(self.multilabeling_features))
+      num_features = math.sqrt(len(iterations))
+      for i in iterations:  # equals to len(self.multilabeling_features)**2
         print(i)
 
     feat_df = self.celeba.attributes
-
+    print(self.celeba_features)
     # Add path to image_id
     feat_df['image_id'] = feat_df['image_id'].apply(
       lambda x: self.dataset_folder + '/img_align_celeba/img_align_celeba/' + x)
@@ -62,11 +75,6 @@ class DatasetCeleba():
     image_list = feat_df['image_id'].tolist()
 
     return feat_df, image_list
-
-  def download_celeba(self, k):
-    os.environ['KAGGLE_USERNAME'] = k["kaggleUser"]
-    os.environ['KAGGLE_KEY'] = k["kagglePass"]
-    rc = subprocess.call("./docs/download_celeba.sh")
 
   def parse_function(self, filename, labels):
     #Images are loaded and decoded

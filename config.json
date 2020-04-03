@@ -24,7 +24,7 @@
           "kagglePass" : "7b52c518f92692f61d5967659a240ab2"
         },
       "dataset_folder" : "/content/celeba-dataset",
-      "celeba_features" : [["Male"], ["Eyeglasses", 0], ["No_Beard", 0], ["Bald", 0]],
+      "celeba_features" : [["Male", 1], ["Eyeglasses"], ["No_Beard"], ["Bald"]],
       "num_img_training" : 5000
     }
 }
