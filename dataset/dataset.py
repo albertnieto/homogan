@@ -13,24 +13,35 @@ from dataset.celebaWrapper import CelebA
 class DatasetCeleba():
 
   def __init__(self, params):
-    def get_features(feats):
-      return [i[0] for i in feats]
+    def filter_features(feats):
+      return [i if len(i)==1 for i in feats]
 
-    self.features = get_features(params["celeba_features"])
-    self.dataset_folder = params["dataset_folder"]
+    def multilabeling_features(feats):
+      return [i[0] if len(i)>1 for i in feats]
+
+    self.celeba_features = max(params["celeba_features"], [])
+    self.dataset_folder = max(params["dataset_folder"], [])
+
+    self.filter_features = filter_features(self.celeba_features)
+    self.multilabeling_features = multilabeling_features(self.celeba_features)
 
     if not os.path.exists(self.dataset_folder):
       self.download_celeba(params["kaggle"])
     
     self.celeba = CelebA(selected_features=self.features, main_folder=self.dataset_folder)
-    self.dataframe, self.image_list = self.parse_attributes(params["celeba_features"])
+    self.dataframe, self.image_list = self.parse_attributes()
     self.images_used = max(params["num_img_training"], len(self.image_list)) 
 
-  def parse_attributes(self, feats):
+  def parse_attributes(self):
     feat_df = self.celeba.attributes
 
-    for i in feats:
-      feat_df = feat_df[getattr(feat_df, i[0]) == i[1]]
+    if self.filter_features:
+      for i in self.filter_features:
+        feat_df = feat_df[getattr(df, i[0]) == i[1]]
+      return feat_df
+
+    if self.multilabeling_features:
+
 
     feat_df['image_id'] = feat_df['image_id'].apply(
       lambda x: self.dataset_folder + '/img_align_celeba/img_align_celeba/' + x)
