@@ -1,16 +1,21 @@
 {
   "dataset_folder" : "/content/celeba-dataset",
+  "architecture_used" : "model14",
+  
   "IMG_HEIGHT" : 128,
   "IMG_WIDTH" : 128,
+
   "BUFFER_SIZE" : 3000,
   "BATCH_SIZE" : 100,
   "NOISE_DIM" : 256,
+
   "EPOCHS" : 100,
   "TRAIN_TIMES_G" : 1,
   "TRAIN_TIMES_D" : 1,
+
   "celeba_features" : ["Female"],
   "num_img_training" : 5000,
-  "architecture_used" : "model14",
+
   "" : "",
   "" : "",
   "" : "",

@@ -1,5 +1,5 @@
-from __future__ import absolute_import, division, print_function, unicode_literals
-#from IPython import display
+from __future__ import absolute_import, division
+from __future__ import print_function, unicode_literals
 
 import tensorflow as tf
 from tensorflow.keras import layers, models
@@ -24,10 +24,8 @@ import os
 import json
 
 from dataset.dataset import DatasetCeleba
-import lib
-import GAN as gan
+import lib, network, models
 
-print(tf.__version__)
 tf.keras.backend.set_floatx('float32')
 
 def train(g_model, 
@@ -74,7 +72,8 @@ def train(g_model,
               # update discriminator model weights
               d_loss1, _ = d_model.train_on_batch(X_real, y_real)
               # generate 'fake' examples
-              X_fake, y_fake = gan.generate_fake_samples(g_model, latent_dim, n_batch)
+              X_fake, y_fake = gan.generate_fake_samples(g_model, 
+                                                          latent_dim, n_batch)
               # smoothing
               y_fake = smooth_neg_and_trick(y_fake)
               # update discriminator model weights
@@ -93,14 +92,17 @@ def train(g_model,
                     tf.summary.scalar('Disc loss fake', d_loss2, step=cycle)
                     tf.summary.scalar('Gen Loss', g_loss, step=cycle)
         # summarize loss on this batch
-        print('Epoch: %d,  Loss: D_real = %.3f, D_fake = %.3f,  G = %.3f' %   (i+1, d_loss1, d_loss2, g_loss))
+        print('Epoch: %d,  Loss: D_real = %.3f, D_fake = %.3f,  G = %.3f' %   
+                (i+1, d_loss1, d_loss2, g_loss))
         # evaluate the model performance
         if (i+1) % 2 == 0:
-            gan.summarize_performance(i, g_model, d_model, image_batch, latent_dim)     
+            gan.summarize_performance(i, g_model, d_model, 
+                                      image_batch, latent_dim)     
         if (i+1) % 20 == 0:
           # Save the model every 10 epochs
             checkpoint.save(file_prefix = checkpoint_prefix)
-    print ('Total time for training {} epochs is {} sec'.format(n_epochs, (time.time()-start)))
+    print ('Total time for training {} epochs is {} sec'.format(n_epochs, 
+            (time.time()-start)))
 
 
 def main(config_file='config.json'):
