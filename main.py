@@ -118,11 +118,10 @@ def main(config_file='config.json'):
   checkpoint_dir = './training_checkpoints'
 
   if not os.path.exists(checkpoint_dir):
-      os.makedirs(checkpoint_dir)
+    os.makedirs(checkpoint_dir)
 
   checkpoint_prefix = os.path.join(checkpoint_dir, "ckpt")
-  checkpoint = tf.train.Checkpoint(generator=g,
-                                  discriminator=d)
+  checkpoint = tf.train.Checkpoint(generator=g, discriminator=d)
 
   manager = tf.train.CheckpointManager(checkpoint, directory = checkpoint_dir, 
                                         max_to_keep=3)

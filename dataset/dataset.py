@@ -28,10 +28,10 @@ class DatasetCeleba():
       os.environ['KAGGLE_USERNAME'] = "jordisans"
       os.environ['KAGGLE_KEY'] = "7b52c518f92692f61d5967659a240ab2"
 
-      bashCommand = '!pip install -U -q kaggle\n' + 
-        '!pip install kaggle --upgrade\n' + 
-        '!kaggle datasets download --force -d jessicali9530/celeba-dataset' + 
-        '!unzip -o -qq "celeba-dataset.zip" -d "celeba-dataset" !rm "celeba-dataset.zip"'
+      bashCommand = '!kaggle datasets download --force -d jessicali9530/celeba-dataset'
+      bashCommand += '!unzip -o -qq "celeba-dataset.zip" -d "celeba-dataset"'
+      bashCommand += '!rm "celeba-dataset.zip"'
+      
       process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
       output, error = process.communicate()
 
