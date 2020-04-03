@@ -37,39 +37,54 @@ class DatasetCeleba():
     os.environ['KAGGLE_KEY'] = k["kagglePass"]
     rc = subprocess.call("./docs/download_celeba.sh")
 
+  def dict_smallest_feature(self, labels, dataframe):
+    def smallest_feature_from_iteration(log, small_label, small_value):
+      log = [set(i) for i in log]
+      
+
+    smallest_iteration_value = 99999999999
+    smallest_iteration = ''
+    iteration_log = []
+    label = ''
+
+    iterations = list(itertools.permutations(labels))
+    num_features = math.sqrt(len(iterations))
+
+    for iteration in iterations:  # equals to len(multilabeling_features)**2
+      query = dataframe
+      for iter_label in iteration:     # for each label of iteration
+        for i in range (0,1):
+          dataframe[getattr(dataframe, iter_label)==i] # check binary state
+
+      occurrences = query.size
+      
+      if smallest_iteration_value > occurrences:
+        smallest_iteration_value = occurrences
+        smallest_iteration = iteration
+
+      iteration_log.append((iteration, occurrences))
+
+    value, label = smallest_feature_from_iteration(iteration_log, 
+                                smallest_iteration, smallest_iteration_value)
+
+    return {"value": value, "label": label}
+
   def feat_name(self, feats):
         ret = []
         if len(feats) > 0:
           ret += [i[0] for i in feats]
         return ret
 
-  def filtered_dataframe(df):
+  def filtered_dataframe(self, df):
     for i in self.filter_features:
       df = df[getattr(df, i[0]) == i[1]]
     return df
 
-  def multilabeled_features(df):
-    def get_smallest_feature(l, d):
-      value = 99999999999
-      feature = ''
-      for n[0] in l:
-        if value > d[getattr(d, n)].size:
-          value = d[getattr(d, n)].size
-          feature = getattr(d, n)
-      return value, feature
-
-    labels = self.multilabeling_features
+  def multilabeled_features(self, df):
+    labels = self.feat_name(self.multilabeling_features)
     smallest_feature = get_smallest_feature(labels, df)
 
   def parse_attributes(self):
-
-
-
-      # iterations = list(itertools.permutations(self.multilabeling_features))
-      # num_features = math.sqrt(len(iterations))
-      # for i in iterations:  # equals to len(self.multilabeling_features)**2
-      #   print(i)
-
     feat_df = self.celeba.attributes
     print(self.celeba_features)
     # Add path to image_id
