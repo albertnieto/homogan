@@ -37,7 +37,7 @@ def main(dataset_folder = "/content/celeba-dataset"):
   ####Prepare dataset
 
   features = ['Male']
-  celeba = CelebA(selected_features=features, main_folder='/content/celeba-dataset')
+  celeba = CelebA(selected_features=features, main_folder=dataset_folder)
 
   feat_df = celeba.attributes
   feat_df['image_id'] = feat_df['image_id'].apply(

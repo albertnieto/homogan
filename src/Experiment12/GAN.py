@@ -28,7 +28,6 @@ def Generator(latent_dim, n_classes = 2):
       # reshape to additional channel
       li = Reshape((8, 8, 1))(li)
       
-      n_nodes = 128 * 8 * 8
       # image generator input
       in_lat = Input(shape=(1,1,latent_dim))
       x = Conv2DTranspose(8192, kernel_size=(1,1), padding="same")(in_lat)
