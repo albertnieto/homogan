@@ -11,20 +11,57 @@ from tensorflow.keras.layers import Dropout
 from tensorflow.keras.layers import Input
 from tensorflow.keras.layers import Embedding
 from tensorflow.keras.layers import Concatenate
+from tensorflow.keras.constraints import Constraint
 from tensorflow.keras import Model
 import numpy as np
 import matplotlib.pyplot as plt
 from numpy.random import randn
 from numpy.random import randint
 
-def Generator(latent_dim, classes):
+def l2_normalize(x, eps=1e-12):
+  '''
+  Scale input by the inverse of it's euclidean norm
+  '''
+  return x / tf.linalg.norm(x + eps)
+
+
+
+class Spectral_Norm(Constraint):
+    '''
+    Uses power iteration method to calculate a fast approximation 
+    of the spectral norm (Golub & Van der Vorst)
+    The weights are then scaled by the inverse of the spectral norm
+    '''
+    def __init__(self):
+        self.n_iters = 5
+
+    def __call__(self, w):
+      flattened_w = tf.reshape(w, [w.shape[0], -1])
+      u = tf.random.normal([flattened_w.shape[0]])
+      v = tf.random.normal([flattened_w.shape[1]])
+      for i in range(self.n_iters):
+        v = tf.linalg.matvec(tf.transpose(flattened_w), u)
+        v = l2_normalize(v)
+        u = tf.linalg.matvec(flattened_w, v)
+        u = l2_normalize(u)
+      sigma = tf.tensordot(u, tf.linalg.matvec(flattened_w, v), axes=1)
+      return w / sigma
+
+    def get_config(self):
+        return {'n_iters': self.n_iters}
+
+
+def Generator(latent_dim, n_classes = 2):
       in_label = Input(shape=(1,))
+      # embedding for categorical input
+      li = Embedding(n_classes, 50)(in_label)
       # linear multiplication
       n_nodes = 8 * 8
-      li = Dense(n_nodes)(in_label)
+      li = Dense(n_nodes)(li)
       # reshape to additional channel
       li = Reshape((8, 8, 1))(li)
       
+      n_nodes = 128 * 8 * 8
       # image generator input
       in_lat = Input(shape=(latent_dim,))
       x = Dense(n_nodes)(in_lat)
@@ -73,12 +110,14 @@ def generate_fake_samples(g_model, latent_dim, n_samples):
       y = np.zeros((n_samples, 1))
       return [images, x_labels], y
 
-def Discriminator(classe, in_shape=(128,128,3)):
+def Discriminator(in_shape=(128,128,3), n_classes = 2):
   	  # label input 
       in_label = Input(shape=(1,))
+      # embedding for categorical input
+      emb = Embedding(n_classes, 50)(in_label)
       # scale up to image dimensions with linear activation
       n_nodes = in_shape[0] * in_shape[1]
-      emb = Dense(n_nodes)(in_label)
+      emb = Dense(n_nodes)(emb)
       # reshape to additional channel
       li = Reshape((in_shape[0], in_shape[1], 1))(emb)
       # image input
@@ -86,19 +125,20 @@ def Discriminator(classe, in_shape=(128,128,3)):
       # concat label as a channel
       merge = Concatenate()([in_image, li])
       # normal
-      x = Conv2D(128, (5,5), padding='same', input_shape=in_shape)(merge)
+
+      x = Conv2D(128, (5,5), padding='same', input_shape=in_shape, kernel_constraint=Spectral_Norm())(merge)
       x = LeakyReLU(alpha=0.2)(x)
       # downsample to 64x64
-      x = Conv2D(128, (5,5), strides=(2,2), padding='same')(x)
+      x = Conv2D(128, (5,5), strides=(2,2), padding='same', kernel_constraint=Spectral_Norm())(x)
       x = LeakyReLU(alpha=0.2)(x)
       # downsample to 32x32
-      x = Conv2D(128, (5,5), strides=(2,2), padding='same')(x)
+      x = Conv2D(128, (5,5), strides=(2,2), padding='same', kernel_constraint=Spectral_Norm())(x)
       x = LeakyReLU(alpha=0.2)(x)
       # downsample to 16x16
-      x = Conv2D(128, (5,5), strides=(2,2), padding='same')(x)
+      x = Conv2D(128, (5,5), strides=(2,2), padding='same', kernel_constraint=Spectral_Norm())(x)
       x = LeakyReLU(alpha=0.2)(x)
       # downsample to 8x8
-      x = Conv2D(128, (5,5), strides=(2,2), padding='same')(x)
+      x = Conv2D(128, (5,5), strides=(2,2), padding='same', kernel_constraint=Spectral_Norm())(x)
       x = LeakyReLU(alpha=0.2)(x)
       # classifier
       x = Flatten()(x)
