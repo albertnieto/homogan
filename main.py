@@ -7,6 +7,9 @@ from keras.optimizers import Adam
 from keras.preprocessing.image import load_img
 from keras.preprocessing.image import img_to_array
 
+from easydict import EasyDict as edict
+from simplejson import loads
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -31,10 +34,10 @@ def train(g_model,
           d_model, 
           gan_model, 
           dataset, 
-          latent_dim=100,
-          n_epochs=100, 
-          train_GEN = 1, 
-          train_DISC = 1):
+          latent_dim    =100,
+          n_epochs      =100, 
+          train_GEN     =1, 
+          train_DISC    =1):
 
     checkpoint.restore(manager.latest_checkpoint)
     if manager.latest_checkpoint:
@@ -100,24 +103,15 @@ def train(g_model,
     print ('Total time for training {} epochs is {} sec'.format(n_epochs, (time.time()-start)))
 
 
-def main(dataset_folder = "/content/celeba-dataset",
-          IMG_HEIGHT    = 128,
-          IMG_WIDTH     = 128,
-          BUFFER_SIZE   = 3000,
-          BATCH_SIZE    = 100,
-          noise_dim     = 256):
+def main(config_file='config.json'):
+  #Load attributes as EasyDict from file as "a"
+  a = edict(loads(config_file))
 
-  DatasetCeleba()
+  training_dataset = DatasetCeleba()
 
-  NUM_IMAGES_USED = len(image_list)
-  STEPS_PER_EPOCH = np.ceil(NUM_IMAGES_USED/BATCH_SIZE)
-  CLASS_NAMES = celeba.features_name
-  img_shape = (IMG_HEIGHT, IMG_WIDTH, 3)
-
-  generator = gan.Generator(noise_dim)
-  generator.summary()
-  discriminator = gan.Discriminator()
-  discriminator.summary()
+  g = generator_from_experiment(a.architecture_used, a.noise_dim)
+  d = discriminator_from_experiment(a.architecture_used)
+  network = define_gan(g, d)
 
   checkpoint_dir = './training_checkpoints'
 
@@ -125,21 +119,15 @@ def main(dataset_folder = "/content/celeba-dataset",
       os.makedirs(checkpoint_dir)
 
   checkpoint_prefix = os.path.join(checkpoint_dir, "ckpt")
-  checkpoint = tf.train.Checkpoint(generator=generator,
-                                  discriminator=discriminator)
+  checkpoint = tf.train.Checkpoint(generator=g,
+                                  discriminator=d)
 
-  manager = tf.train.CheckpointManager(checkpoint, directory = checkpoint_dir, max_to_keep=3)
-
-  EPOCHS = 100
-  train_GEN = 1   #Train every batch
-  train_DISC = 1  #Train every batch
-
-  # create the gan
-  theGan = gan.define_gan(generator, discriminator)
+  manager = tf.train.CheckpointManager(checkpoint, directory = checkpoint_dir, 
+                                        max_to_keep=3)
 
   with tf.device('/device:GPU:0'):
-      train(generator, discriminator, theGan, training_dataset, noise_dim, 
-      EPOCHS, train_GEN, train_DISC)
+      train(g, d, network, training_dataset, a.NOISE_DIM, a.EPOCHS, 
+            a.TRAIN_TIMES_G, TRAIN_TIMES_D)
 
 
 if __name__ == "__main__":

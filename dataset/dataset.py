@@ -9,7 +9,7 @@ import pandas as pd
 
 class DatasetCeleba():
 
-  def __init__(self, features, num_images):
+  def __init__(self, features=None, num_images=0):
     self.features = ['Male']
     self.celeba = CelebA(selected_features=features, main_folder=dataset_folder)
 
