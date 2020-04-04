@@ -147,7 +147,21 @@ __Observation__:
 |Generator Loss|
 
 ### Experiment 9
-- Normalization
+Change from previous models: 
+* Using male and female images at 50%
+* Introduced training ratio G:D, set to 1:3 (traing D 3 times more than G)
+
+#### Results
+Trainning size = 10.000\
+Trainning Epochs = 100\
+Batch Size = 100
+
+__Observation__: 
+|![](src/Experiment9/DiscLossFake.png)|![](src/Experiment9/DiscLossReal.png)|
+|:---:|:---:|
+|Discriminator Loss Fake|Discriminator Loss Real|
+|![](src/Experiment9/GenLoss.png)|
+|Generator Loss|
 
 ### Experiment 10
 - Normalization
