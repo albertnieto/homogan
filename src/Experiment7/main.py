@@ -122,66 +122,6 @@ manager = tf.train.CheckpointManager(checkpoint, directory = checkpoint_dir, max
 EPOCHS = 100
 num_examples_to_generate = 4
 
-# def train(dataset, epochs):
-#     checkpoint.restore(manager.latest_checkpoint)
-#     if manager.latest_checkpoint:
-#         print("Restored from {}".format(manager.latest_checkpoint))
-#     else:
-#         print("Initializing from scratch.")
-
-#     logdir = '.\\logs\\func\\'
-#     if not os.path.exists(logdir):
-#         os.makedirs(logdir)
-
-#     writer = tf.summary.create_file_writer(logdir)
-
-#     tf.summary.trace_on(graph=True, profiler=True)
-
-#     cycle = 0
-#     start_train = time.time()
-#     for epoch in range(epochs):
-#         start = time.time()
-#         i = 0
-#         for image_batch in dataset:
-#             genL, discL, gen_grad, disc_grad, real_acc, fake_acc = train_step(image_batch, epoch)
-
-#             i += 1
-#             cycle += 1
-#             if i % 100 == 0:
-#                 print(f"Batch {i}/{STEPS_PER_EPOCH}")
-
-#                 with writer.as_default():
-#                     tf.summary.scalar('real acc', real_acc, step=cycle)
-#                     tf.summary.scalar('fake acc', fake_acc, step=cycle)
-#                     tf.summary.scalar('Gen Loss', genL, step=cycle)
-#                     tf.summary.scalar('Disc Loss', discL, step=cycle)
-#         if (time.time() - start_train) > 10*60: #Log cada 10 min
-#             start_train = time.time()
-#             with writer.as_default():
-#                 for grad in gen_grad:
-#                     tf.summary.histogram('Gen_grad', grad, step=cycle)
-#                 for grad in disc_grad:
-#                     tf.summary.histogram('Disc_grad', grad, step=cycle)
-
-#         generate_and_save_images(generator,
-#                                  epoch + 1,
-#                                  tf.random.normal([num_examples_to_generate,1,1, noise_dim]),
-#                                  titleadd="Epoch {}".format(epoch))
-
-#         # Save the model every 20 epochs
-#         if (epoch + 1) % 20 == 0 or epoch == epochs-1:
-#             checkpoint.save(file_prefix = checkpoint_prefix)
-
-
-#         print ('Time for epoch {} is {} sec'.format(epoch + 1, time.time()-start))
-
-#     # Generate after the final epoch
-#     generate_and_save_images(generator,
-#                            epochs,
-#                            tf.random.normal([num_examples_to_generate,1,1, noise_dim]))
-
-# print(manager.latest_checkpoint)
-
 def train(g_model, d_model, gan_model, dataset, latent_dim=100, n_epochs=100, n_batch=128):
     checkpoint.restore(manager.latest_checkpoint)
     if manager.latest_checkpoint:
