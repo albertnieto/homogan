@@ -46,6 +46,11 @@ def main(dataset_folder = "/content/celeba-dataset"):
   feat_male = feat_df[feat_df.Male == 1][:5000]
   feat_female = feat_df[feat_df.Male == 0][:5000]
 
+  # feat_male['image_id'] = feat_male['image_id'].apply(
+  #   lambda x: '/content/celeba-dataset/img_align_celeba/img_align_celeba/'+x)
+  # feat_female['image_id'] = feat_female['image_id'].apply(
+  #   lambda x: '/content/celeba-dataset/img_align_celeba/img_align_celeba/'+x)
+
   image_list = feat_male['image_id'].tolist()
   image_list = image_list + feat_female['image_id'].tolist()
   joined = pd.concat([feat_male,feat_female])
@@ -78,6 +83,13 @@ def main(dataset_folder = "/content/celeba-dataset"):
       image = image/255
       return image, labels
 
+
+  #Labels and images are created
+  # labels = celeba.attributes.drop('image_id', 1)
+  # labels = labels.applymap(lambda x: 1 if x else 0) 
+  # labels = tf.constant(labels.values, dtype=tf.dtypes.float32)
+
+
   #Create data set and map it. Could be improved if we can load images previously
   # and avoid mapping it later.
   training_images = (tf.data.Dataset.from_tensor_slices((list(joined['image_id'][:NUM_IMAGES_USED]), list(joined['Male'][:NUM_IMAGES_USED]))))
@@ -89,11 +101,11 @@ def main(dataset_folder = "/content/celeba-dataset"):
 
   # print(f"Device being used {tf.test.gpu_device_name()}")
 
-  generator = gan.Generator(noise_dim,1)
+  generator = gan.Generator(noise_dim)
   generator.summary()
-  discriminator = gan.Discriminator(classe = 1)
+  discriminator = gan.Discriminator()
   discriminator.summary()
-  # exit()
+  #exit()
   #Smoothing labels posive between 0.9-1.0 and negative between 0.0-0.1
   def smooth_pos_and_trick(y):
       tensor = np.random.uniform(0.9,1,y.shape[0])
@@ -123,7 +135,7 @@ def main(dataset_folder = "/content/celeba-dataset"):
   manager = tf.train.CheckpointManager(checkpoint, directory = checkpoint_dir, max_to_keep=3)
 
   EPOCHS = 100
-  train_GEN = 3 #Train every 3 batch
+  train_GEN = 3 #Train every batch
   train_DISC = 1 #Train every batch
 
   def train(g_model, d_model, gan_model, dataset, latent_dim=100, n_epochs=100, train_GEN = 1, train_DISC = 1):
@@ -180,7 +192,6 @@ def main(dataset_folder = "/content/celeba-dataset"):
                       tf.summary.scalar('Disc loss real', d_loss1, step=cycle)
                       tf.summary.scalar('Disc loss fake', d_loss2, step=cycle)
                       tf.summary.scalar('Gen Loss', g_loss, step=cycle)
-                      tf.summary.flush(writer=writer)
           # summarize loss on this batch
           print('Epoch: %d,  Loss: D_real = %.3f, D_fake = %.3f,  G = %.3f' %   (i+1, d_loss1, d_loss2, g_loss))
           # evaluate the model performance
