@@ -111,7 +111,22 @@ __Observation__:
 ![](src/Experiment6/real_acc.png)
 
 ### Experiment 7
-- Normalization
+Change from previous models: 
+* Change model architecture.
+* Remove BatchNorm layers
+
+#### Results
+Trainning size = 10.000\
+Trainning Epochs = 100\
+Batch Size = 100
+
+__Observation__: 
+|![](src/Experiment7/Disc loss fake.png)|![](src/Experiment7/Disc loss real.png)|
+|:---:|:---:|
+|Discriminator Loss Fake|Discriminator Loss Real|
+|![](src/Experiment7/Gen loss.png)|
+|:---:|
+|Generator Loss|
 
 ### Experiment 8
 - Normalization
