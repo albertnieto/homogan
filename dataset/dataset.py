@@ -146,6 +146,10 @@ def multilabeled_features(df, features):
 
   query_composite_list = [query_list[x:x+rl_size] for x in range(0, len(query_list), rl_size)]
 
-  for q in query_composite_list:
+  for query in query_composite_list:
+    ql = []query(dataframe, column, operation, value)
+    ql.append(df_2, )
+    for y in query:
+      x = {**x, **y}
     for k,v in c.items():
       exec("%s=%s" % (k,v))
