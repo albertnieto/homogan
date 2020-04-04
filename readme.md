@@ -62,7 +62,7 @@ Change from previous models:
 #### Results
 Trainning size = 10.000\
 Trainning Epochs = 20\
-Batch Size = 16\
+Batch Size = 16
 
 __Observation__: 
 |![](src/Experiment4/Gen_Loss.png)|![](src/Experiment4/Disc_Loss.png)|
@@ -80,7 +80,7 @@ Change from previous models:
 #### Results
 Trainning size = 10.000\
 Trainning Epochs = 20\
-Batch Size = 16\
+Batch Size = 16
 
 __Observation__: 
 |![](src/Experiment5/Gen_Loss.png)|![](src/Experiment5/Disc_Loss.png)|
@@ -99,7 +99,7 @@ Change from previous models:
 #### Results
 Trainning size = 10.000\
 Trainning Epochs = 20\
-Batch Size = 16\
+Batch Size = 16
 
 __Observation__: 
 |![](src/Experiment6/Gen_Loss.png)|![](src/Experiment6/Disc_Loss.png)|
