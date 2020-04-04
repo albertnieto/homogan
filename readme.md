@@ -114,6 +114,7 @@ __Observation__:
 Change from previous models: 
 * Change model architecture.
 * Remove BatchNorm layers
+* Remove Label Smoothing and Label flip
 
 #### Results
 Trainning size = 10.000\
@@ -125,11 +126,25 @@ __Observation__:
 |:---:|:---:|
 |Discriminator Loss Fake|Discriminator Loss Real|
 |![](src/Experiment7/GenLoss.png)|
-|:---:|
 |Generator Loss|
 
 ### Experiment 8
-- Normalization
+Change from previous models: 
+* Only male images
+* Added label smoothing (0 -> {0-0.1} and 1 -> {0.9-1})
+* Added label flipping on 5% of labels
+
+#### Results
+Trainning size = 22.000\
+Trainning Epochs = 100\
+Batch Size = 200
+
+__Observation__: 
+|![](src/Experiment8/DiscLossFake.png)|![](src/Experiment8/DiscLossReal.png)|
+|:---:|:---:|
+|Discriminator Loss Fake|Discriminator Loss Real|
+|![](src/Experiment8/GenLoss.png)|
+|Generator Loss|
 
 ### Experiment 9
 - Normalization
