@@ -164,7 +164,22 @@ __Observation__:
 |Generator Loss|
 
 ### Experiment 10
-- Normalization
+Change from previous models: 
+* Chenge architecture to introduce conditioning GAN
+* Only 1 feature allowed for conditioning 
+* Ratio G:D, set to 1:1
+
+#### Results
+Trainning size = 10.000\
+Trainning Epochs = 100\
+Batch Size = 100
+
+__Observation__: 
+|![](src/Experiment10/DiscLossFake.png)|![](src/Experiment10/DiscLossReal.png)|
+|:---:|:---:|
+|Discriminator Loss Fake|Discriminator Loss Real|
+|![](src/Experiment10/GenLoss.png)|
+|Generator Loss|
 
 ### Experiment 11
 - Normalization
