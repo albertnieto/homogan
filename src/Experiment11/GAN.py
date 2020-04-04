@@ -17,17 +17,14 @@ import matplotlib.pyplot as plt
 from numpy.random import randn
 from numpy.random import randint
 
-def Generator(latent_dim, n_classes = 2):
+def Generator(latent_dim, classes):
       in_label = Input(shape=(1,))
-      # embedding for categorical input
-      li = Embedding(n_classes, 50)(in_label)
       # linear multiplication
       n_nodes = 8 * 8
-      li = Dense(n_nodes)(li)
+      li = Dense(n_nodes)(in_label)
       # reshape to additional channel
       li = Reshape((8, 8, 1))(li)
       
-      n_nodes = 128 * 8 * 8
       # image generator input
       in_lat = Input(shape=(latent_dim,))
       x = Dense(n_nodes)(in_lat)
@@ -76,14 +73,12 @@ def generate_fake_samples(g_model, latent_dim, n_samples):
       y = np.zeros((n_samples, 1))
       return [images, x_labels], y
 
-def Discriminator(in_shape=(128,128,3), n_classes = 2):
+def Discriminator(classe, in_shape=(128,128,3)):
   	  # label input 
       in_label = Input(shape=(1,))
-      # embedding for categorical input
-      emb = Embedding(n_classes, 50)(in_label)
       # scale up to image dimensions with linear activation
       n_nodes = in_shape[0] * in_shape[1]
-      emb = Dense(n_nodes)(emb)
+      emb = Dense(n_nodes)(in_label)
       # reshape to additional channel
       li = Reshape((in_shape[0], in_shape[1], 1))(emb)
       # image input
