@@ -26,7 +26,7 @@ class DatasetCeleba():
     self.celeba_features = feat_name(self.filter_features) + feat_name(self.multilabeling_features)
 
     if not os.path.exists(self.dataset_folder):
-      self.download_celeba(params["kaggle"])
+      download_celeba(params["kaggle"])
     
     self.celeba = CelebA(selected_features=self.celeba_features, main_folder=self.dataset_folder)
     self.dataframe, self.image_list = self.parse_attributes()
@@ -133,9 +133,19 @@ def multilabeled_features(df, features):
   df_1 = df[getattr(df, min_feature)==min_value]
   df_2 = df[getattr(df, min_feature)==inv_value]
 
-  query = []
-  for values in iterations:
-    for j in range(2):
-      for value in values:
-        pass
-  composite_list = [query[x:x+rl_size] for x in range(0, len(query), rl_size)]
+# >>> c = {"one": 1, "two": 2}
+# >>> for k,v in c.items():
+# ...    exec("%s=%s" % (k,v))
+  bits = ['0', '1']
+  query_list = []
+
+  # for values in iterations:
+  for i in itertools.product(bits, repeat = rl_size):
+    for j, value in enumerate(reduced_labels):
+      query_list.append({value:i[j]})
+
+  query_composite_list = [query_list[x:x+rl_size] for x in range(0, len(query_list), rl_size)]
+
+  for q in query_composite_list:
+    for k,v in c.items():
+      exec("%s=%s" % (k,v))
