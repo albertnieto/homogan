@@ -124,7 +124,7 @@ __Observation__:
 |![](src/Experiment7/Disc loss fake.png)|![](src/Experiment7/Disc loss real.png)|
 |:---:|:---:|
 |Discriminator Loss Fake|Discriminator Loss Real|
-|![](src/Experiment7/Gen loss.png)|
+|![](src/Experiment7/Gen Loss.png)|
 |:---:|
 |Generator Loss|
 
