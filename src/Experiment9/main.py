@@ -34,24 +34,29 @@ tf.keras.backend.set_floatx('float32')
 
 ####Prepare dataset
 
-features = ['Male', 'Wearing_Hat', 'Eyeglasses', 'No_Beard']
+features = ['Male']
 celeba = CelebA(selected_features=features, main_folder='/content/celeba-dataset')
 
 feat_df = celeba.attributes
-feat_df = feat_df[feat_df.Male == 1]
-feat_df = feat_df[feat_df.Wearing_Hat == 0]
-feat_df = feat_df[feat_df.Eyeglasses == 0]
-feat_df = feat_df[feat_df.No_Beard == 0]
+feat_male = feat_df[feat_df.Male == 1][:5000]
+feat_female = feat_df[feat_df.Male == 0][:5000]
 
-feat_df['image_id'] = feat_df['image_id'].apply(
+feat_male['image_id'] = feat_male['image_id'].apply(
+  lambda x: '/content/celeba-dataset/img_align_celeba/img_align_celeba/'+x)
+feat_female['image_id'] = feat_female['image_id'].apply(
   lambda x: '/content/celeba-dataset/img_align_celeba/img_align_celeba/'+x)
 
-image_list = feat_df['image_id'].tolist()
+image_list = feat_male['image_id'].tolist()
+image_list = image_list + feat_female['image_id'].tolist()
+
+print(len(image_list))
+# print(image_list)
+# exit()
 
 IMG_HEIGHT = 128
 IMG_WIDTH = 128
 BUFFER_SIZE = 3000
-BATCH_SIZE = 200
+BATCH_SIZE = 100
 NUM_IMAGES_USED = len(image_list)
 noise_dim = 256
 STEPS_PER_EPOCH = np.ceil(NUM_IMAGES_USED/BATCH_SIZE)
@@ -125,9 +130,10 @@ checkpoint = tf.train.Checkpoint(generator=generator,
 manager = tf.train.CheckpointManager(checkpoint, directory = checkpoint_dir, max_to_keep=3)
 
 EPOCHS = 100
-num_examples_to_generate = 4
+train_GEN = 3 #Train every 3 batches
+train_DISC = 1 #Train every batch
 
-def train(g_model, d_model, gan_model, dataset, latent_dim=100, n_epochs=100):
+def train(g_model, d_model, gan_model, dataset, latent_dim=100, n_epochs=100, train_GEN = 1, train_DISC = 1):
     checkpoint.restore(manager.latest_checkpoint)
     if manager.latest_checkpoint:
         print("Restored from {}".format(manager.latest_checkpoint))
@@ -155,24 +161,26 @@ def train(g_model, d_model, gan_model, dataset, latent_dim=100, n_epochs=100):
             x += 1
             cycle += 1
             # get randomly selected 'real' samples
-            X_real = image_batch
+            X_real = image_batch[0]
             y_real = tf.ones(n_batch,1)
             # smoothing
             y_real = smooth_pos_and_trick(y_real)
-            # update discriminator model weights
-            d_loss1, _ = d_model.train_on_batch(X_real, y_real)
-            # generate 'fake' examples
-            X_fake, y_fake = gan.generate_fake_samples(g_model, latent_dim, n_batch)
-            # smoothing
-            y_fake = smooth_neg_and_trick(y_fake)
-            # update discriminator model weights
-            d_loss2, _ = d_model.train_on_batch(X_fake, y_fake)
-            # prepare points in latent space as input for the generator
-            X_gan = gan.generate_latent_points(latent_dim, n_batch)
-            # create inverted labels for the fake samples
-            y_gan = np.ones((n_batch, 1))
-            # update the generator via the discriminator's error
-            g_loss = gan_model.train_on_batch(X_gan, y_gan)
+            if cycle % train_DISC == 0:
+              # update discriminator model weights
+              d_loss1, _ = d_model.train_on_batch(X_real, y_real)
+              # generate 'fake' examples
+              X_fake, y_fake = gan.generate_fake_samples(g_model, latent_dim, n_batch)
+              # smoothing
+              y_fake = smooth_neg_and_trick(y_fake)
+              # update discriminator model weights
+              d_loss2, _ = d_model.train_on_batch(X_fake, y_fake)
+            if cycle % train_GEN == 0:
+              # prepare points in latent space as input for the generator
+              X_gan = gan.generate_latent_points(latent_dim, n_batch)
+              # create inverted labels for the fake samples
+              y_gan = np.ones((n_batch, 1))
+              # update the generator via the discriminator's error
+              g_loss = gan_model.train_on_batch(X_gan, y_gan)
         
             if cycle % 10 == 0:
               with writer.as_default():
@@ -182,7 +190,7 @@ def train(g_model, d_model, gan_model, dataset, latent_dim=100, n_epochs=100):
         # summarize loss on this batch
         print('Epoch: %d,  Loss: D_real = %.3f, D_fake = %.3f,  G = %.3f' %   (i+1, d_loss1, d_loss2, g_loss))
         # evaluate the model performance
-        if (i+1) % 1 == 0:
+        if (i+1) % 5 == 0:
             gan.summarize_performance(i, g_model, d_model, image_batch, latent_dim)     
         if (i+1) % 20 == 0:
           # Save the model every 10 epochs
@@ -193,6 +201,6 @@ def train(g_model, d_model, gan_model, dataset, latent_dim=100, n_epochs=100):
 theGan = gan.define_gan(generator, discriminator)
 
 with tf.device('/device:GPU:0'):
-    train(generator, discriminator, theGan, training_dataset, 256, 100)
+    train(generator, discriminator, theGan, training_dataset, noise_dim, EPOCHS, train_GEN, train_DISC)
 
 # checkpoint.restore(tf.train.latest_checkpoint(checkpoint_dir))

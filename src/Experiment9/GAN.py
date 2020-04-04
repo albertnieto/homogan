@@ -108,7 +108,7 @@ def show_generated(generated,epoch, n=5):
 def summarize_performance(epoch, g_model, d_model, image_batch, latent_dim, n_samples=100):
       n_samples = image_batch[0].shape[0]
       # prepare real samples
-      X_real = image_batch
+      X_real = image_batch[0]
       y_real = np.ones((n_samples, 1))
       # evaluate discriminator on real examples
       _, acc_real = d_model.evaluate(X_real, y_real, verbose=0)
