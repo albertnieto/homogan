@@ -29,7 +29,7 @@ class DatasetCeleba():
       download_celeba(params["kaggle"])
     
     self.celeba = CelebA(selected_features=self.celeba_features, main_folder=self.dataset_folder)
-    self.dataframe = self.parse_attributes()
+    self.dataframe, self.image_list = self.parse_attributes()
     self.images_used = max(params["num_img_training"], len(self.image_list)) 
 
   def parse_attributes(self):
@@ -46,7 +46,9 @@ class DatasetCeleba():
     if self.multilabeling_features:
       feat_df = multilabeled_features(feat_df, self.multilabeling_features)
 
-    # image_list = feat_df['image_id'].tolist()
+    
+
+    image_list = feat_df['image_id'].tolist()
 
     return feat_df, image_list
 
@@ -129,11 +131,11 @@ def multilabeled_features(df, features):
   reduced_labels = labels
   reduced_labels.remove(min_feature)
   rl_size = len(reduced_labels)
-  iterations = list(itertools.permutations(reduced_labels))
+  # iterations = list(itertools.permutations(reduced_labels))
 
-  min_value_split = min_value // iterations
+  min_value_split = min_value // (rl_size**2)
 
-  image_list = df[getattr(df, min_feature)==min_value]
+  feat_df = df[getattr(df, min_feature)==min_value]
   df_aux = df[getattr(df, min_feature)==inv_value]
 
   bits = ['0', '1']
@@ -151,6 +153,6 @@ def multilabeled_features(df, features):
       k, v = c.items()
       ql.append(df_2, k, eq, v)
     new_query = add_queries(df_aux, *ql)
-    image_list = pd.concat([image_list, new_query[:min_value_split]])
-  return image_list
+    feat_df = pd.concat([feat_df, new_query[:min_value_split]])
+  return feat_df
 # x = {**x, **y}
