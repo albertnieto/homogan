@@ -34,25 +34,20 @@ tf.keras.backend.set_floatx('float32')
 
 ####Prepare dataset
 
-features = ['Male', 'Wearing_Hat', 'Eyeglasses', 'No_Beard']
-celeba = CelebA(selected_features=features, main_folder='/content/celeba-dataset')
+celeba = CelebA()
 
-feat_df = celeba.attributes
-feat_df = feat_df[feat_df.Male == 1]
-feat_df = feat_df[feat_df.Wearing_Hat == 0]
-feat_df = feat_df[feat_df.Eyeglasses == 0]
-feat_df = feat_df[feat_df.No_Beard == 0]
-
-feat_df['image_id'] = feat_df['image_id'].apply(
-  lambda x: '/content/celeba-dataset/img_align_celeba/img_align_celeba/'+x)
-
-image_list = feat_df['image_id'].tolist()
+data_dir = pathlib.Path(celeba.images_folder + "")
+image_count = len(list(data_dir.glob('*/*.jpg')))
+image_list = list(data_dir.glob('*/*.jpg'))
+image_list = [str(x) for x in image_list]
+len(image_list)
+print(len(list(data_dir.glob('*/*.jpg'))))
 
 IMG_HEIGHT = 128
 IMG_WIDTH = 128
 BUFFER_SIZE = 3000
-BATCH_SIZE = 200
-NUM_IMAGES_USED = len(image_list)
+BATCH_SIZE = 100
+NUM_IMAGES_USED = 10000
 noise_dim = 256
 STEPS_PER_EPOCH = np.ceil(NUM_IMAGES_USED/BATCH_SIZE)
 CLASS_NAMES = celeba.features_name
@@ -127,7 +122,7 @@ manager = tf.train.CheckpointManager(checkpoint, directory = checkpoint_dir, max
 EPOCHS = 100
 num_examples_to_generate = 4
 
-def train(g_model, d_model, gan_model, dataset, latent_dim=100, n_epochs=100):
+def train(g_model, d_model, gan_model, dataset, latent_dim=100, n_epochs=100, n_batch=128):
     checkpoint.restore(manager.latest_checkpoint)
     if manager.latest_checkpoint:
         print("Restored from {}".format(manager.latest_checkpoint))
@@ -149,22 +144,17 @@ def train(g_model, d_model, gan_model, dataset, latent_dim=100, n_epochs=100):
         x = 0
         # enumerate batches over the training set
         for image_batch in dataset:
-            n_batch = image_batch[0].shape[0]
-            if cycle % 50 == 0:
+            if cycle % 10 == 0:
               print(f"Batch: {x}/{NUM_IMAGES_USED/n_batch}")
             x += 1
             cycle += 1
             # get randomly selected 'real' samples
             X_real = image_batch
             y_real = tf.ones(n_batch,1)
-            # smoothing
-            y_real = smooth_pos_and_trick(y_real)
             # update discriminator model weights
             d_loss1, _ = d_model.train_on_batch(X_real, y_real)
             # generate 'fake' examples
             X_fake, y_fake = gan.generate_fake_samples(g_model, latent_dim, n_batch)
-            # smoothing
-            y_fake = smooth_neg_and_trick(y_fake)
             # update discriminator model weights
             d_loss2, _ = d_model.train_on_batch(X_fake, y_fake)
             # prepare points in latent space as input for the generator
@@ -193,6 +183,6 @@ def train(g_model, d_model, gan_model, dataset, latent_dim=100, n_epochs=100):
 theGan = gan.define_gan(generator, discriminator)
 
 with tf.device('/device:GPU:0'):
-    train(generator, discriminator, theGan, training_dataset, 256, 100)
+    train(generator, discriminator, theGan, training_dataset, 256, 100,100)
 
 # checkpoint.restore(tf.train.latest_checkpoint(checkpoint_dir))
