@@ -29,7 +29,7 @@ class DatasetCeleba():
       download_celeba(params["kaggle"])
     
     self.celeba = CelebA(selected_features=self.celeba_features, main_folder=self.dataset_folder)
-    self.dataframe, self.image_list = self.parse_attributes()
+    self.dataframe = self.parse_attributes()
     self.images_used = max(params["num_img_training"], len(self.image_list)) 
 
   def parse_attributes(self):
@@ -46,7 +46,7 @@ class DatasetCeleba():
     if self.multilabeling_features:
       feat_df = multilabeled_features(feat_df, self.multilabeling_features)
 
-    image_list = feat_df['image_id'].tolist()
+    # image_list = feat_df['image_id'].tolist()
 
     return feat_df, image_list
 
