@@ -121,10 +121,10 @@ Trainning Epochs = 100\
 Batch Size = 100
 
 __Observation__: 
-|![](src/Experiment7/Disc loss fake.png)|![](src/Experiment7/Disc loss real.png)|
+|![](src/Experiment7/DiscLossFake.png)|![](src/Experiment7/DiscLossReal.png)|
 |:---:|:---:|
 |Discriminator Loss Fake|Discriminator Loss Real|
-|![](src/Experiment7/Gen Loss.png)|
+|![](src/Experiment7/GenLoss.png)|
 |:---:|
 |Generator Loss|
 
