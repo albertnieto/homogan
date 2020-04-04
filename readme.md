@@ -182,7 +182,20 @@ __Observation__:
 |Generator Loss|
 
 ### Experiment 11
-- Normalization
+Change from previous models: 
+* Introduced training ratio G:D, set to 1:3 (traing D 3 times more than G)
+
+#### Results
+Trainning size = 10.000\
+Trainning Epochs = 100\
+Batch Size = 100
+
+__Observation__: 
+|![](src/Experiment11/DiscLossFake.png)|![](src/Experiment11/DiscLossReal.png)|
+|:---:|:---:|
+|Discriminator Loss Fake|Discriminator Loss Real|
+|![](src/Experiment11/GenLoss.png)|
+|Generator Loss|
 
 ### Experiment 12
 - Normalization
