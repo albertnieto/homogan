@@ -135,7 +135,7 @@ def main(dataset_folder = "/content/celeba-dataset"):
   manager = tf.train.CheckpointManager(checkpoint, directory = checkpoint_dir, max_to_keep=3)
 
   EPOCHS = 100
-  train_GEN = 3 #Train every batch
+  train_GEN = 1 #Train every batch
   train_DISC = 1 #Train every batch
 
   def train(g_model, d_model, gan_model, dataset, latent_dim=100, n_epochs=100, train_GEN = 1, train_DISC = 1):
