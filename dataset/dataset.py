@@ -3,6 +3,7 @@ import pandas as pd
 import subprocess
 import itertools
 import math
+import numpy as np
 
 from dataset.celebaWrapper import CelebA
 '''Load and prepare the dataset
@@ -113,11 +114,17 @@ def dict_smallest_feature(labels, dataframe):
   return {"value": ret_value, "label": ret_label}
 
 def multilabeled_features(df, features):
+  def eq(a, b):
+    return a == b
+
   def query(dataframe, column, operation, value): 
     return operation(dataframe[column], value)
 
   def add_queries(dataframe, *b):
     return dataframe[(np.logical_and(*b))]
+
+  def unpack_dict(d):
+    return list(d.items())[0][0], list(d.items())[0][1]
 
   labels = feat_name(features)
   f = dict_smallest_feature(labels, df)
@@ -147,11 +154,11 @@ def multilabeled_features(df, features):
 
   query_composite_list = [query_list[x:x+rl_size] for x in range(0, len(query_list), rl_size)]
 
-  for query in query_composite_list:
+  for label_query in query_composite_list:
     ql = []
-    for c in query:
-      k, v = c.items()
-      ql.append(df_2, k, eq, v)
+    for c in label_query:
+      k, v = unpack_dict(c)
+      ql.append(query(df_aux, k, eq, v))
     new_query = add_queries(df_aux, *ql)
     feat_df = pd.concat([feat_df, new_query[:min_value_split]])
   return feat_df
