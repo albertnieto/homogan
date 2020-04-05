@@ -18,6 +18,7 @@ import matplotlib.pyplot as plt
 from numpy.random import randn
 from numpy.random import randint
 import os
+import time
 
 import importlib
 
@@ -122,7 +123,7 @@ def train(g, d, gan_model, dataset, latent_dim=100, epochs=100, train_g=1, train
   # manually enumerate epochs
   cycle = 0
   start = time.time()
-  for i in range(n_epochs):
+  for i in range(epochs):
     x = 0
     # enumerate batches over the training set
     for image_batch in dataset:
@@ -167,6 +168,5 @@ def train(g, d, gan_model, dataset, latent_dim=100, epochs=100, train_g=1, train
     if (i+1) % 20 == 0:
       # Save the model every 10 epochs
       checkpoint.save(file_prefix = checkpoint_prefix)
-    print ('Total time for training {} epochs is {} sec'.format(n_epochs, 
-        (time.time()-start)))
+    print ('Total time for training {} epochs is {} sec'.format(epochs, (time.time()-start)))
 

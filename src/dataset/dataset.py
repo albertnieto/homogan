@@ -33,6 +33,9 @@ class DatasetCeleba():
     self.dataframe, self.image_list = self.parse_attributes()
     self.images_used = max(params["num_img_training"], len(self.image_list)) 
 
+  def getDataset(self):
+    return self.dataframe
+
   def parse_attributes(self):
     feat_df = self.celeba.attributes
     # Add path to image_id
