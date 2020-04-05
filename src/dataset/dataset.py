@@ -5,7 +5,7 @@ import itertools
 import math
 import numpy as np
 
-from dataset.celebaWrapper import CelebA
+from src.dataset.celebaWrapper import CelebA
 '''Load and prepare the dataset
   Download dataset
   Male Female attribute is "Male" in datasaet, -1 female, 1 male

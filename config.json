@@ -1,7 +1,7 @@
 {
   "network_params" :
     {
-      "model" : "models.model15",
+      "model" : "src.models.model15",
       "multilabelling" : true,
       "features" : 3,
       "noise_dim" : 256
@@ -15,11 +15,12 @@
       "BUFFER_SIZE" : 3000,
       "BATCH_SIZE" : 100
     },
-  "trainingParam" : 
+  "training_params" : 
     {
-      "EPOCHS" : 100,
-      "TRAIN_TIMES_G" : 1,
-      "TRAIN_TIMES_D" : 1
+      "latent_dim" : 256,
+      "epochs" : 100,
+      "train_g" : 1,
+      "train_g" : 1
     },
   "celebaParam": 
     {
