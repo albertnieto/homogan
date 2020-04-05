@@ -1,14 +1,14 @@
 {
   "generator_params" :
     {
-      "model" : "models.model14",
+      "model" : "models.model15",
       "multilabelling" : true,
       "ml_features" : 3,
       "noise_dim" : 256
     },
   "discriminator_params" :
     {
-      "model" : "models.model14",
+      "model" : "models.model15",
       "multilabelling" : true,
       "ml_features" : 3
     },
