@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 from numpy.random import randn
 from numpy.random import randint
 
-def Generator(latent_dim, num_features=1):
+def Generator(latent_dim=256, num_features=1):
       in_label = Input(shape=(num_features,))
       n_nodes = 8 * 8
       li = Dense(n_nodes)(in_label)
