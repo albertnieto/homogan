@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 from numpy.random import randn
 from numpy.random import randint
 
-def Generator(latent_dim, num_features):
+def Generator(latent_dim, num_features=1):
       in_label = Input(shape=(num_features,))
       n_nodes = 8 * 8
       li = Dense(n_nodes)(in_label)
@@ -52,7 +52,7 @@ def Generator(latent_dim, num_features):
       model = Model([in_lat, in_label], out)
       return model
 
-def Discriminator(num_features, in_shape=(128,128,3)):
+def Discriminator(num_features)=1, in_shape=(128,128,3)):
   	  # label input 
       in_label = Input(shape=(num_features,))
       # scale up to image dimensions with linear activation
