@@ -19,8 +19,9 @@ from numpy.random import randn
 from numpy.random import randint
 import os
 import time
-
 import importlib
+
+from src.lib.labelSmoothing import *
 
 #input of G
 def generate_latent_points(latent_dim, n_samples, n_classes=2):
@@ -94,7 +95,7 @@ def create_network(model, multilabelling=False, features=1, noise_dim=256):
   return g, d
 
 def train(g, d, gan_model, dataset, latent_dim=100, epochs=100, train_g=1, train_d=1):
-
+  ds_size = len(list(dataset))
   checkpoint_dir = './training_checkpoints'
 
   if not os.path.exists(checkpoint_dir):
@@ -129,7 +130,7 @@ def train(g, d, gan_model, dataset, latent_dim=100, epochs=100, train_g=1, train
     for image_batch in dataset:
       n_batch = image_batch[0].shape[0]
       if cycle % 50 == 0:
-        print(f"Batch: {x}/{NUM_IMAGES_USED/n_batch}")
+        print("Batch: {}/{}".format(x, ds_size/n_batch))
       x += 1
       cycle += 1
       # get randomly selected 'real' samples
@@ -137,7 +138,7 @@ def train(g, d, gan_model, dataset, latent_dim=100, epochs=100, train_g=1, train
       y_real = tf.ones(n_batch,1)
       # smoothing
       y_real = smooth_pos_and_trick(y_real)
-      if cycle % train_DISC == 0:
+      if cycle % train_d == 0:
         # update discriminator model weights
         d_loss1, _ = d.train_on_batch(X_real, y_real)
         # generate 'fake' examples
@@ -146,7 +147,7 @@ def train(g, d, gan_model, dataset, latent_dim=100, epochs=100, train_g=1, train
         y_fake = smooth_neg_and_trick(y_fake)
         # update discriminator model weights
         d_loss2, _ = d.train_on_batch(X_fake, y_fake)
-      if cycle % train_GEN == 0:
+      if cycle % train_g == 0:
         # prepare points in latent space as input for the generator
         X_gan = gan.generate_latent_points(latent_dim, n_batch)
         # create inverted labels for the fake samples

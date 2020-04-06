@@ -1,4 +1,5 @@
 import os
+import tensorflow as tf
 import pandas as pd
 import subprocess
 import itertools
@@ -21,6 +22,7 @@ class DatasetCeleba():
     def multilabeling_features(feats):
       return [i for i in feats if len(i)==1]
 
+    self.params = params
     self.dataset_folder = params["dataset_folder"]
     self.filter_features = filter_features(params["celeba_features"])
     self.multilabeling_features = multilabeling_features(params["celeba_features"])
@@ -30,11 +32,10 @@ class DatasetCeleba():
       download_celeba(params["kaggle"])
     
     self.celeba = CelebA(selected_features=self.celeba_features, main_folder=self.dataset_folder)
-    self.dataframe, self.image_list = self.parse_attributes()
-    self.images_used = max(params["num_img_training"], len(self.image_list)) 
+    self.dataset = self.generate_dataset()
 
   def getDataset(self):
-    return self.dataframe
+    return self.dataset
 
   def parse_attributes(self):
     feat_df = self.celeba.attributes
@@ -50,39 +51,35 @@ class DatasetCeleba():
     if self.multilabeling_features:
       feat_df = multilabeled_features(feat_df, self.multilabeling_features)
 
-    print(feat_df.to_string())
-
     image_list = feat_df['image_id'].tolist()
+    feat_df = feat_df.drop('image_id', axis=1)
 
     return feat_df, image_list
-
-  def parse_function(self, filename, labels):
-    #Images are loaded and decoded
-    image_string = tf.io.read_file(filename)
-    image_decoded = tf.image.decode_jpeg(image_string, channels=3)
-    image = tf.cast(image_decoded, tf.float32)
-
-    #Reshaping, normalization and optimization goes here
-    image = tf.image.resize(image, (IMG_HEIGHT, IMG_WIDTH),
-                              method=tf.image.ResizeMethod.NEAREST_NEIGHBOR)
-    
-    # mean, std = tf.reduce_mean(image), tf.math.reduce_std(image)
-    # image = (image-mean)/std # Normalize the images to [0, 1]
-    image = image/255
-    return image, labels
   
-  def prepare(self):
+  def generate_dataset(self):
+    def map_training_data(filename, labels):
+      #Images are loaded and decoded
+      image_string = tf.io.read_file(filename)
+      image_decoded = tf.image.decode_jpeg(image_string, channels=3)
+      image = tf.cast(image_decoded, tf.float32)
+
+      #Reshaping, normalization and optimization goes here
+      image = tf.image.resize(image, (128, 128),
+                                method=tf.image.ResizeMethod.NEAREST_NEIGHBOR)
+      
+      # mean, std = tf.reduce_mean(image), tf.math.reduce_std(image)
+      # image = (image-mean)/std # Normalize the images to [0, 1]
+      image = image/255
+      return image, labels
+      
+    df, image_list = self.parse_attributes()
     #Create data set and map it. Could be improved if we can load images 
     # previously and avoid mapping it later.
-    training_images = (tf.data.Dataset.from_tensor_slices(
-                        (list(joined['image_id'][:self.images_used]), 
-                          list(df[:self.images_used]))))
-
-    training_dataset = training_images.map(this.parse_function)
-
+    training_images = tf.data.Dataset.from_tensor_slices((image_list, df.values.tolist()))
+    training_dataset = training_images.map(map_training_data)
     #Shuffle and batch
-    training_dataset = training_dataset.shuffle(BUFFER_SIZE).batch(BATCH_SIZE)
-
+    training_dataset = training_dataset.shuffle(3000).batch(100)
+    return training_dataset
 
 def download_celeba(k):
   os.environ['KAGGLE_USERNAME'] = k["kaggleUser"]
@@ -100,7 +97,7 @@ def filtered_dataframe(df, features):
     df = df[getattr(df, i[0]) == i[1]]
   return df
 
-def dict_smallest_feature(labels, dataframe):
+def dict_of_smallest_label_in_df(labels, dataframe):
   ret_value = 99999999999
   ret_label = ''
 
@@ -124,7 +121,7 @@ def multilabeled_features(df, features):
     return list(d.items())[0][0], list(d.items())[0][1]
 
   labels = feat_name(features)
-  f = dict_smallest_feature(labels, df)
+  f = dict_of_smallest_label_in_df(labels, df)
 
   min_feature = f["label"][0]
   min_feature_value = f["label"][1]
