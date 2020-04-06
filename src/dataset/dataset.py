@@ -89,10 +89,10 @@ def download_celeba(k):
   rc = subprocess.call("./docs/download_celeba.sh")
 
 def feat_name(feats):
-      ret = []
-      if len(feats) > 0:
-        ret += [i[0] for i in feats]
-      return ret
+  ret = []
+  if len(feats) > 0:
+    ret += [i[0] for i in feats]
+  return ret
 
 def filtered_dataframe(df, features):
   for i in features:

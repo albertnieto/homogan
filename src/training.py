@@ -24,13 +24,14 @@ import importlib
 from src.lib.labelSmoothing import *
 
 #input of G
-def generate_latent_points(latent_dim, n_samples, n_classes=2):
+def generate_latent_points(latent_dim, n_samples, n_classes=2,  n_features = 3):
   # generate points in the latent space
   x_input = randn(latent_dim * n_samples)
   # reshape into a batch of inputs for the network
-  x_input = x_input.reshape(n_samples, latent_dim)
+  x_input = x_input.reshape(n_samples,1,1, latent_dim)
   # generate labels
-  labels = randint(0, n_classes, n_samples)
+  labels = randint(0, n_classes, n_features * n_samples)
+  labels = labels.reshape(n_samples, n_features)
   return [x_input, labels]
 
 # use the generator to generate n fake examples, with class labels
@@ -40,18 +41,18 @@ def generate_fake_samples(g_model, latent_dim, n_samples):
   # predict outputs
   images = g_model.predict([x_input,x_labels])
   # create 'fake' class labels (0)
-  y = np.zeros((n_samples, 1))
-  return [images, x_labels], y
+  # y = np.zeros((n_samples, 1))
+  return [images, x_labels]#, y
 
-def define_gan(g_model, d_model):
+def define_gan(g, d):
   # make weights in the discriminator not trainable
-  d_model.trainable = False
+  d.trainable = False
   # get noise and label inputs from generator model
-  gen_noise, gen_label = g_model.input
+  gen_noise, gen_label = g.input
   # get image output from the generator model
-  gen_output = g_model.output
+  gen_output = g.output
   # connect image output and label input from generator as inputs to discriminator
-  gan_output = d_model([gen_output, gen_label])
+  gan_output = d([gen_output, gen_label])
   # define gan model as taking noise and label and outputting a classification
   model = Model([gen_noise, gen_label], gan_output)
   # compile model
