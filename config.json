@@ -32,6 +32,7 @@
         },
       "dataset_folder" : "/content/celeba-dataset",
       "celeba_features" : [["Male", 1], ["Eyeglasses"], ["No_Beard"], ["Bald"]],
-      "num_img_training" : 5000
+      "num_img_training" : 5000,
+      "img_noise_mode": "gaussian"
     }
 }

@@ -6,7 +6,11 @@ import itertools
 import math
 import numpy as np
 import functools
+import skimage.io
+import matplotlib.pyplot as plt
+
 from src.dataset.celebaWrapper import CelebA
+from src.lib.noise_plot import *
 '''Load and prepare the dataset
   Download dataset
   Male Female attribute is "Male" in datasaet, -1 female, 1 male
@@ -60,15 +64,17 @@ class DatasetCeleba():
   
   def generate_dataset(self):
     def map_training_data(filename, labels):
-      #Images are loaded and decoded
-      image_string = tf.io.read_file(filename)
-      image_decoded = tf.image.decode_jpeg(image_string, channels=3)
-      image = tf.cast(image_decoded, tf.float32)
+      print(tf.strings.as_string(filename).numpy(), labels)
+      #Add noise to images
+      # image = plot_noise(filename, self.params.img_noise_mode)
+      # #Images are loaded and decoded
+      image_string = tf.io.read_file(image)
+      image = tf.image.decode_jpeg(image, channels=3)
+      image = tf.cast(image, tf.float32)
 
       #Reshaping, normalization and optimization goes here
       image = tf.image.resize(image, (128, 128),
                                 method=tf.image.ResizeMethod.NEAREST_NEIGHBOR)
-      
       # mean, std = tf.reduce_mean(image), tf.math.reduce_std(image)
       # image = (image-mean)/std # Normalize the images to [0, 1]
       image = image/255
