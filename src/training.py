@@ -94,7 +94,7 @@ def create_network(model, multilabelling=False, features=1, noise_dim=256):
   d = importlib.import_module(model).Discriminator(features)
   return g, d
 
-def train(g, d, gan_model, dataset, latent_dim=100, epochs=100, train_g=1, train_d=1):
+def train(g, d, network, dataset, latent_dim=100, epochs=100, train_g=1, train_d=1):
   ds_size = len(list(dataset))
   checkpoint_dir = './training_checkpoints'
 
@@ -142,18 +142,18 @@ def train(g, d, gan_model, dataset, latent_dim=100, epochs=100, train_g=1, train
         # update discriminator model weights
         d_loss1, _ = d.train_on_batch(X_real, y_real)
         # generate 'fake' examples
-        X_fake, y_fake = gan.generate_fake_samples(g, latent_dim, n_batch)
+        X_fake, y_fake = generate_fake_samples(g, latent_dim, n_batch)
         # smoothing
         y_fake = smooth_neg_and_trick(y_fake)
         # update discriminator model weights
         d_loss2, _ = d.train_on_batch(X_fake, y_fake)
       if cycle % train_g == 0:
         # prepare points in latent space as input for the generator
-        X_gan = gan.generate_latent_points(latent_dim, n_batch)
+        X_gan = generate_latent_points(latent_dim, n_batch)
         # create inverted labels for the fake samples
         y_gan = np.ones((n_batch, 1))
         # update the generator via the discriminator's error
-        g_loss = gan_model.train_on_batch(X_gan, y_gan)
+        g_loss = network.train_on_batch(X_gan, y_gan)
 
       if cycle % 10 == 0:
         with writer.as_default():
@@ -165,7 +165,7 @@ def train(g, d, gan_model, dataset, latent_dim=100, epochs=100, train_g=1, train
           (i+1, d_loss1, d_loss2, g_loss))
     # evaluate the model performance
     if (i+1) % 2 == 0:
-      gan.summarize_performance(i, g, d, image_batch, latent_dim)     
+      summarize_performance(i, g, d, image_batch, latent_dim)     
     if (i+1) % 20 == 0:
       # Save the model every 10 epochs
       checkpoint.save(file_prefix = checkpoint_prefix)

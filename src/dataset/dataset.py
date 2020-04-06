@@ -50,6 +50,8 @@ class DatasetCeleba():
     # Enable multilabeling features if 
     if self.multilabeling_features:
       feat_df = multilabeled_features(feat_df, self.multilabeling_features)
+      for ff in self.filter_features:
+        feat_df = feat_df.drop(ff[0], axis=1)
 
     image_list = feat_df['image_id'].tolist()
     feat_df = feat_df.drop('image_id', axis=1)
