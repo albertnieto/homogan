@@ -50,7 +50,7 @@ class DatasetCeleba():
     if self.multilabeling_features:
       feat_df = multilabeled_features(feat_df, self.multilabeling_features)
 
-    # print(feat_df.to_string())
+    print(feat_df.to_string())
 
     image_list = feat_df['image_id'].tolist()
 
@@ -156,11 +156,10 @@ def multilabeled_features(df, features):
     for c in label_query:
       k, v = unpack_dict(c)
       ql.append(df_aux[getattr(df_aux, k) == v])
-      
+
     new_query = df_aux[conjunction(*ql)]
     # chapuza
     new_query = df_aux[df_aux.index.isin(new_query.index)]
-    print(new_query.to_string())
     feat_df = pd.concat([feat_df, new_query[:min_value_split]])
 
   return feat_df
