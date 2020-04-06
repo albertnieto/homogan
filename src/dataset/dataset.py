@@ -50,7 +50,7 @@ class DatasetCeleba():
     if self.multilabeling_features:
       feat_df = multilabeled_features(feat_df, self.multilabeling_features)
 
-    
+    print(feat_df)
 
     image_list = feat_df['image_id'].tolist()
 
@@ -136,7 +136,7 @@ def multilabeled_features(df, features):
   min_feature_value = f["label"][1]
   min_value = f["value"]
   
-  inv_value = 0 if min_value == 1 else 1
+  inv_min_feature_value = 0 if min_feature_value == 1 else 1
 
   reduced_labels = labels
   reduced_labels.remove(min_feature)
@@ -145,8 +145,8 @@ def multilabeled_features(df, features):
 
   min_value_split = min_value // (rl_size**2)
 
-  feat_df = df[getattr(df, min_feature)==min_value]
-  df_aux = df[getattr(df, min_feature)==inv_value]
+  feat_df = df[getattr(df, min_feature)==min_feature_value]
+  df_aux = df[getattr(df, min_feature)==inv_min_feature_value]
 
   bits = ['0', '1']
   query_list = []
@@ -163,6 +163,9 @@ def multilabeled_features(df, features):
       k, v = unpack_dict(c)
       ql.append(query(df_aux, k, eq, v))
     new_query = add_queries(df_aux, *ql)
+    print(ql, new_query.columns, len(new_query.index))
     feat_df = pd.concat([feat_df, new_query[:min_value_split]])
+    print(feat_df.columns, len(feat_df.index))
+
   return feat_df
 # x = {**x, **y}
