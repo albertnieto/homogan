@@ -4,7 +4,7 @@ import subprocess
 import itertools
 import math
 import numpy as np
-
+import functools
 from src.dataset.celebaWrapper import CelebA
 '''Load and prepare the dataset
   Download dataset
@@ -50,7 +50,7 @@ class DatasetCeleba():
     if self.multilabeling_features:
       feat_df = multilabeled_features(feat_df, self.multilabeling_features)
 
-    print(feat_df)
+    # print(feat_df.to_string())
 
     image_list = feat_df['image_id'].tolist()
 
@@ -117,14 +117,8 @@ def dict_smallest_feature(labels, dataframe):
   return {"value": ret_value, "label": ret_label}
 
 def multilabeled_features(df, features):
-  def eq(a, b):
-    return a == b
-
-  def query(dataframe, column, operation, value): 
-    return operation(dataframe[column], value)
-
-  def add_queries(dataframe, *b):
-    return dataframe[(np.logical_and(*b))]
+  def conjunction(*conditions):
+      return functools.reduce(np.logical_and, conditions)
 
   def unpack_dict(d):
     return list(d.items())[0][0], list(d.items())[0][1]
@@ -147,7 +141,7 @@ def multilabeled_features(df, features):
 
   feat_df = df[getattr(df, min_feature)==min_feature_value]
   df_aux = df[getattr(df, min_feature)==inv_min_feature_value]
-
+  
   bits = ['0', '1']
   query_list = []
 
@@ -161,11 +155,13 @@ def multilabeled_features(df, features):
     ql = []
     for c in label_query:
       k, v = unpack_dict(c)
-      ql.append(query(df_aux, k, eq, v))
-    new_query = add_queries(df_aux, *ql)
-    print(ql, new_query.columns, len(new_query.index))
+      ql.append(df_aux[getattr(df_aux, k) == v])
+      
+    new_query = df_aux[conjunction(*ql)]
+    # chapuza
+    new_query = df_aux[df_aux.index.isin(new_query.index)]
+    print(new_query.to_string())
     feat_df = pd.concat([feat_df, new_query[:min_value_split]])
-    print(feat_df.columns, len(feat_df.index))
 
   return feat_df
 # x = {**x, **y}

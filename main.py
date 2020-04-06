@@ -31,8 +31,7 @@ def main(config_file='config.json'):
   with open(config_file) as f:
     a = edict(json.loads(f.read()))
   
-  dbc = DatasetCeleba(a["celebaParam"])
-  training_dataset = dbc.getDataset()
+  training_dataset = DatasetCeleba(a["celebaParam"]).getDataset()
   g, d = create_network(**a.network_params)
   network = define_gan(g, d)
 
