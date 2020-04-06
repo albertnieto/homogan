@@ -18,6 +18,7 @@
   "training_params" : 
     {
       "latent_dim" : 256,
+      "start_epoch" : 0,
       "epochs" : 100,
       "train_g" : 1,
       "train_g" : 1

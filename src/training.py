@@ -94,7 +94,7 @@ def create_network(model, multilabelling=False, features=1, noise_dim=256):
   d = importlib.import_module(model).Discriminator(features)
   return g, d
 
-def train(g, d, network, dataset, latent_dim=100, epochs=100, train_g=1, train_d=1):
+def train(g, d, network, dataset, latent_dim=100, start_epoch=0, epochs=100, train_g=1, train_d=1):
   ds_size = len(list(dataset))
   checkpoint_dir = './training_checkpoints'
 
@@ -122,9 +122,9 @@ def train(g, d, network, dataset, latent_dim=100, epochs=100, train_g=1, train_d
   tf.summary.trace_on(graph=True, profiler=True)
 
   # manually enumerate epochs
-  cycle = 0
+  cycle = 0 + (start_epoch)
   start = time.time()
-  for i in range(epochs):
+  for i in range(start_epoch, epochs):
     x = 0
     # enumerate batches over the training set
     for image_batch in dataset:
@@ -142,7 +142,9 @@ def train(g, d, network, dataset, latent_dim=100, epochs=100, train_g=1, train_d
         # update discriminator model weights
         d_loss1, _ = d.train_on_batch(X_real, y_real)
         # generate 'fake' examples
-        X_fake, y_fake = generate_fake_samples(g, latent_dim, n_batch)
+        X_fake = generate_fake_samples(g, latent_dim, n_batch)
+        # create 'fake' class labels (0)
+        y_fake = np.zeros((n_batch, 1))
         # smoothing
         y_fake = smooth_neg_and_trick(y_fake)
         # update discriminator model weights
@@ -160,14 +162,14 @@ def train(g, d, network, dataset, latent_dim=100, epochs=100, train_g=1, train_d
           tf.summary.scalar('Disc loss real', d_loss1, step=cycle)
           tf.summary.scalar('Disc loss fake', d_loss2, step=cycle)
           tf.summary.scalar('Gen Loss', g_loss, step=cycle)
+          tf.summary.flush(writer=writer)
     # summarize loss on this batch
     print('Epoch: %d,  Loss: D_real = %.3f, D_fake = %.3f,  G = %.3f' %   
           (i+1, d_loss1, d_loss2, g_loss))
     # evaluate the model performance
-    if (i+1) % 2 == 0:
+    if (i+5) % 1 == 0:
       summarize_performance(i, g, d, image_batch, latent_dim)     
-    if (i+1) % 20 == 0:
+    if (i+1) % 10 == 0:
       # Save the model every 10 epochs
       checkpoint.save(file_prefix = checkpoint_prefix)
-    print ('Total time for training {} epochs is {} sec'.format(epochs, (time.time()-start)))
-
+    print ('Total time for training {} epochs is {} sec'.format(i, (time.time()-start)))
