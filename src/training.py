@@ -62,16 +62,14 @@ def define_gan(g, d):
 
 # create and save a plot of generated images
 def show_generated(generated,epoch, n=3):
-  plt.figure(figsize=(10,10))
+  plt.figure(figsize=(8,8))
   for i in range(n * n):
-    gender = "Male" + str(generated[1][i])
-    if generated[1][i] == 0:
-      gender = "Female" + str(generated[1][i])
-    plt.subplot(n, n, i + 1, title = gender)
+    labels = "Labels: " + str(generated[1][i])
+    plt.subplot(n, n, i + 1, title = labels)
     plt.imshow(generated[0][i])
     plt.axis('off')
   plt.savefig('image_at_epoch_{:04d}.png'.format(epoch+1))
-  plt.show()
+  # plt.show()
 
 # evaluate the discriminator and plot generated images
 def summarize_performance(epoch, g_model, d_model, image_batch, latent_dim, n_samples=100):
@@ -82,7 +80,8 @@ def summarize_performance(epoch, g_model, d_model, image_batch, latent_dim, n_sa
   # evaluate discriminator on real examples
   _, acc_real = d_model.evaluate(X_real, y_real, verbose=0)
   # prepare fake examples
-  x_fake, y_fake = generate_fake_samples(g_model, latent_dim, n_samples)
+  x_fake = generate_fake_samples(g_model, latent_dim, n_samples)
+  y_fake = np.zeros((n_samples, 1))
   # evaluate discriminator on fake examples
   _, acc_fake = d_model.evaluate(x_fake, y_fake, verbose=0)
   # summarize discriminator performance

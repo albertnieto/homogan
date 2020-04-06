@@ -117,7 +117,7 @@ def dict_of_smallest_label_in_df(labels, dataframe):
 
 def multilabeled_features(df, features):
   def conjunction(*conditions):
-      return functools.reduce(np.logical_and, conditions)
+    return functools.reduce(np.logical_and, conditions)
 
   def unpack_dict(d):
     return list(d.items())[0][0], list(d.items())[0][1]
