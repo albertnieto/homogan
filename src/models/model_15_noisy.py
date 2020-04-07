@@ -11,6 +11,7 @@ from tensorflow.keras.layers import Dropout
 from tensorflow.keras.layers import Input
 from tensorflow.keras.layers import Embedding
 from tensorflow.keras.layers import Concatenate
+from tensorflow.keras.layers import GaussianNoise
 from tensorflow.keras import Model
 import numpy as np
 import matplotlib.pyplot as plt
