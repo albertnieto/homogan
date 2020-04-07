@@ -1,7 +1,7 @@
 {
   "network_params" :
     {
-      "model" : "src.models.model15",
+      "model" : "src.models.model_15_noisy",
       "multilabelling" : true,
       "features" : 3,
       "noise_dim" : 256
