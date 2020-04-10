@@ -219,9 +219,9 @@ Using Experiment 11 as base:
     * Bear
 
 #### Results
-Trainning size = 9000
-Trainning Epochs = 100
-Batch Size = 100
+* Trainning size = 9000
+* Trainning Epochs = 100
+* Batch Size = 100
 
 __Observation__: 
 |![](docs/Experiment15/DiscLossFake.png)|![](docs/Experiment15/DiscLossReal.png)|
