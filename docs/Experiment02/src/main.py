@@ -1,12 +1,10 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
-from IPython import display
 
 import tensorflow as tf
 from tensorflow.keras import layers, models
 from keras.optimizers import Adam
 from keras.preprocessing.image import load_img
 from keras.preprocessing.image import img_to_array
-import IPython.display as display
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -23,17 +21,6 @@ import json
 
 print(tf.__version__)
 tf.keras.backend.set_floatx('float32')
-
-# ### Load and prepare the dataset
-
-# ####Download dataset
-
-# Male Female attribute is "Male" in datasaet, -1 female, 1 male
-# 
-
-# ####CelebA dataset Wrapper
-
-# Dataset wrapper for easy handling of attributes, paths and partitioning.
 
 class CelebA():
     '''Wraps the celebA dataset, allowing an easy way to:
@@ -126,7 +113,7 @@ class CelebA():
 
 ####Prepare dataset
 
-celeba = CelebA()
+celeba = CelebA(main_folder="C:/Users/mauro/OneDrive/Escritorio/celeba-dataset")
 
 data_dir = pathlib.Path(celeba.images_folder + "")
 image_count = len(list(data_dir.glob('*/*.jpg')))
@@ -191,9 +178,6 @@ with tf.device('/device:GPU:0'):
 
 
 print(f"Device being used {tf.test.gpu_device_name()}")
-
-
-#Test
 
 class Generator(tf.keras.Model):
     def __init__(self, generator_input_shape=(256,)):
@@ -344,8 +328,6 @@ EPOCHS = 100
 noise_dim = 256
 num_examples_to_generate = 4
 
-# We will reuse this seed overtime (so it's easier)
-# to visualize progress in the animated GIF)
 seed = tf.random.normal([num_examples_to_generate, noise_dim])
 
 @tf.function
@@ -358,10 +340,7 @@ def train_step(images):
 
         real_output = discriminator(images, training=True)
         fake_output = discriminator(generated_images, training=True)
-        # tf.print(real_output[0])
-        # tf.print(fake_output[0])
         gen_loss = generator_loss(fake_output)
-        #tf.print(gen_loss)
         disc_loss = discriminator_loss(real_output, fake_output)
 
     gradients_of_generator = gen_tape.gradient(gen_loss, generator.trainable_variables)
@@ -369,12 +348,10 @@ def train_step(images):
 
     generator_optimizer.apply_gradients(zip(gradients_of_generator, generator.trainable_variables))
     discriminator_optimizer.apply_gradients(zip(gradients_of_discriminator, discriminator.trainable_variables))
-    #print(gen_loss)
+    
     return gen_loss, disc_loss
 
 def generate_and_save_images(model, epoch, test_input, titleadd = ""):
-    # Notice `training` is set to False.
-    # This is so all layers run in inference mode (batchnorm).
     predictions = model(test_input, training=False)
 
     fig = plt.figure(figsize=(10,5))
@@ -385,7 +362,7 @@ def generate_and_save_images(model, epoch, test_input, titleadd = ""):
         fig.suptitle("Generated images "+titleadd,fontsize=30)
 
     plt.savefig('image_at_epoch_{:04d}.png'.format(epoch))
-    plt.show()
+    plt.close('all')
 
 def train(dataset, epochs):
     checkpoint.restore(manager.latest_checkpoint)
@@ -404,7 +381,8 @@ def train(dataset, epochs):
     writer = tf.summary.create_file_writer(logdir)
 
     tf.summary.trace_on(graph=True, profiler=True)
-
+    
+    cycle = 0
     for epoch in range(epochs):
         start = time.time()
         i = 0
@@ -412,23 +390,13 @@ def train(dataset, epochs):
             genL, discL = train_step(image_batch)
 
             i += 1
+            cycle += 1
             if i % 100 == 0:
                 print(f"Batch {i}/{STEPS_PER_EPOCH}")
-                gen_losses.append(genL.numpy())
-                disc_losses.append(discL.numpy())
 
-            with writer.as_default():
-                tf.summary.trace_export(
-                    name="pou",
-                    step=epoch,
-                    profiler_outdir=logdir)
-
-        # Produce images for the GIF as we go
-        #display.clear_output(wait=True)
-
-        xs = range(1, len(gen_losses) + 1)
-        plt.plot(xs, gen_losses)
-        plt.plot(xs, disc_losses)
+                with writer.as_default():
+                        tf.summary.scalar('Gen Loss', genL, step=cycle)
+                        tf.summary.scalar('Disc Loss', discL, step=cycle)
 
         generate_and_save_images(generator,
                                  epoch + 1,
