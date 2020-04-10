@@ -218,9 +218,9 @@ __Observation__:
 Using Experiment 11 as base: 
 * Implementation of Multi-labeling 
 * Labels:
-    * Bold
+    * Bald
     * Glasses
-    * Bear
+    * Beard
 
 #### Results
 * Trainning size = 9000
