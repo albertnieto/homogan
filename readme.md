@@ -192,11 +192,17 @@ __Observation__:
 |![](docs/Experiment11/GenLoss.png)|
 |Generator Loss|
 
-### Experiment 12
-- Normalization
-
-### Experiment 13
-
-### Experiment 14
+### Experiment 12, 13, 14
+Change from previous models: 
+* Introduced Spectral Normalization, using training ratio G:D, set to 1:1, 1:3 and 1:5 respectively.
+|![](docs/Experiment12/DiscLossFake.png)|![](docs/Experiment13/DiscLossFake.png)||![](docs/Experiment14/DiscLossFake.png)|
+|:---:|:---:||:---:|
+|Discriminator Loss Fake Exp 12|Discriminator Loss Fake Exp 13|Discriminator Loss Fake Exp 14|
+|![](docs/Experiment12/DiscLossReal.png)|![](docs/Experiment13/DiscLossReal.png)||![](docs/Experiment14/DiscLossReal.png)|
+|:---:|:---:||:---:|
+|Discriminator Loss Real Exp 12|Discriminator Loss Real Exp 13|Discriminator Loss Real Exp 14|
+|![](docs/Experiment12/GenLoss.png)|![](docs/Experiment13/GenLoss.png)||![](docs/Experiment14/GenLoss.png)|
+|:---:|:---:||:---:|
+|Discriminator Gen Exp 12|Discriminator Gen Exp 13|Discriminator Gen Exp 14|
 
 ### Experiment 15
