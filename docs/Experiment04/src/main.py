@@ -193,13 +193,7 @@ def train(dataset, epochs):
     writer = tf.summary.create_file_writer(logdir)
 
     tf.summary.trace_on(graph=True, profiler=True)
-
-    # Funtion to write the model architecture
-    # with writer.as_default():
-    #     tf.summary.trace_export(
-    #         name="pou",
-    #         step=0,
-    #         profiler_outdir=logdir)
+    
     cycle = 0
     start_train = time.time()
     for epoch in range(epochs):

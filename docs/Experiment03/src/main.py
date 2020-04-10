@@ -92,13 +92,11 @@ generated_image = generator(noise, training=False)
 
 plt.imshow(generated_image[0, :, :, 0], cmap='gray')
 
-# generator.summary()
+generator.summary()
 
 discriminator = gan.Discriminator((IMG_HEIGHT, IMG_WIDTH, 3)).model()
-# decision = discriminator(generated_image)
-# print (decision)
 
-#discriminator.summary()
+discriminator.summary()
 
 cross_entropy = tf.keras.losses.BinaryCrossentropy(from_logits=True)
 real_acc = tf.keras.metrics.BinaryAccuracy(name='real_acc')
@@ -137,8 +135,6 @@ EPOCHS = 10
 noise_dim = 256
 num_examples_to_generate = 4
 
-# We will reuse this seed overtime (so it's easier)
-# to visualize progress in the animated GIF)
 seed = tf.random.normal([num_examples_to_generate, noise_dim])
 
 @tf.function
@@ -166,7 +162,6 @@ def train_step(real_images):
 
 def generate_and_save_images(model, epoch, test_input, titleadd = ""):
     # Notice `training` is set to False.
-    # This is so all layers run in inference mode (batchnorm).
     predictions = model(test_input, training=False)
 
     fig = plt.figure(figsize=(10,5))
@@ -194,12 +189,6 @@ def train(dataset, epochs):
 
     tf.summary.trace_on(graph=True, profiler=True)
 
-    # Funtion to write the model architecture
-    # with writer.as_default():
-    #     tf.summary.trace_export(
-    #         name="pou",
-    #         step=0,
-    #         profiler_outdir=logdir)
     cycle = 0
     for epoch in range(epochs):
         start = time.time()
@@ -217,8 +206,6 @@ def train(dataset, epochs):
                     tf.summary.scalar('fake acc', fake_acc, step=cycle)
                     tf.summary.scalar('Gen Loss', genL, step=cycle)
                     tf.summary.scalar('Disc Loss', discL, step=cycle)
-                # for grad in gen_grad:
-                #     tf.summary.histogram('Gen_grad', grad, step=cycle)
 
         generate_and_save_images(generator,
                                  epoch + 1,
