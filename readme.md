@@ -68,10 +68,10 @@ Trainning Epochs = 20\
 Batch Size = 16
 
 __Observation__: 
-|![](docs/Experiment4/Gen_Loss.png)|![](docs/Experiment4/Disc_Loss.png)|
+|![](docs/Experiment04/Gen_Loss.png)|![](docs/Experiment04/Disc_Loss.png)|
 |:---:|:---:|
 |Generator Loss|Discriminator Loss|
-|![](docs/Experiment4/fake_acc.png)|![](docs/Experiment4/real_acc.png)|
+|![](docs/Experiment04/fake_acc.png)|![](docs/Experiment04/real_acc.png)|
 |Fake accuracy|Real accuracy|
 
 ### Experiment 5
@@ -84,10 +84,10 @@ Trainning Epochs = 20\
 Batch Size = 16
 
 __Observation__: 
-|![](docs/Experiment5/Gen_Loss.png)|![](docs/Experiment5/Disc_Loss.png)|
+|![](docs/Experiment05/Gen_Loss.png)|![](docs/Experiment05/Disc_Loss.png)|
 |:---:|:---:|
 |Generator Loss|Discriminator Loss|
-|![](docs/Experiment5/fake_acc.png)|![](docs/Experiment5/real_acc.png)|
+|![](docs/Experiment05/fake_acc.png)|![](docs/Experiment05/real_acc.png)|
 |Fake accuracy|Real accuracy|
 
 ### Experiment 6
@@ -101,10 +101,10 @@ Trainning Epochs = 20\
 Batch Size = 16
 
 __Observation__: 
-|![](docs/Experiment6/Gen_Loss.png)|![](docs/Experiment6/Disc_Loss.png)|
+|![](docs/Experiment06/Gen_Loss.png)|![](docs/Experiment06/Disc_Loss.png)|
 |:---:|:---:|
 |Generator Loss|Discriminator Loss|
-|![](docs/Experiment6/fake_acc.png)|![](docs/Experiment6/real_acc.png)|
+|![](docs/Experiment06/fake_acc.png)|![](docs/Experiment06/real_acc.png)|
 |Fake accuracy|Real accuracy|
 
 ### Experiment 7
@@ -119,10 +119,10 @@ Trainning Epochs = 100\
 Batch Size = 100
 
 __Observation__: 
-|![](docs/Experiment7/DiscLossFake.png)|![](docs/Experiment7/DiscLossReal.png)|
+|![](docs/Experiment07/DiscLossFake.png)|![](docs/Experiment07/DiscLossReal.png)|
 |:---:|:---:|
 |Discriminator Loss Fake|Discriminator Loss Real|
-|![](docs/Experiment7/GenLoss.png)|
+|![](docs/Experiment07/GenLoss.png)|
 |Generator Loss|
 
 ### Experiment 8
@@ -137,10 +137,10 @@ Trainning Epochs = 100\
 Batch Size = 200
 
 __Observation__: 
-|![](docs/Experiment8/DiscLossFake.png)|![](docs/Experiment8/DiscLossReal.png)|
+|![](docs/Experiment08/DiscLossFake.png)|![](docs/Experiment08/DiscLossReal.png)|
 |:---:|:---:|
 |Discriminator Loss Fake|Discriminator Loss Real|
-|![](docs/Experiment8/GenLoss.png)|
+|![](docs/Experiment08/GenLoss.png)|
 |Generator Loss|
 
 ### Experiment 9
@@ -154,10 +154,10 @@ Trainning Epochs = 100\
 Batch Size = 100
 
 __Observation__: 
-|![](docs/Experiment9/DiscLossFake.png)|![](docs/Experiment9/DiscLossReal.png)|
+|![](docs/Experiment09/DiscLossFake.png)|![](docs/Experiment09/DiscLossReal.png)|
 |:---:|:---:|
 |Discriminator Loss Fake|Discriminator Loss Real|
-|![](docs/Experiment9/GenLoss.png)|
+|![](docs/Experiment09/GenLoss.png)|
 |Generator Loss|
 
 ### Experiment 10
