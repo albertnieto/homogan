@@ -205,13 +205,9 @@ __Observation__:
 |![](docs/Experiment12/DiscLossFake.png)|![](docs/Experiment13/DiscLossFake.png)|![](docs/Experiment14/DiscLossFake.png)|
 |:---:|:---:|:---:|
 |Discriminator Loss Fake Exp 12|Discriminator Loss Fake Exp 13|Discriminator Loss Fake Exp 14|
-
 |![](docs/Experiment12/DiscLossReal.png)|![](docs/Experiment13/DiscLossReal.png)|![](docs/Experiment14/DiscLossReal.png)|
-
 |Discriminator Loss Real Exp 12|Discriminator Loss Real Exp 13|Discriminator Loss Real Exp 14|
-
 |![](docs/Experiment12/GenLoss.png)|![](docs/Experiment13/GenLoss.png)|![](docs/Experiment14/GenLoss.png)|
-
 |Generator Loss Exp 12|Generator Loss Exp 13|Generator Loss Exp 14|
 
 ### Experiment 15
