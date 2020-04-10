@@ -201,13 +201,14 @@ Batch Size = 100
 
 __Observation__: 
 
-|![](docs/Experiment12/DiscLossFake.png)|![](docs/Experiment13/DiscLossFake.png)|![](docs/Experiment14/DiscLossFake.png)|
+
+|![](docs/Experiment12/Disc loss fake.png)|![](docs/Experiment13/Disc loss fake.png)|![](docs/Experiment14/Disc loss fake.png)|
 |:---:|:---:|:---:|
 |Discriminator Loss Fake Exp 12|Discriminator Loss Fake Exp 13|Discriminator Loss Fake Exp 14|
-|![](docs/Experiment12/DiscLossReal.png)|![](docs/Experiment13/DiscLossReal.png)|![](docs/Experiment14/DiscLossReal.png)|
+|![](docs/Experiment12/Disc loss real.png)|![](docs/Experiment13/Disc loss real.png)|![](docs/Experiment14/Disc loss real.png)|
 |:---:|:---:|:---:|
 |Discriminator Loss Real Exp 12|Discriminator Loss Real Exp 13|Discriminator Loss Real Exp 14|
-|![](docs/Experiment12/GenLoss.png)|![](docs/Experiment13/GenLoss.png)|![](docs/Experiment14/GenLoss.png)|
+|![](docs/Experiment12/Gen Loss.png)|![](docs/Experiment13/Gen Loss.png)|![](docs/Experiment14/Gen Loss.png)|
 |:---:|:---:|:---:|
 |Discriminator Gen Exp 12|Discriminator Gen Exp 13|Discriminator Gen Exp 14|
 
