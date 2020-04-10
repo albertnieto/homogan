@@ -15,25 +15,12 @@ References:
 Import all libraries.
 """
 
-!pip install -U -q kaggle
-!pip install kaggle --upgrade
-
-# Commented out IPython magic to ensure Python compatibility.
-from __future__ import absolute_import, division, print_function, unicode_literals
-from IPython import display
-
-try:
-#   %tensorflow_version 2.x
-except Exception:
-  pass
-
 import tensorflow as tf
 from tensorflow.keras import layers, models
 from keras.optimizers import Adam
 from keras.layers import LeakyReLU
 from keras.preprocessing.image import load_img
 from keras.preprocessing.image import img_to_array
-import IPython.display as display
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -51,21 +38,8 @@ tf.__version__
 
 tf.keras.backend.set_floatx('float32')
 
-"""### Load and prepare the dataset
-
-####Download dataset
-"""
-
-os.environ['KAGGLE_USERNAME'] = "mauroae"
-os.environ['KAGGLE_KEY'] = "e6553d85a1a9547e3475b134098279ed"
-
-!kaggle datasets download --force -d jessicali9530/celeba-dataset
-!unzip -o -qq "celeba-dataset.zip" -d "celeba-dataset"
-
-"""Male Female attribute is "Male" in datasaet, -1 female, 1 male
-
 ####CelebA dataset Wrapper
-
+"""
 Dataset wrapper for easy handling of attributes, paths and partitioning.
 """
 
@@ -159,7 +133,7 @@ class CelebA():
 
 """####Prepare dataset"""
 
-celeba = CelebA()
+celeba = CelebA(main_folder="C:/Users/mauro/OneDrive/Escritorio/celeba-dataset")
 
 data_dir = pathlib.Path(celeba.images_folder + "")
 image_count = len(list(data_dir.glob('*/*.jpg')))
@@ -188,10 +162,9 @@ def _parse_function(filename, labels):
   image = tf.image.resize(image, (IMG_HEIGHT, IMG_WIDTH), method=tf.image.ResizeMethod.NEAREST_NEIGHBOR)
 
   mean, std = tf.reduce_mean(image), tf.math.reduce_std(image)
-  #print(mean,std)
   image = (image-mean)/std # Normalize the images to [0, 1]
   
-  return image#, labels
+  return image
 
 #Labels and images are created
 labels = celeba.attributes.drop('image_id', 1)
@@ -206,9 +179,6 @@ training_dataset = training_images.map(_parse_function)
 
 #Shuffle and batch
 training_dataset = training_dataset.shuffle(BUFFER_SIZE).batch(BATCH_SIZE)
-
-# for batch in training_dataset:
-#   break
 
 with tf.device('/device:GPU:0'):    
   for batch in training_dataset:
@@ -261,7 +231,7 @@ def make_generator_model():
     model.add(layers.LeakyReLU())
 
     model.add(layers.Conv2D( 3 , ( 1 , 1 ) , activation='tanh' , padding='same', name="final_block"))
-    print(model.output_shape)
+    #print(model.output_shape)
     assert model.output_shape == (None, 128, 128, 3)
 
     return model
@@ -278,28 +248,28 @@ generator.summary()
 def make_discriminator_model():
     model = tf.keras.Sequential()
     model.add(layers.Conv2D(32, (5, 5), padding='same', input_shape=[128, 128, 3], name='block1_conv1'))
-    print(model.output_shape)
+    #print(model.output_shape)
     assert model.output_shape == (None, 128, 128, 32)
     model.add(layers.BatchNormalization())
     model.add(layers.LeakyReLU())
     model.add(layers.Dropout(0.3))
 
     model.add(layers.Conv2D(64, (5, 5), strides=(2, 2), padding='same', name='block1_conv2'))
-    print(model.output_shape)
+    #print(model.output_shape)
     assert model.output_shape == (None, 64, 64, 64)
     model.add(layers.BatchNormalization())
     model.add(layers.LeakyReLU())
     model.add(layers.Dropout(0.3))
 
     model.add(layers.Conv2D(128, (3, 3), strides=(2, 2), padding='same', name='block1_conv3'))
-    print(model.output_shape)
+    #print(model.output_shape)
     assert model.output_shape == (None, 32, 32, 128)
     model.add(layers.BatchNormalization())
     model.add(layers.LeakyReLU())
     model.add(layers.Dropout(0.3))
 
     model.add(layers.Conv2D(256, (3, 3), strides=(2, 2), padding='same', name='block1_conv4'))
-    print(model.output_shape)
+    #print(model.output_shape)
     assert model.output_shape == (None, 16, 16, 256)
     model.add(layers.BatchNormalization())
     model.add(layers.LeakyReLU())
@@ -360,10 +330,7 @@ def train_step(images):
 
       real_output = discriminator(images, training=True)
       fake_output = discriminator(generated_images, training=True)
-      # tf.print(real_output[0])
-      # tf.print(fake_output[0])
       gen_loss = generator_loss(fake_output)
-      #tf.print(gen_loss)
       disc_loss = discriminator_loss(real_output, fake_output)
 
     gradients_of_generator = gen_tape.gradient(gen_loss, generator.trainable_variables)
@@ -371,12 +338,10 @@ def train_step(images):
 
     generator_optimizer.apply_gradients(zip(gradients_of_generator, generator.trainable_variables))
     discriminator_optimizer.apply_gradients(zip(gradients_of_discriminator, discriminator.trainable_variables))
-    #print(gen_loss)
     return gen_loss, disc_loss
 
 def generate_and_save_images(model, epoch, test_input, titleadd = ""):
   # Notice `training` is set to False.
-  # This is so all layers run in inference mode (batchnorm).
   predictions = model(test_input, training=False)
   
   fig = plt.figure(figsize=(10,5))
@@ -387,7 +352,6 @@ def generate_and_save_images(model, epoch, test_input, titleadd = ""):
       fig.suptitle("Generated images "+titleadd,fontsize=30)
 
   plt.savefig('image_at_epoch_{:04d}.png'.format(epoch))
-  plt.show()
 
 def train(dataset, epochs):
     checkpoint.restore(manager.latest_checkpoint)
@@ -409,8 +373,6 @@ def train(dataset, epochs):
                 print(f"Batch {i}/{STEPS_PER_EPOCH}")
                 gen_losses.append(genL.numpy())
                 disc_losses.append(discL.numpy())
-        # Produce images for the GIF as we go
-        #display.clear_output(wait=True)
 
         xs = range(1, (epoch+1)*6+1)
         plt.plot(xs, gen_losses)
