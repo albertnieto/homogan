@@ -192,7 +192,11 @@ __Observation__:
 
 ### Experiment 12, 13, 14
 Using Experiment 11 as base: 
-* Introduced Spectral Normalization, using training ratio G:D, set to 1:1, 1:3 and 1:5 respectively.
+* Introduced Spectral Normalization
+* Training ratio G:D used:
+    * 1:1
+    * 1:3 
+    * 1:5 
 
 #### Results
 * Trainning size = 10.000
