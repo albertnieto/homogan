@@ -191,7 +191,7 @@ __Observation__:
 |Generator Loss|
 
 ### Experiment 12, 13, 14
-Change from previous models: 
+Using Experiment 11 as base: 
 * Introduced Spectral Normalization, using training ratio G:D, set to 1:1, 1:3 and 1:5 respectively.
 
 #### Results
@@ -211,3 +211,21 @@ __Observation__:
 |Generator Loss Exp 12|Generator Loss Exp 13|Generator Loss Exp 14|
 
 ### Experiment 15
+Using Experiment 11 as base: 
+* Implementation of Multi-labeling 
+* Labels:
+    * Bold
+    * Glasses
+    * Bear
+
+#### Results
+Trainning size = 9000
+Trainning Epochs = 100
+Batch Size = 100
+
+__Observation__: 
+|![](docs/Experiment15/DiscLossFake.png)|![](docs/Experiment15/DiscLossReal.png)|
+|:---:|:---:|
+|Discriminator Loss Fake|Discriminator Loss Real|
+|![](docs/Experiment15/GenLoss.png)|
+|Generator Loss|
