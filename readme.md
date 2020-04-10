@@ -195,9 +195,9 @@ Change from previous models:
 * Introduced Spectral Normalization, using training ratio G:D, set to 1:1, 1:3 and 1:5 respectively.
 
 #### Results
-Trainning size = 10.000
-Trainning Epochs = 100\220\100
-Batch Size = 100
+*Trainning size = 10.000
+*Trainning Epochs = 100\220\100
+*Batch Size = 100
 
 __Observation__: 
 
