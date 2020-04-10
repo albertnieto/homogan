@@ -195,6 +195,13 @@ __Observation__:
 ### Experiment 12, 13, 14
 Change from previous models: 
 * Introduced Spectral Normalization, using training ratio G:D, set to 1:1, 1:3 and 1:5 respectively.
+
+#### Results
+Trainning size = 10.000
+Trainning Epochs = 100\220\100
+Batch Size = 100
+
+__Observation__: 
 |![](docs/Experiment12/DiscLossFake.png)|![](docs/Experiment13/DiscLossFake.png)||![](docs/Experiment14/DiscLossFake.png)|
 |:---:|:---:||:---:|
 |Discriminator Loss Fake Exp 12|Discriminator Loss Fake Exp 13|Discriminator Loss Fake Exp 14|
