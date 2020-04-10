@@ -21,7 +21,7 @@ Training a GAN from scratch and improve it by experiments
     + [Experiment 9](#experiment-9)
     + [Experiment 10](#experiment-10)
     + [Experiment 11](#experiment-11)
-    + [Experiment 12, 13, 14](#experiment-12, 13, 14)
+    + [Experiment 12, 13, 14](#experiment-12,-13,-14)
     + [Experiment 15](#experiment-15)
 
 ## Installation
