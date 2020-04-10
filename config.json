@@ -1,0 +1,38 @@
+{
+  "network_params" :
+    {
+      "model" : "src.models.model_15_noisy",
+      "multilabelling" : true,
+      "features" : 3,
+      "noise_dim" : 256
+    },
+
+  "IMG_HEIGHT" : 128,
+  "IMG_WIDTH" : 128,
+  
+  "datasetParam" : 
+    {
+      "BUFFER_SIZE" : 3000,
+      "BATCH_SIZE" : 100
+    },
+  "training_params" : 
+    {
+      "latent_dim" : 256,
+      "start_epoch" : 0,
+      "epochs" : 100,
+      "train_g" : 1,
+      "train_g" : 1
+    },
+  "celebaParam": 
+    {
+      "kaggle":
+        {
+          "kaggleUser" : "jordisans",
+          "kagglePass" : "7b52c518f92692f61d5967659a240ab2"
+        },
+      "dataset_folder" : "/content/celeba-dataset",
+      "celeba_features" : [["Male", 1], ["Eyeglasses"], ["No_Beard"], ["Bald"]],
+      "num_img_training" : 5000,
+      "img_noise_mode": "gaussian"
+    }
+}
