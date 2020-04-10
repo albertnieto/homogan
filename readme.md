@@ -206,8 +206,9 @@ __Observation__:
 |:---:|:---:|:---:|
 |Discriminator Loss Fake Exp 12|Discriminator Loss Fake Exp 13|Discriminator Loss Fake Exp 14|
 |![](docs/Experiment12/DiscLossReal.png)|![](docs/Experiment13/DiscLossReal.png)|![](docs/Experiment14/DiscLossReal.png)|
-
+|:---:|:---:|
 |Discriminator Loss Real Exp 12|Discriminator Loss Real Exp 13|Discriminator Loss Real Exp 14|
+|:---:|:---:|
 |![](docs/Experiment12/GenLoss.png)|![](docs/Experiment13/GenLoss.png)|![](docs/Experiment14/GenLoss.png)|
 
 |Discriminator Gen Exp 12|Discriminator Gen Exp 13|Discriminator Gen Exp 14|
