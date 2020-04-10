@@ -84,10 +84,8 @@ __Observation__:
 |![](src/Experiment5/Gen_Loss.png)|![](src/Experiment5/Disc_Loss.png)|
 |:---:|:---:|
 |Generator Loss|Discriminator Loss|
-* Fake accuracy 
-![](src/Experiment5/fake_acc.png)
-* Real accuracy 
-![](src/Experiment5/real_acc.png)
+|![](src/Experiment5/fake_acc.png)|![](src/Experiment5/real_acc.png)|
+|Fake accuracy|Real accuracy|
 
 ### Experiment 6
 Change from previous models: 
@@ -103,10 +101,8 @@ __Observation__:
 |![](src/Experiment6/Gen_Loss.png)|![](src/Experiment6/Disc_Loss.png)|
 |:---:|:---:|
 |Generator Loss|Discriminator Loss|
-* Fake accuracy 
-![](src/Experiment6/fake_acc.png)
-* Real accuracy 
-![](src/Experiment6/real_acc.png)
+|![](src/Experiment6/fake_acc.png)|![](src/Experiment6/real_acc.png)|
+|Fake accuracy|Real accuracy|
 
 ### Experiment 7
 Change from previous models: 
