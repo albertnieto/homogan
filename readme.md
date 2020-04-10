@@ -24,11 +24,14 @@ Training a GAN from scratch and improve it by experiments
     + [Experiment 10](#experiment-10)
     + [Experiment 11](#experiment-11)
     + [Experiment 12](#experiment-12)
+    + [Experiment 13](#experiment-13)
+    + [Experiment 14](#experiment-14)
+    + [Experiment 15](#experiment-15)
 
 ## Installation
     $ git clone https://github.com/anieto95/homogan
     $ cd homogan/
-    $ sudo pip3 install -r requirements.txt	- TODO
+    $ sudo pip3 install -r requirements.txt
 
 ## Running experiments
 
@@ -65,10 +68,10 @@ Trainning Epochs = 20\
 Batch Size = 16
 
 __Observation__: 
-|![](src/Experiment4/Gen_Loss.png)|![](src/Experiment4/Disc_Loss.png)|
+|![](docs/Experiment4/Gen_Loss.png)|![](docs/Experiment4/Disc_Loss.png)|
 |:---:|:---:|
 |Generator Loss|Discriminator Loss|
-|![](src/Experiment4/fake_acc.png)|![](src/Experiment4/real_acc.png)|
+|![](docs/Experiment4/fake_acc.png)|![](docs/Experiment4/real_acc.png)|
 |Fake accuracy|Real accuracy|
 
 ### Experiment 5
@@ -81,10 +84,10 @@ Trainning Epochs = 20\
 Batch Size = 16
 
 __Observation__: 
-|![](src/Experiment5/Gen_Loss.png)|![](src/Experiment5/Disc_Loss.png)|
+|![](docs/Experiment5/Gen_Loss.png)|![](docs/Experiment5/Disc_Loss.png)|
 |:---:|:---:|
 |Generator Loss|Discriminator Loss|
-|![](src/Experiment5/fake_acc.png)|![](src/Experiment5/real_acc.png)|
+|![](docs/Experiment5/fake_acc.png)|![](docs/Experiment5/real_acc.png)|
 |Fake accuracy|Real accuracy|
 
 ### Experiment 6
@@ -98,10 +101,10 @@ Trainning Epochs = 20\
 Batch Size = 16
 
 __Observation__: 
-|![](src/Experiment6/Gen_Loss.png)|![](src/Experiment6/Disc_Loss.png)|
+|![](docs/Experiment6/Gen_Loss.png)|![](docs/Experiment6/Disc_Loss.png)|
 |:---:|:---:|
 |Generator Loss|Discriminator Loss|
-|![](src/Experiment6/fake_acc.png)|![](src/Experiment6/real_acc.png)|
+|![](docs/Experiment6/fake_acc.png)|![](docs/Experiment6/real_acc.png)|
 |Fake accuracy|Real accuracy|
 
 ### Experiment 7
@@ -116,10 +119,10 @@ Trainning Epochs = 100\
 Batch Size = 100
 
 __Observation__: 
-|![](src/Experiment7/DiscLossFake.png)|![](src/Experiment7/DiscLossReal.png)|
+|![](docs/Experiment7/DiscLossFake.png)|![](docs/Experiment7/DiscLossReal.png)|
 |:---:|:---:|
 |Discriminator Loss Fake|Discriminator Loss Real|
-|![](src/Experiment7/GenLoss.png)|
+|![](docs/Experiment7/GenLoss.png)|
 |Generator Loss|
 
 ### Experiment 8
@@ -134,10 +137,10 @@ Trainning Epochs = 100\
 Batch Size = 200
 
 __Observation__: 
-|![](src/Experiment8/DiscLossFake.png)|![](src/Experiment8/DiscLossReal.png)|
+|![](docs/Experiment8/DiscLossFake.png)|![](docs/Experiment8/DiscLossReal.png)|
 |:---:|:---:|
 |Discriminator Loss Fake|Discriminator Loss Real|
-|![](src/Experiment8/GenLoss.png)|
+|![](docs/Experiment8/GenLoss.png)|
 |Generator Loss|
 
 ### Experiment 9
@@ -151,10 +154,10 @@ Trainning Epochs = 100\
 Batch Size = 100
 
 __Observation__: 
-|![](src/Experiment9/DiscLossFake.png)|![](src/Experiment9/DiscLossReal.png)|
+|![](docs/Experiment9/DiscLossFake.png)|![](docs/Experiment9/DiscLossReal.png)|
 |:---:|:---:|
 |Discriminator Loss Fake|Discriminator Loss Real|
-|![](src/Experiment9/GenLoss.png)|
+|![](docs/Experiment9/GenLoss.png)|
 |Generator Loss|
 
 ### Experiment 10
@@ -169,10 +172,10 @@ Trainning Epochs = 100\
 Batch Size = 100
 
 __Observation__: 
-|![](src/Experiment10/DiscLossFake.png)|![](src/Experiment10/DiscLossReal.png)|
+|![](docs/Experiment10/DiscLossFake.png)|![](docs/Experiment10/DiscLossReal.png)|
 |:---:|:---:|
 |Discriminator Loss Fake|Discriminator Loss Real|
-|![](src/Experiment10/GenLoss.png)|
+|![](docs/Experiment10/GenLoss.png)|
 |Generator Loss|
 
 ### Experiment 11
@@ -185,11 +188,17 @@ Trainning Epochs = 100\
 Batch Size = 100
 
 __Observation__: 
-|![](src/Experiment11/DiscLossFake.png)|![](src/Experiment11/DiscLossReal.png)|
+|![](docs/Experiment11/DiscLossFake.png)|![](docs/Experiment11/DiscLossReal.png)|
 |:---:|:---:|
 |Discriminator Loss Fake|Discriminator Loss Real|
-|![](src/Experiment11/GenLoss.png)|
+|![](docs/Experiment11/GenLoss.png)|
 |Generator Loss|
 
 ### Experiment 12
 - Normalization
+
+### Experiment 13
+
+### Experiment 14
+
+### Experiment 15
