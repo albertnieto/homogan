@@ -1,10 +1,8 @@
 .vscode
-*.V2
 *.svg
 *.pyc
 ckpt*
 checkpoint*
 training_checkpoints/
 __pycache__/
-logs/
 .ipynb_checkpoints
