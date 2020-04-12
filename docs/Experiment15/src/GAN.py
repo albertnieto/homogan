@@ -134,7 +134,7 @@ def show_generated(generated,epoch, n=3):
         plt.imshow(generated[0][i])
         plt.axis('off')
       plt.savefig('image_at_epoch_{:04d}.png'.format(epoch+1))
-      # plt.show()
+      plt.close('all')
 
 # evaluate the discriminator and plot generated images
 def summarize_performance(epoch, g_model, d_model, image_batch, latent_dim, n_samples=100):
