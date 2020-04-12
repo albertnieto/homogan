@@ -87,8 +87,8 @@ Change from previous models:
 
 #### Results
 Trainning size = 10.000\
-Trainning Epochs = 20\
-Batch Size = 34
+Trainning Epochs = 34\
+Batch Size = 16
 
 __Observation__: 
 |![](docs/Experiment03/Gen_Loss.png)|![](docs/Experiment03/Disc_Loss.png)|
