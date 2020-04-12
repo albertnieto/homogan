@@ -1,4 +1,7 @@
 # HomoGAN
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/anieto95/homogan.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/anieto95/homogan/context:python)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/anieto95/homogan.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/anieto95/homogan/alerts/)
+
 Training a GAN from scratch and improve it by experiments 
 
 ## Table of Contents
