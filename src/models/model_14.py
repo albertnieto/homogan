@@ -1,6 +1,4 @@
-import tensorflow as tf
 from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Reshape
 from tensorflow.keras.layers import Flatten
@@ -13,8 +11,6 @@ from tensorflow.keras.layers import Embedding
 from tensorflow.keras.layers import Concatenate
 from tensorflow.keras.layers import GaussianNoise
 from tensorflow.keras import Model
-import numpy as np
-import matplotlib.pyplot as plt
 from numpy.random import randn
 from numpy.random import randint
 

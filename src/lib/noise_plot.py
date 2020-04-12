@@ -1,6 +1,5 @@
 import skimage.util
 import skimage.io
-import matplotlib.pyplot as plt
 
 
 """

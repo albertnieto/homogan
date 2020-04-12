@@ -2,28 +2,11 @@ from __future__ import absolute_import, division
 from __future__ import print_function, unicode_literals
 
 import tensorflow as tf
-from tensorflow.keras import layers, models
-from keras.optimizers import Adam
-from keras.preprocessing.image import load_img
-from keras.preprocessing.image import img_to_array
 
-from easydict import EasyDict as edict
-
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-
-import glob
-import imghdr
-import imageio
-import PIL
-import pathlib
-import time
-import os
 import json
 
+from easydict import EasyDict as edict
 from src.dataset.dataset import DatasetCeleba
-import src.lib
 from src.training import *
 
 def main(config_file='config.json'):

@@ -1,23 +1,14 @@
 import os
 import tensorflow as tf
-import pandas as pd
-import subprocess
-import itertools
-import math
-import numpy as np
-import functools
-import skimage.io
-import matplotlib.pyplot as plt
 
 from src.dataset.misc import *
 from src.dataset.celebaWrapper import CelebA
-from src.lib.noise_plot import *
+from src.lib.noise_plot import plot_noise
 '''Load and prepare the dataset
   Download dataset
-  Male Female attribute is "Male" in datasaet, -1 female, 1 male
-  CelebA dataset Wrapper
   Prepare dataset
 '''
+__all__ = ['DatasetCeleba']
 
 class DatasetCeleba():
   def __init__(self, params):

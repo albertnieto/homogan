@@ -1,17 +1,5 @@
 import tensorflow as tf
 from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
-from tensorflow.keras.layers import Reshape
-from tensorflow.keras.layers import Flatten
-from tensorflow.keras.layers import Conv2D
-from tensorflow.keras.layers import Conv2DTranspose
-from tensorflow.keras.layers import LeakyReLU
-from tensorflow.keras.layers import Dropout
-from tensorflow.keras.layers import Input
-from tensorflow.keras.layers import Embedding
-from tensorflow.keras.layers import Concatenate
-from tensorflow.keras.layers import GaussianNoise
 from tensorflow.keras import Model
 import numpy as np
 import matplotlib.pyplot as plt
@@ -22,6 +10,9 @@ import time
 import importlib
 
 from src.lib.labelSmoothing import *
+
+__all__ = ['generate_latent_points', 'generate_fake_samples', 'define_gan', 
+'show_generated', 'summarize_performance', 'create_network', 'train']
 
 #input of G
 def generate_latent_points(latent_dim, n_samples, n_classes=2,  n_features = 3):
