@@ -27,8 +27,8 @@
     {
       "kaggle":
         {
-          "kaggleUser" : "jordisans",
-          "kagglePass" : "7b52c518f92692f61d5967659a240ab2"
+          "kaggleUser" : "",
+          "kagglePass" : ""
         },
       "dataset_folder" : "/content/celeba-dataset",
       "celeba_features" : [["Male", 1], ["Eyeglasses"], ["No_Beard"], ["Bald"]],
