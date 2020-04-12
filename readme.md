@@ -79,7 +79,23 @@ __Observation__:
 |Generator Loss|Discriminator Loss|
 
 ### Experiment 3
-- Normalization
+Change from previous models: 
+* Creation of two independent classes for data importing and GAN architecture definition.
+* Remove conv layers 1 and 2 from G (reduce number of parameters).
+* Remove layer 2 (Conv, BatchNorm, LeackyReLU and Dropout) from D.
+* Adde fake and real accuracy metric.
+
+#### Results
+Trainning size = 10.000\
+Trainning Epochs = 20\
+Batch Size = 34
+
+__Observation__: 
+|![](docs/Experiment03/Gen_Loss.png)|![](docs/Experiment03/Disc_Loss.png)|
+|:---:|:---:|
+|Generator Loss|Discriminator Loss|
+|![](docs/Experiment03/fake_acc.png)|![](docs/Experiment03/real_acc.png)|
+|Fake accuracy|Real accuracy|
 
 ### Experiment 4
 Change from previous models: 
