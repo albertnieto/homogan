@@ -1,7 +1,7 @@
 {
   "network_params" :
     {
-      "model" : "src.models.model_15_noisy",
+      "model" : "src.models.model_15",
       "multilabelling" : true,
       "features" : 3,
       "noise_dim" : 256
@@ -27,12 +27,12 @@
     {
       "kaggle":
         {
-          "kaggleUser" : "jordisans",
-          "kagglePass" : "7b52c518f92692f61d5967659a240ab2"
+          "kaggleUser" : "",
+          "kagglePass" : ""
         },
       "dataset_folder" : "/content/celeba-dataset",
       "celeba_features" : [["Male", 1], ["Eyeglasses"], ["No_Beard"], ["Bald"]],
       "num_img_training" : 5000,
-      "img_noise_mode": "gaussian"
+      "img_noise_mode": "None"
     }
 }
