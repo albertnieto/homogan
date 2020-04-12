@@ -3,25 +3,22 @@ import tensorflow as tf
 import pandas as pd
 import subprocess
 import itertools
-import math
 import numpy as np
 import functools
-import skimage.io
-import matplotlib.pyplot as plt
 
 from src.dataset.misc import *
-from src.dataset.celebaWrapper import CelebA
 from src.lib.noise_plot import *
 
+__all__ = ['map_training_data', 'download_celeba', 'feat_name', 
+  'filtered_dataframe', 'dict_of_smallest_label_in_df', 'multilabeled_features',]
+
 def map_training_data(image, labels):
-  #Add noise to images
-  # image = plot_noise(filename, self.params.img_noise_mode)
-  # #Images are loaded and decoded
+  # Images are loaded and decoded
   image = tf.io.read_file(image)
   image = tf.image.decode_jpeg(image, channels=3)
   image = tf.cast(image, tf.float32)
 
-  #Reshaping, normalization and optimization goes here
+  # Reshaping, normalization and optimization goes here
   image = tf.image.resize(image, (128, 128),
                             method=tf.image.ResizeMethod.NEAREST_NEIGHBOR)
   # mean, std = tf.reduce_mean(image), tf.math.reduce_std(image)
@@ -32,7 +29,7 @@ def map_training_data(image, labels):
 def download_celeba(k):
   os.environ['KAGGLE_USERNAME'] = k["kaggleUser"]
   os.environ['KAGGLE_KEY'] = k["kagglePass"]
-  rc = subprocess.call("./docs/download_celeba.sh")
+  subprocess.call("./docs/download_celeba.sh")
 
 def feat_name(feats):
   ret = []
@@ -80,7 +77,6 @@ def multilabeled_features(df, features):
   reduced_labels = labels
   reduced_labels.remove(min_feature)
   rl_size = len(reduced_labels)
-  # iterations = list(itertools.permutations(reduced_labels))
 
   min_value_split = min_value // (rl_size**2)
 
@@ -103,9 +99,7 @@ def multilabeled_features(df, features):
       ql.append(df_aux[getattr(df_aux, k) == v])
 
     new_query = df_aux[conjunction(*ql)]
-    # chapuza
     new_query = df_aux[df_aux.index.isin(new_query.index)]
     feat_df = pd.concat([feat_df, new_query[:min_value_split]])
 
   return feat_df
-# x = {**x, **y}
