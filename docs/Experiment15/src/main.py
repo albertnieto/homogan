@@ -44,28 +44,28 @@ def main(dataset_folder = "/content/celeba-dataset"):
     lambda x: dataset_folder + '/img_align_celeba/img_align_celeba/'+x)
 
     bald_people = feat_df[feat_df.Bald == 1]
-    print("bald_people " + str(len(bald_people)))
+    print("bald_people " + str(len(bald_people))}")
     bald_people_with_g_with_b = bald_people[(bald_people["Eyeglasses"]==1) & (bald_people["No_Beard"]==0)]
     bald_people_with_g_without_b = bald_people[(bald_people["Eyeglasses"]==1) & (bald_people["No_Beard"]==1)]
     bald_people_without_g_with_b = bald_people[(bald_people["Eyeglasses"]==0) & (bald_people["No_Beard"]==0)]
     bald_people_without_g_without_b = bald_people[(bald_people["Eyeglasses"]==0) & (bald_people["No_Beard"]==1)]
     
-    print("bald_people_with_g_with_b " + str(len(bald_people_with_g_with_b)))
-    print("bald_people_with_g_without_b " + str(len(bald_people_with_g_without_b)))
-    print("bald_people_without_g_with_b " + str(len(bald_people_without_g_with_b)))
-    print("bald_people_without_g_without_b " + str(len(bald_people_without_g_without_b)))
+    print("bald_people_with_g_with_b " + str(len(bald_people_with_g_with_b))}")
+    print("bald_people_with_g_without_b " + str(len(bald_people_with_g_without_b))}")
+    print("bald_people_without_g_with_b " + str(len(bald_people_without_g_with_b))}")
+    print("bald_people_without_g_without_b " + str(len(bald_people_without_g_without_b))}")
 
     haired_people = feat_df[(feat_df.Bald == 0) & (feat_df['Male'] == 1)]
-    print("haired_people " + str(len(haired_people)))
+    print("haired_people " + str(len(haired_people))}")
     haired_people_with_g_with_b = haired_people[(haired_people["Eyeglasses"]==1) & (haired_people["No_Beard"]==0)]
     haired_people_with_g_without_b = haired_people[(haired_people["Eyeglasses"]==1) & (haired_people["No_Beard"]==1)]
     haired_people_without_g_with_b = haired_people[(haired_people["Eyeglasses"]==0) & (haired_people["No_Beard"]==0)]
     haired_people_without_g_without_b = haired_people[(haired_people["Eyeglasses"]==0) & (haired_people["No_Beard"]==1)]
 
-    print("haired_people_with_g_with_b " + str(len(haired_people_with_g_with_b)))
-    print("haired_people_with_g_without_b " + str(len(haired_people_with_g_without_b)))
-    print("haired_people_without_g_with_b " + str(len(haired_people_without_g_with_b)))
-    print("haired_people_without_g_without_b " + str(len(haired_people_without_g_without_b)))
+    print("haired_people_with_g_with_b " + str(len(haired_people_with_g_with_b))}")
+    print("haired_people_with_g_without_b " + str(len(haired_people_with_g_without_b))}")
+    print("haired_people_without_g_with_b " + str(len(haired_people_without_g_with_b))}")
+    print("haired_people_without_g_without_b " + str(len(haired_people_without_g_without_b))}")
 
     image_list = bald_people
     image_list = pd.concat([image_list, haired_people_with_g_with_b[:1136]])
@@ -82,7 +82,7 @@ def main(dataset_folder = "/content/celeba-dataset"):
     STEPS_PER_EPOCH = np.ceil(NUM_IMAGES_USED/BATCH_SIZE)
     CLASS_NAMES = celeba.features_name
     
-    print('Total images ' + str(NUM_IMAGES_USED))
+    print(f'Total images {NUM_IMAGES_USED}')
 
     img_shape = (IMG_HEIGHT, IMG_WIDTH, 3)
 
