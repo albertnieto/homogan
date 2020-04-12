@@ -18,6 +18,7 @@ from numpy.random import randn
 from numpy.random import randint
 
 def Generator(latent_dim, num_features):
+      # Feature Generator Input
       in_label = Input(shape=(num_features,))
       n_nodes = 8 * 8
       li = Dense(n_nodes)(in_label)
