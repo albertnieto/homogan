@@ -1,0 +1,8 @@
+.vscode
+*.svg
+*.pyc
+ckpt*
+checkpoint*
+training_checkpoints/
+__pycache__/
+.ipynb_checkpoints

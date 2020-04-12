@@ -1,4 +1,8 @@
 # HomoGAN
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/anieto95/homogan.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/anieto95/homogan/context:python)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/anieto95/homogan.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/anieto95/homogan/alerts/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 Training a GAN from scratch and improve it by experiments 
 
 ## Table of Contents
@@ -31,11 +35,14 @@ Training a GAN from scratch and improve it by experiments
 
 ## Running experiments
 
-Simply run the `main.py`
+In order to train the model, parameters should be set in `config.json`. Once parameters are set, simply run `main.py`.
+Nevertheless, older experiments can be run as well. They can be found in `docs/ExperimentXX`. Though parameters can't be changed, they can be tested by running `docs/ExperimentXX/main.py`.
 
 ## Dataset
 
 CelebFaces Attributes Dataset (CelebA) is a large-scale face attributes dataset with more than 200K celebrity images, each with 40 attribute annotations. The images in this dataset cover large pose variations and background clutter.
+
+For the whole project, images have been cropped and reduced to 128x128px. For the Experiment 16, images were preprocessed to delete the background.
 
 ## Glossary
 * Generator (G)
