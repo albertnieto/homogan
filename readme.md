@@ -52,13 +52,50 @@ For the whole project, images have been cropped and reduced to 128x128px. For th
 
 ## Experiments
 ### Experiment 1
-- Added normalization
+First approach, architecture based on DCGAN.
+
+#### Results
+Trainning size = 10.000\
+Trainning Epochs = 35\
+Batch Size = 16
+
+__Observation__:
+* Huge model, generator with over 9M parameters in G vs 400k in the D.
+* Slow trainning per epoch and high memory consumption.
 
 ### Experiment 2
-- Normalization
+Change from previous models: 
+* Wrap G and D definition in classes.
+* Add tensorboard loss tracing.
+
+#### Results
+Trainning size = 10.000\
+Trainning Epochs = 25\
+Batch Size = 16
+
+__Observation__: 
+|![](docs/Experiment02/Gen_Loss.png)|![](docs/Experiment02/Disc_Loss.png)|
+|:---:|:---:|
+|Generator Loss|Discriminator Loss|
 
 ### Experiment 3
-- Normalization
+Change from previous models: 
+* Creation of two independent classes for data importing and GAN architecture definition.
+* Remove conv layers 1 and 2 from G (reduce number of parameters).
+* Remove layer 2 (Conv, BatchNorm, LeackyReLU and Dropout) from D.
+* Adde fake and real accuracy metric.
+
+#### Results
+Trainning size = 10.000\
+Trainning Epochs = 34\
+Batch Size = 16
+
+__Observation__: 
+|![](docs/Experiment03/Gen_Loss.png)|![](docs/Experiment03/Disc_Loss.png)|
+|:---:|:---:|
+|Generator Loss|Discriminator Loss|
+|![](docs/Experiment03/fake_acc.png)|![](docs/Experiment03/real_acc.png)|
+|Fake accuracy|Real accuracy|
 
 ### Experiment 4
 Change from previous models: 
