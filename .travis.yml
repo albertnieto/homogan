@@ -5,4 +5,3 @@ before_install:
 - sudo apt-get update
 install:
 - pip install -r requirements.txt
-- pip install .
