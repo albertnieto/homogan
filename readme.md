@@ -339,7 +339,7 @@ Using Experiment 11 as base:
 #### Results
 
 |Hyperparameters|Observations|
-|:-------|:-------|
+|---------------|---------------|
 |Trainning size = 9000<br/>Trainning Epochs = 100<br/>Batch Size = 100  |* First Experiment with specific labels. <br/> * The results were evolving correctly but at epoch 79 the images are white background.|
 
 
