@@ -41,10 +41,34 @@ For the whole project, we saved a history of our code source for each experiment
 In order to train the model, parameters should be set in `config.json`. Once parameters are set, simply run `main.py`.
 Nevertheless, older experiments can be run as well. Source can be found in `src/old/ExperimentXX` and documents in `docs/ExperimentXX`. Though parameters can't be changed, they can be tested by running `src/old/ExperimentXX/main.py`.
 
-### 
-|Parameters|Default value|
-|:---|:---|
-|||
+### Networks parameters
+|Parameters|Default value|Notes|
+|:---|:---|:---|
+|model|src.models.model_15|Select the model used, different options can be found in `src/models`. By default it's selected model from Experiment 15, which offers best results.|
+|multilabelling|True|Select True if multilabelling is needed, False if not needed. If multilabelling is selected, number of parameters and labels must be selected in Celeba parameters.|
+|features|3|Number of parameters selected in multilabelling.|
+|IMG_HEIGHT|128|Height of resized images.|
+|IMG_WIDTH|128|Width of resized images.|
+
+### Dataset parameters
+|Parameters|Default value|Notes|
+|:---|:---|:---|
+|BUFFER_SIZE|3000|Buffer size of dataset.|
+|BATCH_SIZE|100|Batch size of dataset.|
+|kaggleUser|None|Fill Kaggle user in order to download Celeba dataset.|
+|kagglePass|None|Fill Kaggle pass in order to download Celeba dataset.|
+|dataset_folder|/content/celeba-dataset|Directory where the dataset will be saved.|
+|celeba_features|[["Male", 1], ["Eyeglasses"], ["No_Beard"], ["Bald"]]|In order to select filters for the dataset, a list should be included as `[FILTER_NAME, VALUE]`. In order to selecto features for multilabelling, no value should be included `[FEATURE_NAME]`.|
+|num_img_training|5000|Images to be included in the dataset for training.|
+
+### Training parameters
+|Parameters|Default value|Notes|
+|:---|:---|:---|
+|latent_dim|256|Latent dimension of Input.|
+|start_epoch|0|If there is a checkpoint loaded, select starting epoch for training.|
+|epochs|100|Total number of epochs.|
+|train_g|1|Number of times the generator will be trained.|
+|train_d|1|Number of times the discriminator will be trained.|
 
 ## Dataset
 
