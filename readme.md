@@ -56,8 +56,11 @@ For the whole project, images have been cropped and reduced to 128x128px. For th
 * Label Flipping.
 >Label flipping is a training technique where one selectively manipulates the labels in order to make the model more robust against label noise.
 * Batch Normalization.
+>Batch normalization is a technique for training very deep neural networks that standardizes the inputs to a layer for each mini-batch. This has the effect of stabilizing the learning process and dramatically reducing the number of training epochs required to train deep networks
 * Spectral Normalization.
+> Spectral Normalization normalizes the spectral norm of the weight matrix W, where the spectral norm σ(W) that we use to regularize each layer is the largest singular value of W. In few words, simply replaces every weight W with W/σ(W).
 * Gaussian Noise.
+>Gaussian Noise is statistical noise having a probability density function equal to that of the normal distribution, which is also known as the Gaussian distribution. In other words, the values that the noise can take on are Gaussian-distributed
 
 ## Experiments
 ### Experiment 1
