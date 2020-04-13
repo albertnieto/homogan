@@ -80,12 +80,13 @@ Change from previous models:
 * Wrap G and D definition in classes.
 * Add tensorboard loss tracing.
 
-#### Results
-Trainning size = 10.000\
-Trainning Epochs = 25\
-Batch Size = 16
+#### Results:
+|Hyperparameters|Observations|
+|:---|:---|
+|Trainning size = 10.000<br/>Trainning Epochs = 25<br/> Batch Size = 16  ||
 
-__Observation__: 
+
+__Loss Charts__: 
 |![](docs/Experiment02/Gen_Loss.png)|![](docs/Experiment02/Disc_Loss.png)|
 |:---:|:---:|
 |Generator Loss|Discriminator Loss|
@@ -101,12 +102,12 @@ Change from previous models:
 * Remove layer 2 (Conv, BatchNorm, LeackyReLU and Dropout) from D.
 * Adde fake and real accuracy metric.
 
-#### Results
-Trainning size = 10.000\
-Trainning Epochs = 34\
-Batch Size = 16
+#### Results:
+|Hyperparameters|Observations|
+|:---|:---|
+|Trainning size = 10.000<br/>Trainning Epochs = 34<br/> Batch Size = 16  ||
 
-__Observation__: 
+__Loss and Accuracy Charts__: 
 |![](docs/Experiment03/Gen_Loss.png)|![](docs/Experiment03/Disc_Loss.png)|
 |:---:|:---:|
 |Generator Loss|Discriminator Loss|
@@ -122,12 +123,12 @@ Change from previous models:
 * The two FC input layers of the G changed to FConv.
 * Update restriction on the D -> D is not updated while G loss is >4.
 
-#### Results
-Trainning size = 10.000\
-Trainning Epochs = 20\
-Batch Size = 16
+#### Results:
+|Hyperparameters|Observations|
+|:---|:---|
+|Trainning size = 10.000<br/>Trainning Epochs = 20<br/> Batch Size = 16  ||
 
-__Observation__: 
+__Loss and Accuracy Charts__: 
 |![](docs/Experiment04/Gen_Loss.png)|![](docs/Experiment04/Disc_Loss.png)|
 |:---:|:---:|
 |Generator Loss|Discriminator Loss|
@@ -142,12 +143,12 @@ __Observation__:
 Change from previous models: 
 * Removed restriction on D update
 
-#### Results
-Trainning size = 10.000\
-Trainning Epochs = 20\
-Batch Size = 16
+#### Results:
+|Hyperparameters|Observations|
+|:---|:---|
+|Trainning size = 10.000<br/>Trainning Epochs = 20<br/> Batch Size = 16  ||
 
-__Observation__: 
+__Loss and Accuracy Charts__: 
 |![](docs/Experiment05/Gen_Loss.png)|![](docs/Experiment05/Disc_Loss.png)|
 |:---:|:---:|
 |Generator Loss|Discriminator Loss|
@@ -163,12 +164,12 @@ Change from previous models:
 * Added label smoothing (0 -> {0-0.1} and 1 -> {0.9-1})
 * Added label flipping on 5% of labels
 
-#### Results
-Trainning size = 10.000\
-Trainning Epochs = 20\
-Batch Size = 16
+#### Results:
+|Hyperparameters|Observations|
+|:---|:---|
+|Trainning size = 10.000<br/>Trainning Epochs = 20<br/> Batch Size = 16  ||
 
-__Observation__: 
+__Loss and Accuracy Charts__: 
 |![](docs/Experiment06/Gen_Loss.png)|![](docs/Experiment06/Disc_Loss.png)|
 |:---:|:---:|
 |Generator Loss|Discriminator Loss|
@@ -185,12 +186,12 @@ Change from previous models:
 * Remove BatchNorm layers
 * Remove Label Smoothing and Label flip
 
-#### Results
-Trainning size = 10.000\
-Trainning Epochs = 100\
-Batch Size = 100
+#### Results:
+|Hyperparameters|Observations|
+|:---|:---|
+|Trainning size = 22.000<br/>Trainning Epochs = 100<br/> Batch Size = 200  ||
 
-__Observation__: 
+__Loss Charts__:  
 |![](docs/Experiment07/DiscLossFake.png)|![](docs/Experiment07/DiscLossReal.png)|
 |:---:|:---:|
 |Discriminator Loss Fake|Discriminator Loss Real|
@@ -207,12 +208,12 @@ Change from previous models:
 * Added label smoothing (0 -> {0-0.1} and 1 -> {0.9-1})
 * Added label flipping on 5% of labels
 
-#### Results
-Trainning size = 22.000\
-Trainning Epochs = 100\
-Batch Size = 200
+#### Results:
+|Hyperparameters|Observations|
+|:---|:---|
+|Trainning size = 22.000<br/>Trainning Epochs = 100<br/> Batch Size = 200  ||
 
-__Observation__: 
+__Loss Charts__: 
 |![](docs/Experiment08/DiscLossFake.png)|![](docs/Experiment08/DiscLossReal.png)|
 |:---:|:---:|
 |Discriminator Loss Fake|Discriminator Loss Real|
@@ -228,12 +229,12 @@ Change from previous models:
 * Using male and female images at 50%
 * Introduced training ratio G:D, set to 1:3 (traing D 3 times more than G)
 
-#### Results
-Trainning size = 10.000\
-Trainning Epochs = 100\
-Batch Size = 100
+#### Results:
+|Hyperparameters|Observations|
+|:---|:---|
+|Trainning size = 10.000<br/>Trainning Epochs = 100<br/> Batch Size = 100  ||
 
-__Observation__: 
+__Loss Charts__: 
 |![](docs/Experiment09/DiscLossFake.png)|![](docs/Experiment09/DiscLossReal.png)|
 |:---:|:---:|
 |Discriminator Loss Fake|Discriminator Loss Real|
@@ -250,12 +251,12 @@ Change from previous models:
 * Only 1 feature allowed for conditioning 
 * Ratio G:D, set to 1:1
 
-#### Results
-Trainning size = 10.000\
-Trainning Epochs = 100\
-Batch Size = 100
+#### Results:
+|Hyperparameters|Observations|
+|:---|:---|
+|Trainning size = 10.000<br/>Trainning Epochs = 100<br/> Batch Size = 100  ||
 
-__Observation__: 
+__Loss Charts__: 
 |![](docs/Experiment10/DiscLossFake.png)|![](docs/Experiment10/DiscLossReal.png)|
 |:---:|:---:|
 |Discriminator Loss Fake|Discriminator Loss Real|
@@ -275,7 +276,7 @@ Change from previous models:
 |:---|:---|
 |Trainning size = 10.000<br/>Trainning Epochs = 100<br/> Batch Size = 100  ||
 
-__Observation__: 
+__Loss Charts__: 
 |![](docs/Experiment11/DiscLossFake.png)|![](docs/Experiment11/DiscLossReal.png)|
 |:---:|:---:|
 |Discriminator Loss Fake|Discriminator Loss Real|
@@ -299,7 +300,7 @@ Using Experiment 11 as base:
 |:---|:---|
 |Trainning size = 10.000<br/>Trainning Epochs = 100\220\100 <br/> Batch Size = 100  | * The final images are not good enough as the<br/> ones in the previous experiments.<br/> * The Spectral Normalization gives stability and prevents<br/> the white background images.<br/> * To improve results another experiment should be done<br/> using Attention and Spectral Normalization which would give better results.|
 
-__Observation__: 
+__Loss Charts__: 
 
 |Ratio 1:1|Ratio 1:3|Ratio 1:5|
 |:---:|:---:|:---:|
