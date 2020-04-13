@@ -59,6 +59,10 @@ First approach, architecture based on DCGAN.
 |:---|:---|
 |Trainning size = 10.000<br/>Trainning Epochs = 35<br/>Batch Size = 16|* Huge model, generator with over 9M parameters in G vs 400k in the D.<br/> * Slow trainning per epoch and high memory consumption.|
 
+|Results GIF|
+|:---:|
+|![](docs/Experiment01/results/png_to_gif_Exp1.gif)|
+
 ### Experiment 2
 Change from previous models: 
 * Wrap G and D definition in classes.
