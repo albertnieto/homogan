@@ -228,6 +228,10 @@ __Observation__:
 |![](docs/Experiment09/GenLoss.png)|
 |Generator Loss|
 
+|Results GIF|
+|:---:|
+|![](docs/Experiment09/results/png_to_gif_Exp9.gif)|
+
 ### Experiment 10
 Change from previous models: 
 * Chenge architecture to introduce conditioning GAN
@@ -246,6 +250,10 @@ __Observation__:
 |![](docs/Experiment10/GenLoss.png)|
 |Generator Loss|
 
+|Results GIF|
+|:---:|
+|![](docs/Experiment10/results/png_to_gif_Exp10.gif)|
+
 ### Experiment 11
 Change from previous models: 
 * Introduced training ratio G:D, set to 1:3 (traing D 3 times more than G)
@@ -261,6 +269,10 @@ __Observation__:
 |Discriminator Loss Fake|Discriminator Loss Real|
 |![](docs/Experiment11/GenLoss.png)|
 |Generator Loss|
+
+|Results GIF|
+|:---:|
+|![](docs/Experiment11/results/png_to_gif_Exp11.gif)|
 
 ### Experiment 12, 13, 14
 Using Experiment 11 as base: 
@@ -286,6 +298,10 @@ __Observation__:
 |![](docs/Experiment12/GenLoss.png)|![](docs/Experiment13/GenLoss.png)|![](docs/Experiment14/GenLoss.png)|
 |Generator Loss Exp 12|Generator Loss Exp 13|Generator Loss Exp 14|
 
+|Results GIF|
+|:---:|:---:|:---:|
+|![](docs/Experiment12/results/png_to_gif_Exp12.gif)|![](docs/Experiment13/results/png_to_gif_Exp13.gif)|![](docs/Experiment14/results/png_to_gif_Exp14.gif)|
+
 ### Experiment 15
 Using Experiment 11 as base: 
 * Implementation of Multi-labeling 
@@ -305,3 +321,5 @@ __Observation__:
 |Discriminator Loss Fake|Discriminator Loss Real|
 |![](docs/Experiment15/GenLoss.png)|
 |Generator Loss|
+
+![](docs/Experiment15/results/png_to_gif_Exp15.gif)|
