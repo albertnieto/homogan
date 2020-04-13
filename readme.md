@@ -337,9 +337,11 @@ Using Experiment 11 as base:
     * Beard
 
 #### Results
-* Trainning size = 9000
-* Trainning Epochs = 100
-* Batch Size = 100
+
+|Hyperparameters|Observations|
+|:---|:---|
+|Trainning size = 9000<br/>Trainning Epochs = 100<br/>Batch Size = 100|* This model was trained to be able to produce faces with different labels<br/> * First Experiment using the new flexible software that allows to choose labels and other configs of the model easily.|
+
 
 __Observation__: 
 |![](docs/Experiment15/DiscLossFake.png)|![](docs/Experiment15/DiscLossReal.png)|
