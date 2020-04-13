@@ -340,7 +340,7 @@ Using Experiment 11 as base:
 
 |Hyperparameters|Observations|
 |:---|:---|
-|Trainning size = 9000<br/>Trainning Epochs = 100<br/>Batch Size = 100|* First Experiment with specific labels. <br/> * Between epoch 70 and 80 the images are white.|
+|Trainning size = 9000<br/>Trainning Epochs = 100<br/>Batch Size = 100|* First Experiment with specific labels. <br/> * The results were evolving correctly but at epoch 79 the images are white background.|
 
 
 __Observation__: 
