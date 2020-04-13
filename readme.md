@@ -298,9 +298,23 @@ __Observation__:
 |![](docs/Experiment12/GenLoss.png)|![](docs/Experiment13/GenLoss.png)|![](docs/Experiment14/GenLoss.png)|
 |Generator Loss Exp 12|Generator Loss Exp 13|Generator Loss Exp 14|
 
-|Results GIF|
-|:---:|:---:|:---:|
-|![](docs/Experiment12/results/png_to_gif_Exp12.gif)|![](docs/Experiment13/results/png_to_gif_Exp13.gif)|![](docs/Experiment14/results/png_to_gif_Exp14.gif)|
+<details>
+<summary>Results Experiment 12</summary>
+<br>
+![](docs/Experiment12/results/png_to_gif_Exp12.gif)
+</details>
+
+<details>
+<summary>Results Experiment 13</summary>
+<br>
+![](docs/Experiment13/results/png_to_gif_Exp13.gif)
+</details>
+
+<details>
+<summary>Results Experiment 14</summary>
+<br>
+![](docs/Experiment14/results/png_to_gif_Exp14.gif)
+</details>
 
 ### Experiment 15
 Using Experiment 11 as base: 
