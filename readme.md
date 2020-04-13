@@ -336,11 +336,11 @@ Using Experiment 11 as base:
     * Glasses
     * Beard
 
-#### Results
+#### Results:
 
 |Hyperparameters       |Observations          |
 |----------------------|----------------------|
-|Trainning size = 9000<br/>Trainning Epochs = 100 <br/> Batch Size = 100  |* First Experiment with specific labels. <br/> * The results were evolving correctly but at epoch 79 the images are white background.|
+|Trainning size = 9000<br/>Trainning Epochs = 100 <br/> Batch Size = 100  | * The results were evolving correctly but at epoch 79 the images are white background.|
 
 
 __Observation__: 
