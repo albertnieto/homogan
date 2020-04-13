@@ -270,10 +270,10 @@ __Observation__:
 Change from previous models: 
 * Introduced training ratio G:D, set to 1:3 (traing D 3 times more than G)
 
-#### Results
-Trainning size = 10.000\
-Trainning Epochs = 100\
-Batch Size = 100
+#### Results:
+|Hyperparameters|Observations|
+|:---|:---|
+|Trainning size = 10.000<br/>Trainning Epochs = 100<br/> Batch Size = 100  ||
 
 __Observation__: 
 |![](docs/Experiment11/DiscLossFake.png)|![](docs/Experiment11/DiscLossReal.png)|
@@ -297,7 +297,7 @@ Using Experiment 11 as base:
 #### Results:
 |Hyperparameters|Observations|
 |:---|:---|
-|Trainning size = 10.000<br/>Trainning Epochs = 100\220\100 <br/> Batch Size = 100  | * The final images are not good enough as the<br/> ones in the previous experiments.<br/> * The Spectral Normalization gives stability and prevents<br/> the white background images<br/> * To improve results another experiment should be done<br/> using Attention and Spectral Normalization which would give better results.|
+|Trainning size = 10.000<br/>Trainning Epochs = 100\220\100 <br/> Batch Size = 100  | * The final images are not good enough as the<br/> ones in the previous experiments.<br/> * The Spectral Normalization gives stability and prevents<br/> the white background images.<br/> * To improve results another experiment should be done<br/> using Attention and Spectral Normalization which would give better results.|
 
 __Observation__: 
 
@@ -343,7 +343,7 @@ Using Experiment 11 as base:
 |Trainning size = 9000<br/>Trainning Epochs = 100 <br/> Batch Size = 100  | * The results were evolving correctly but at epoch 79<br/> the images are white background.|
 
 
-__Observation__: 
+__Loss Charts__: 
 |![](docs/Experiment15/DiscLossFake.png)|![](docs/Experiment15/DiscLossReal.png)|
 |:---:|:---:|
 |Discriminator Loss Fake|Discriminator Loss Real|
