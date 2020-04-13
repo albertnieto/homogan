@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://travis-ci.com/anieto95/homogan.svg?branch=master)](https://travis-ci.com/anieto95/homogan)
 
-Training a GAN from scratch and improve it by experiments 
+This is the final project of the postgraduate course of *Artificial Intelligence with Deep Learning* by *Universitat Politècnica de Catalunya (UPC)*. The goal is to build a conditioned GAN that generate faces given some features. To do so, different architectures and known methods have been tested.
 
 ## Table of Contents
 
@@ -28,6 +28,7 @@ Training a GAN from scratch and improve it by experiments
     + [Experiment 11](#experiment-11)
     + [Experiment 12, 13, 14](#experiment-12-13-14)
     + [Experiment 15](#experiment-15)
+   * [Authors](#authors)
 
 ## Installation
     $ git clone https://github.com/anieto95/homogan
@@ -385,3 +386,10 @@ __Loss Charts__:
 |Generator Loss|
 
 ![](docs/Experiment15/results/png_to_gif_Exp15.gif)|
+
+
+## Authors
+* Albert Nieto
+* Luís Tuzón
+* Jordi Sans
+* Mauro Álvarez
