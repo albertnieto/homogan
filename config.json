@@ -21,7 +21,7 @@
       "start_epoch" : 0,
       "epochs" : 100,
       "train_g" : 1,
-      "train_g" : 1
+      "train_d" : 1
     },
   "celebaParam": 
     {

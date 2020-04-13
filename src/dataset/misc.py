@@ -1,4 +1,5 @@
 import os
+import sys
 import tensorflow as tf
 import pandas as pd
 import subprocess
@@ -11,6 +12,12 @@ from src.lib.noise_plot import *
 
 __all__ = ['map_training_data', 'download_celeba', 'feat_name', 
   'filtered_dataframe', 'dict_of_smallest_label_in_df', 'multilabeled_features',]
+
+def assert_exit(condition, err_message):
+  try:
+    assert condition
+  except AssertionError:
+    sys.exit(err_message)
 
 def map_training_data(image, labels):
   # Images are loaded and decoded
@@ -26,10 +33,26 @@ def map_training_data(image, labels):
   image = image/255
   return image, labels
 
-def download_celeba(k):
+def download_celeba(k, folder):
+  def blockPrint():
+    sys.stdout = open(os.devnull, 'w')
+  def enablePrint():
+    sys.stdout = sys.__stdout__
+
+  assert_exit(k["kaggleUser"] is not None, "Please write a kaggle username in config.json")
+  assert_exit(k["kagglePass"] is not None, "Please write a kaggle password in config.json")
+
   os.environ['KAGGLE_USERNAME'] = k["kaggleUser"]
   os.environ['KAGGLE_KEY'] = k["kagglePass"]
-  subprocess.call("./docs/download_celeba.sh")
+
+  blockPrint()
+
+  try: subprocess.call("./scripts/download_celeba.sh")
+  except: pass
+
+  enablePrint()
+
+  assert_exit(os.path.exists(folder), "Dataset could not be downloaded")
 
 def feat_name(feats):
   ret = []

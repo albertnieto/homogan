@@ -25,10 +25,10 @@ class DatasetCeleba():
     self.celeba_features = feat_name(self.filter_features) + feat_name(self.multilabeling_features)
 
     if not os.path.exists(self.dataset_folder):
-      download_celeba(params["kaggle"])
-    
+      download_celeba(params["kaggle"], self.dataset_folder)
     self.celeba = CelebA(selected_features=self.celeba_features, main_folder=self.dataset_folder)
     self.dataset = self.generate_dataset()
+
 
   def getDataset(self):
     return self.dataset
