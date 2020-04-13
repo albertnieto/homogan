@@ -78,6 +78,10 @@ __Observation__:
 |:---:|:---:|
 |Generator Loss|Discriminator Loss|
 
+|Results GIF|
+|:---:|
+|![](docs/Experiment02/results/png_to_gif_Exp2.gif)|
+
 ### Experiment 3
 Change from previous models: 
 * Creation of two independent classes for data importing and GAN architecture definition.
@@ -97,6 +101,10 @@ __Observation__:
 |![](docs/Experiment03/fake_acc.png)|![](docs/Experiment03/real_acc.png)|
 |Fake accuracy|Real accuracy|
 
+|Results GIF|
+|:---:|
+|![](docs/Experiment03/results/png_to_gif_Exp3.gif)|
+
 ### Experiment 4
 Change from previous models: 
 * The two FC input layers of the G changed to FConv.
@@ -114,6 +122,10 @@ __Observation__:
 |![](docs/Experiment04/fake_acc.png)|![](docs/Experiment04/real_acc.png)|
 |Fake accuracy|Real accuracy|
 
+|Results GIF|
+|:---:|
+|![](docs/Experiment04/results/png_to_gif_Exp4.gif)|
+
 ### Experiment 5
 Change from previous models: 
 * Removed restriction on D update
@@ -129,6 +141,10 @@ __Observation__:
 |Generator Loss|Discriminator Loss|
 |![](docs/Experiment05/fake_acc.png)|![](docs/Experiment05/real_acc.png)|
 |Fake accuracy|Real accuracy|
+
+|Results GIF|
+|:---:|
+|![](docs/Experiment05/results/png_to_gif_Exp5.gif)|
 
 ### Experiment 6
 Change from previous models: 
@@ -146,6 +162,10 @@ __Observation__:
 |Generator Loss|Discriminator Loss|
 |![](docs/Experiment06/fake_acc.png)|![](docs/Experiment06/real_acc.png)|
 |Fake accuracy|Real accuracy|
+
+|Results GIF|
+|:---:|
+|![](docs/Experiment06/results/png_to_gif_Exp6.gif)|
 
 ### Experiment 7
 Change from previous models: 
@@ -165,6 +185,10 @@ __Observation__:
 |![](docs/Experiment07/GenLoss.png)|
 |Generator Loss|
 
+|Results GIF|
+|:---:|
+|![](docs/Experiment07/results/png_to_gif_Exp7.gif)|
+
 ### Experiment 8
 Change from previous models: 
 * Only male images
@@ -182,6 +206,10 @@ __Observation__:
 |Discriminator Loss Fake|Discriminator Loss Real|
 |![](docs/Experiment08/GenLoss.png)|
 |Generator Loss|
+
+|Results GIF|
+|:---:|
+|![](docs/Experiment08/results/png_to_gif_Exp8.gif)|
 
 ### Experiment 9
 Change from previous models: 
