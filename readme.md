@@ -297,7 +297,7 @@ Using Experiment 11 as base:
 #### Results:
 |Hyperparameters|Observations|
 |:---|:---|
-|Trainning size = 10.000<br/>Trainning Epochs = 100\220\100 <br/> Batch Size = 100  | * The final images are not good enough as the<br/> ones in the previous experiments.<br/> The Spectral Normalization gives stability and prevents<br/> the white background images<br/> * To improve results another experiment should be done<br/> using Attention and Spectral Normalization which would give better results.|
+|Trainning size = 10.000<br/>Trainning Epochs = 100\220\100 <br/> Batch Size = 100  | * The final images are not good enough as the<br/> ones in the previous experiments.<br/> * The Spectral Normalization gives stability and prevents<br/> the white background images<br/> * To improve results another experiment should be done<br/> using Attention and Spectral Normalization which would give better results.|
 
 __Observation__: 
 
