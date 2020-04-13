@@ -45,10 +45,22 @@ CelebFaces Attributes Dataset (CelebA) is a large-scale face attributes dataset 
 For the whole project, images have been cropped and reduced to 128x128px. For the Experiment 16, images were preprocessed to delete the background.
 
 ## Glossary
-* Generator (G)
-* Discriminator (D)
-* Fully Connected (FC)
-* Fully Convolutional (FConv)
+* Generator (G).
+* Discriminator (D).
+* Fully Connected (FC).
+* Fully Convolutional (FConv).
+* Dropout. 
+>At each training stage, individual nodes are either dropped out of the net with probability 1-p or kept with probability p, so that a reduced network is left; incoming and outgoing edges to a dropped-out node are also removed.
+* Label Smoothing.
+>Label smoothing is a regularization technique for classification problems to prevent the model from predicting the labels too confidently during training and generalizing poorly.
+* Label Flipping.
+>Label flipping is a training technique where one selectively manipulates the labels in order to make the model more robust against label noise.
+* Batch Normalization.
+>Batch normalization is a technique for training very deep neural networks that standardizes the inputs to a layer for each mini-batch. This has the effect of stabilizing the learning process and dramatically reducing the number of training epochs required to train deep networks
+* Spectral Normalization.
+> Spectral Normalization normalizes the spectral norm of the weight matrix W, where the spectral norm σ(W) that we use to regularize each layer is the largest singular value of W. In few words, simply replaces every weight W with W/σ(W).
+* Gaussian Noise.
+>Gaussian Noise is statistical noise having a probability density function equal to that of the normal distribution, which is also known as the Gaussian distribution. In other words, the values that the noise can take on are Gaussian-distributed
 
 ## Experiments
 ### Experiment 1
