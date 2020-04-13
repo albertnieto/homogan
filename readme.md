@@ -299,21 +299,21 @@ __Observation__:
 |Generator Loss Exp 12|Generator Loss Exp 13|Generator Loss Exp 14|
 
 <details>
-<summary>Results Experiment 12</summary>
+<summary>Result GIF Experiment 12</summary>
 <br>
-![](docs/Experiment12/results/png_to_gif_Exp12.gif)
+ <IMG SRC="docs/Experiment12/results/png_to_gif_Exp12.gif">
 </details>
 
 <details>
-<summary>Results Experiment 13</summary>
+<summary>Result GIF Experiment 13</summary>
 <br>
-![](docs/Experiment13/results/png_to_gif_Exp13.gif)
+ <IMG SRC="docs/Experiment13/results/png_to_gif_Exp13.gif">
 </details>
 
 <details>
-<summary>Results Experiment 14</summary>
+<summary>Result GIF Experiment 14</summary>
 <br>
-![](docs/Experiment14/results/png_to_gif_Exp14.gif)
+ <IMG SRC="docs/Experiment14/results/png_to_gif_Exp14.gif">
 </details>
 
 ### Experiment 15
