@@ -55,9 +55,10 @@ For the whole project, images have been cropped and reduced to 128x128px. For th
 First approach, architecture based on DCGAN.
 
 #### Results
-Trainning size = 10.000\
-Trainning Epochs = 35\
-Batch Size = 16
+|Hyperparameters|Observations|
+|:---:|:---:|
+|Trainning size = 10.000\ Trainning Epochs = 35\ Batch Size = 16|* Huge model, generator with over 9M parameters in G vs 400k in the D.\ * Slow trainning per epoch and high memory consumption.|
+
 
 __Observation__:
 * Huge model, generator with over 9M parameters in G vs 400k in the D.
