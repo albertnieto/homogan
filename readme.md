@@ -340,7 +340,7 @@ Using Experiment 11 as base:
 
 |Hyperparameters|Observations|
 |:---|:---|
-|Trainning size = 9000<br/>Trainning Epochs = 100<br/>Batch Size = 100|* This model was trained to be able to produce faces with different labels<br/> * First Experiment using the new flexible software that allows to choose labels and other configs of the model easily.|
+|Trainning size = 9000<br/>Trainning Epochs = 100<br/>Batch Size = 100|* This model was trained to be able to produce faces with different labels<br/>
 
 
 __Observation__: 
