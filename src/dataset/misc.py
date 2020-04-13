@@ -17,7 +17,8 @@ def assert_exit(condition, err_message):
   try:
     assert condition
   except AssertionError:
-    sys.exit(err_message)
+    print(err_message)
+    sys.exit(0)
 
 def map_training_data(image, labels):
   # Images are loaded and decoded
