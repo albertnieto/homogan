@@ -45,10 +45,16 @@ CelebFaces Attributes Dataset (CelebA) is a large-scale face attributes dataset 
 For the whole project, images have been cropped and reduced to 128x128px. For the Experiment 16, images were preprocessed to delete the background.
 
 ## Glossary
-* Generator (G)
-* Discriminator (D)
-* Fully Connected (FC)
-* Fully Convolutional (FConv)
+* Generator (G).
+* Discriminator (D).
+* Fully Connected (FC).
+* Fully Convolutional (FConv).
+* Dropout.
+* Label Smoothing.
+* Label Flipping.
+* Batch Normalization.
+* Spectral Normalization.
+* Gaussian Noise.
 
 ## Experiments
 ### Experiment 1
