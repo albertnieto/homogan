@@ -52,7 +52,9 @@ For the whole project, images have been cropped and reduced to 128x128px. For th
 * Dropout. 
 >At each training stage, individual nodes are either dropped out of the net with probability 1-p or kept with probability p, so that a reduced network is left; incoming and outgoing edges to a dropped-out node are also removed.
 * Label Smoothing.
+>Label smoothing is a regularization technique for classification problems to prevent the model from predicting the labels too confidently during training and generalizing poorly.
 * Label Flipping.
+>Label flipping is a training technique where one selectively manipulates the labels in order to make the model more robust against label noise.
 * Batch Normalization.
 * Spectral Normalization.
 * Gaussian Noise.
