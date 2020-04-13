@@ -36,8 +36,15 @@ Training a GAN from scratch and improve it by experiments
 
 ## Running experiments
 
+For the whole project, we saved a history of our code source for each experiment. Thus, we decided to simplify code and make it easy to change parameters and experiment with it. For this reason, we created a main framework to experiment. 
+
 In order to train the model, parameters should be set in `config.json`. Once parameters are set, simply run `main.py`.
-Nevertheless, older experiments can be run as well. They can be found in `docs/ExperimentXX`. Though parameters can't be changed, they can be tested by running `docs/ExperimentXX/main.py`.
+Nevertheless, older experiments can be run as well. Source can be found in `src/old/ExperimentXX` and documents in `docs/ExperimentXX`. Though parameters can't be changed, they can be tested by running `src/old/ExperimentXX/main.py`.
+
+### 
+|Parameters|Default value|
+|:---|:---|
+|||
 
 ## Dataset
 
@@ -47,9 +54,13 @@ For the whole project, images have been cropped and reduced to 128x128px. For th
 
 ## Glossary
 * Generator (G).
+>A generative model is a model of the conditional probability of the observable X, given a target y.
 * Discriminator (D).
+>A discriminative model is a model of the conditional probability of the target Y, given an observation x
 * Fully Connected (FC).
+>Fully connected layers connect every neuron in one layer to every neuron in another layer.
 * Fully Convolutional (FConv).
+>The goal is to transform image pixels to pixel categories. Unlike the convolutional neural networks, an FCN transforms the height and width of the intermediate layer feature map back to the size of input image through the transposed convolution layer, so that the predictions have a one-to-one correspondence with input image in spatial dimension.
 * Dropout. 
 >At each training stage, individual nodes are either dropped out of the net with probability 1-p or kept with probability p, so that a reduced network is left; incoming and outgoing edges to a dropped-out node are also removed.
 * Label Smoothing.
@@ -57,11 +68,11 @@ For the whole project, images have been cropped and reduced to 128x128px. For th
 * Label Flipping.
 >Label flipping is a training technique where one selectively manipulates the labels in order to make the model more robust against label noise.
 * Batch Normalization.
->Batch normalization is a technique for training very deep neural networks that standardizes the inputs to a layer for each mini-batch. This has the effect of stabilizing the learning process and dramatically reducing the number of training epochs required to train deep networks
+>Batch normalization is a technique for training very deep neural networks that standardizes the inputs to a layer for each mini-batch. This has the effect of stabilizing the learning process and dramatically reducing the number of training epochs required to train deep networks.
 * Spectral Normalization.
 > Spectral Normalization normalizes the spectral norm of the weight matrix W, where the spectral norm σ(W) that we use to regularize each layer is the largest singular value of W. In few words, simply replaces every weight W with W/σ(W).
 * Gaussian Noise.
->Gaussian Noise is statistical noise having a probability density function equal to that of the normal distribution, which is also known as the Gaussian distribution. In other words, the values that the noise can take on are Gaussian-distributed
+>Gaussian Noise is statistical noise having a probability density function equal to that of the normal distribution, which is also known as the Gaussian distribution. In other words, the values that the noise can take on are Gaussian-distributed.
 
 ## Experiments
 ### Experiment 1
