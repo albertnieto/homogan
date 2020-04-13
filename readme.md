@@ -294,10 +294,10 @@ Using Experiment 11 as base:
     * 1:3 
     * 1:5 
 
-#### Results
-* Trainning size = 10.000
-* Trainning Epochs = 100\220\100
-* Batch Size = 100
+#### Results:
+|Hyperparameters|Observations|
+|:---|:---|
+|Trainning size = 10.000<br/>Trainning Epochs = 100\220\100 <br/> Batch Size = 100  | * The final images are not good enough as the<br/> ones in the previous experiments.<br/> The Spectral Normalization gives stability and prevents the white background images<br/> * To improve results another experiment should be done using Attention and Spectral Normalization which would give better results.|
 
 __Observation__: 
 
