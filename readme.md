@@ -49,7 +49,7 @@ For the whole project, images have been cropped and reduced to 128x128px. For th
 * Discriminator (D).
 * Fully Connected (FC).
 * Fully Convolutional (FConv).
-* Dropout.
+* Dropout. At each training stage, individual nodes are either dropped out of the net with probability 1-p or kept with probability p, so that a reduced network is left; incoming and outgoing edges to a dropped-out node are also removed.
 * Label Smoothing.
 * Label Flipping.
 * Batch Normalization.
