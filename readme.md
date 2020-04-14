@@ -2,8 +2,13 @@
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/anieto95/homogan.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/anieto95/homogan/context:python)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/anieto95/homogan.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/anieto95/homogan/alerts/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://travis-ci.com/anieto95/homogan.svg?branch=master)](https://travis-ci.com/anieto95/homogan)
 
-Training a GAN from scratch and improve it by experiments 
+This is the final project of the postgraduate course of *Artificial Intelligence with Deep Learning* by *Universitat Politècnica de Catalunya (UPC)*. The goal is to build a conditioned GAN that generate faces given some features. To do so, different architectures and known methods have been tested.
+
+This project started on 10th of February of 2020, which implementation occured from 27th of February to 8th of April of 2020.
+
+This network has been implemented with Tensorflow 2.0 and Keras. Experiments were run in Google Colab.
 
 ## Table of Contents
 
@@ -27,6 +32,7 @@ Training a GAN from scratch and improve it by experiments
     + [Experiment 11](#experiment-11)
     + [Experiment 12, 13, 14](#experiment-12-13-14)
     + [Experiment 15](#experiment-15)
+   * [Authors](#authors)
 
 ## Installation
     $ git clone https://github.com/anieto95/homogan
@@ -35,8 +41,41 @@ Training a GAN from scratch and improve it by experiments
 
 ## Running experiments
 
+For the whole project, we saved a history of our code source for each experiment. Thus, we decided to simplify code and make it easy to change parameters and experiment with it. For this reason, we created a main framework to experiment. 
+
 In order to train the model, parameters should be set in `config.json`. Once parameters are set, simply run `main.py`.
-Nevertheless, older experiments can be run as well. They can be found in `docs/ExperimentXX`. Though parameters can't be changed, they can be tested by running `docs/ExperimentXX/main.py`.
+Nevertheless, older experiments can be run as well. Source can be found in `src/old/ExperimentXX` and documents in `docs/ExperimentXX`. Though parameters can't be changed, they can be tested by running `src/old/ExperimentXX/main.py`.
+
+If the dataset is not placed in the indicated dataset folder in parameters, the script will automatically download it. Kaggle user and password must be set.
+
+### Networks parameters
+|Parameters|Default value|Notes|
+|:---|:---|:---|
+|model|src.models.model_15|Select the model used, different options can be found in `src/models`. By default it's selected model from Experiment 15, which offers best results.|
+|multilabelling|True|Select True if multilabelling is needed, False if not needed. If multilabelling is selected, number of parameters and labels must be selected in Celeba parameters.|
+|features|3|Number of parameters selected in multilabelling.|
+|IMG_HEIGHT|128|Height of resized images.|
+|IMG_WIDTH|128|Width of resized images.|
+
+### Dataset parameters
+|Parameters|Default value|Notes|
+|:---|:---|:---|
+|BUFFER_SIZE|3000|Buffer size of dataset.|
+|BATCH_SIZE|100|Batch size of dataset.|
+|kaggleUser|None|Fill Kaggle user in order to download Celeba dataset.|
+|kagglePass|None|Fill Kaggle pass in order to download Celeba dataset.|
+|dataset_folder|/content/celeba-dataset|Directory where the dataset will be saved.|
+|celeba_features|[["Male", 1], ["Eyeglasses"], ["No_Beard"], ["Bald"]]|In order to select filters for the dataset, a list should be included as `[FILTER_NAME, VALUE]`. In order to selecto features for multilabelling, no value should be included `[FEATURE_NAME]`.|
+|num_img_training|5000|Images to be included in the dataset for training.|
+
+### Training parameters
+|Parameters|Default value|Notes|
+|:---|:---|:---|
+|latent_dim|256|Latent dimension of Input.|
+|start_epoch|0|If there is a checkpoint loaded, select starting epoch for training.|
+|epochs|100|Total number of epochs.|
+|train_g|1|Number of times the generator will be trained.|
+|train_d|1|Number of times the discriminator will be trained.|
 
 ## Dataset
 
@@ -46,9 +85,13 @@ For the whole project, images have been cropped and reduced to 128x128px. For th
 
 ## Glossary
 * Generator (G).
+>A generative model is a model of the conditional probability of the observable X, given a target y.
 * Discriminator (D).
+>A discriminative model is a model of the conditional probability of the target Y, given an observation x
 * Fully Connected (FC).
+>Fully connected layers connect every neuron in one layer to every neuron in another layer.
 * Fully Convolutional (FConv).
+>The goal is to transform image pixels to pixel categories. Unlike the convolutional neural networks, an FCN transforms the height and width of the intermediate layer feature map back to the size of input image through the transposed convolution layer, so that the predictions have a one-to-one correspondence with input image in spatial dimension.
 * Dropout. 
 >At each training stage, individual nodes are either dropped out of the net with probability 1-p or kept with probability p, so that a reduced network is left; incoming and outgoing edges to a dropped-out node are also removed.
 * Label Smoothing.
@@ -56,8 +99,11 @@ For the whole project, images have been cropped and reduced to 128x128px. For th
 * Label Flipping.
 >Label flipping is a training technique where one selectively manipulates the labels in order to make the model more robust against label noise.
 * Batch Normalization.
+>Batch normalization is a technique for training very deep neural networks that standardizes the inputs to a layer for each mini-batch. This has the effect of stabilizing the learning process and dramatically reducing the number of training epochs required to train deep networks.
 * Spectral Normalization.
+> Spectral Normalization normalizes the spectral norm of the weight matrix W, where the spectral norm σ(W) that we use to regularize each layer is the largest singular value of W. In few words, simply replaces every weight W with W/σ(W).
 * Gaussian Noise.
+>Gaussian Noise is statistical noise having a probability density function equal to that of the normal distribution, which is also known as the Gaussian distribution. In other words, the values that the noise can take on are Gaussian-distributed.
 
 ## Experiments
 ### Experiment 1
@@ -77,12 +123,13 @@ Change from previous models:
 * Wrap G and D definition in classes.
 * Add tensorboard loss tracing.
 
-#### Results
-Trainning size = 10.000\
-Trainning Epochs = 25\
-Batch Size = 16
+#### Results:
+|Hyperparameters|Observations|
+|:---|:---|
+|Trainning size = 10.000<br/>Trainning Epochs = 25<br/> Batch Size = 16  ||
 
-__Observation__: 
+
+__Loss Charts__: 
 |![](docs/Experiment02/Gen_Loss.png)|![](docs/Experiment02/Disc_Loss.png)|
 |:---:|:---:|
 |Generator Loss|Discriminator Loss|
@@ -98,12 +145,12 @@ Change from previous models:
 * Remove layer 2 (Conv, BatchNorm, LeackyReLU and Dropout) from D.
 * Adde fake and real accuracy metric.
 
-#### Results
-Trainning size = 10.000\
-Trainning Epochs = 34\
-Batch Size = 16
+#### Results:
+|Hyperparameters|Observations|
+|:---|:---|
+|Trainning size = 10.000<br/>Trainning Epochs = 34<br/> Batch Size = 16  ||
 
-__Observation__: 
+__Loss and Accuracy Charts__: 
 |![](docs/Experiment03/Gen_Loss.png)|![](docs/Experiment03/Disc_Loss.png)|
 |:---:|:---:|
 |Generator Loss|Discriminator Loss|
@@ -119,12 +166,12 @@ Change from previous models:
 * The two FC input layers of the G changed to FConv.
 * Update restriction on the D -> D is not updated while G loss is >4.
 
-#### Results
-Trainning size = 10.000\
-Trainning Epochs = 20\
-Batch Size = 16
+#### Results:
+|Hyperparameters|Observations|
+|:---|:---|
+|Trainning size = 10.000<br/>Trainning Epochs = 20<br/> Batch Size = 16  ||
 
-__Observation__: 
+__Loss and Accuracy Charts__: 
 |![](docs/Experiment04/Gen_Loss.png)|![](docs/Experiment04/Disc_Loss.png)|
 |:---:|:---:|
 |Generator Loss|Discriminator Loss|
@@ -139,12 +186,12 @@ __Observation__:
 Change from previous models: 
 * Removed restriction on D update
 
-#### Results
-Trainning size = 10.000\
-Trainning Epochs = 20\
-Batch Size = 16
+#### Results:
+|Hyperparameters|Observations|
+|:---|:---|
+|Trainning size = 10.000<br/>Trainning Epochs = 20<br/> Batch Size = 16  ||
 
-__Observation__: 
+__Loss and Accuracy Charts__: 
 |![](docs/Experiment05/Gen_Loss.png)|![](docs/Experiment05/Disc_Loss.png)|
 |:---:|:---:|
 |Generator Loss|Discriminator Loss|
@@ -160,12 +207,12 @@ Change from previous models:
 * Added label smoothing (0 -> {0-0.1} and 1 -> {0.9-1})
 * Added label flipping on 5% of labels
 
-#### Results
-Trainning size = 10.000\
-Trainning Epochs = 20\
-Batch Size = 16
+#### Results:
+|Hyperparameters|Observations|
+|:---|:---|
+|Trainning size = 10.000<br/>Trainning Epochs = 20<br/> Batch Size = 16  ||
 
-__Observation__: 
+__Loss and Accuracy Charts__: 
 |![](docs/Experiment06/Gen_Loss.png)|![](docs/Experiment06/Disc_Loss.png)|
 |:---:|:---:|
 |Generator Loss|Discriminator Loss|
@@ -182,12 +229,12 @@ Change from previous models:
 * Remove BatchNorm layers
 * Remove Label Smoothing and Label flip
 
-#### Results
-Trainning size = 10.000\
-Trainning Epochs = 100\
-Batch Size = 100
+#### Results:
+|Hyperparameters|Observations|
+|:---|:---|
+|Trainning size = 10.000<br/>Trainning Epochs = 100<br/> Batch Size = 200  ||
 
-__Observation__: 
+__Loss Charts__:  
 |![](docs/Experiment07/DiscLossFake.png)|![](docs/Experiment07/DiscLossReal.png)|
 |:---:|:---:|
 |Discriminator Loss Fake|Discriminator Loss Real|
@@ -204,12 +251,12 @@ Change from previous models:
 * Added label smoothing (0 -> {0-0.1} and 1 -> {0.9-1})
 * Added label flipping on 5% of labels
 
-#### Results
-Trainning size = 22.000\
-Trainning Epochs = 100\
-Batch Size = 200
+#### Results:
+|Hyperparameters|Observations|
+|:---|:---|
+|Trainning size = 22.000<br/>Trainning Epochs = 100<br/> Batch Size = 200  ||
 
-__Observation__: 
+__Loss Charts__: 
 |![](docs/Experiment08/DiscLossFake.png)|![](docs/Experiment08/DiscLossReal.png)|
 |:---:|:---:|
 |Discriminator Loss Fake|Discriminator Loss Real|
@@ -225,12 +272,12 @@ Change from previous models:
 * Using male and female images at 50%
 * Introduced training ratio G:D, set to 1:3 (traing D 3 times more than G)
 
-#### Results
-Trainning size = 10.000\
-Trainning Epochs = 100\
-Batch Size = 100
+#### Results:
+|Hyperparameters|Observations|
+|:---|:---|
+|Trainning size = 10.000<br/>Trainning Epochs = 100<br/> Batch Size = 100  ||
 
-__Observation__: 
+__Loss Charts__: 
 |![](docs/Experiment09/DiscLossFake.png)|![](docs/Experiment09/DiscLossReal.png)|
 |:---:|:---:|
 |Discriminator Loss Fake|Discriminator Loss Real|
@@ -247,12 +294,12 @@ Change from previous models:
 * Only 1 feature allowed for conditioning 
 * Ratio G:D, set to 1:1
 
-#### Results
-Trainning size = 10.000\
-Trainning Epochs = 100\
-Batch Size = 100
+#### Results:
+|Hyperparameters|Observations|
+|:---|:---|
+|Trainning size = 10.000<br/>Trainning Epochs = 100<br/> Batch Size = 100  ||
 
-__Observation__: 
+__Loss Charts__: 
 |![](docs/Experiment10/DiscLossFake.png)|![](docs/Experiment10/DiscLossReal.png)|
 |:---:|:---:|
 |Discriminator Loss Fake|Discriminator Loss Real|
@@ -267,12 +314,12 @@ __Observation__:
 Change from previous models: 
 * Introduced training ratio G:D, set to 1:3 (traing D 3 times more than G)
 
-#### Results
-Trainning size = 10.000\
-Trainning Epochs = 100\
-Batch Size = 100
+#### Results:
+|Hyperparameters|Observations|
+|:---|:---|
+|Trainning size = 10.000<br/>Trainning Epochs = 100<br/> Batch Size = 100  ||
 
-__Observation__: 
+__Loss Charts__: 
 |![](docs/Experiment11/DiscLossFake.png)|![](docs/Experiment11/DiscLossReal.png)|
 |:---:|:---:|
 |Discriminator Loss Fake|Discriminator Loss Real|
@@ -286,17 +333,14 @@ __Observation__:
 ### Experiment 12, 13, 14
 Using Experiment 11 as base: 
 * Introduced Spectral Normalization
-* Training ratio G:D used:
-    * 1:1
-    * 1:3 
-    * 1:5 
+* Different ratios of times trained Generator and Discriminator used. 
 
-#### Results
-* Trainning size = 10.000
-* Trainning Epochs = 100\220\100
-* Batch Size = 100
+#### Results:
+|Hyperparameters|Observations|
+|:---|:---|
+|Trainning size = 10.000<br/>Trainning Epochs = 100\220\100 <br/> Batch Size = 100 <br/> Ratio of training G:D  = 1:1\1:3\1:5  | * The final images are not good enough as the<br/> ones in the previous experiments.<br/> * The Spectral Normalization gives stability and prevents<br/> the white background images.<br/> * To improve results another experiment should be done<br/> using Attention and Spectral Normalization which would give better results.|
 
-__Observation__: 
+__Loss Charts__: 
 
 |Ratio 1:1|Ratio 1:3|Ratio 1:5|
 |:---:|:---:|:---:|
@@ -333,12 +377,14 @@ Using Experiment 11 as base:
     * Glasses
     * Beard
 
-#### Results
-* Trainning size = 9000
-* Trainning Epochs = 100
-* Batch Size = 100
+#### Results:
 
-__Observation__: 
+|Hyperparameters|Observations|
+|:---|:---|
+|Trainning size = 9000<br/>Trainning Epochs = 100 <br/> Batch Size = 100  | * The results were evolving correctly but at epoch 79<br/> the images are white background.|
+
+
+__Loss Charts__: 
 |![](docs/Experiment15/DiscLossFake.png)|![](docs/Experiment15/DiscLossReal.png)|
 |:---:|:---:|
 |Discriminator Loss Fake|Discriminator Loss Real|
@@ -346,3 +392,10 @@ __Observation__:
 |Generator Loss|
 
 ![](docs/Experiment15/results/png_to_gif_Exp15.gif)|
+
+
+## Authors
+* Albert Nieto
+* Luís Tuzón
+* Jordi Sans
+* Mauro Álvarez
