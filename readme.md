@@ -381,7 +381,7 @@ Using Experiment 11 as base:
 
 |Hyperparameters|Observations|
 |:---|:---|
-|Trainning size = 9000<br/>Trainning Epochs = 100 <br/> Batch Size = 100  | * The results were evolving correctly but at epoch 79<br/> the images are white background.|
+|Trainning size = 9000<br/>Trainning Epochs = 100 <br/> Batch Size = 100  ||
 
 
 __Loss Charts__: 
