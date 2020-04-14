@@ -232,7 +232,7 @@ Change from previous models:
 #### Results:
 |Hyperparameters|Observations|
 |:---|:---|
-|Trainning size = 22.000<br/>Trainning Epochs = 100<br/> Batch Size = 200  ||
+|Trainning size = 10.000<br/>Trainning Epochs = 100<br/> Batch Size = 200  ||
 
 __Loss Charts__:  
 |![](docs/Experiment07/DiscLossFake.png)|![](docs/Experiment07/DiscLossReal.png)|
