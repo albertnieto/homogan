@@ -46,6 +46,8 @@ For the whole project, we saved a history of our code source for each experiment
 In order to train the model, parameters should be set in `config.json`. Once parameters are set, simply run `main.py`.
 Nevertheless, older experiments can be run as well. Source can be found in `src/old/ExperimentXX` and documents in `docs/ExperimentXX`. Though parameters can't be changed, they can be tested by running `src/old/ExperimentXX/main.py`.
 
+If the dataset is not placed in the indicated dataset folder in parameters, the script will automatically download it. Kaggle user and password must be set.
+
 ### Networks parameters
 |Parameters|Default value|Notes|
 |:---|:---|:---|
