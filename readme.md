@@ -6,7 +6,7 @@
 
 This is the final project of the postgraduate course of *Artificial Intelligence with Deep Learning* by *Universitat Politècnica de Catalunya (UPC)*. The goal is to build a conditioned GAN that generate faces given some features. To do so, different architectures and known methods have been tested.
 
-This project started on 10th of February, which implementation occured from 27th of February to 8th of April.
+This project started on 10th of February of 2020, which implementation occured from 27th of February to 8th of April of 2020.
 
 This network has been implemented with Tensorflow 2.0 and Keras. Experiments were run in Google Colab.
 
