@@ -24,7 +24,7 @@ import GAN as gan
 
 print(tf.__version__)
 tf.keras.backend.set_floatx('float32')
-def main(dataset_folder = "C:\\Users\\Jordi\\Anaconda3\\celeba-dataset"):
+def main(dataset_folder = "/content/celeba-dataset"):
 
     # ### Load and prepare the dataset
 
@@ -41,7 +41,7 @@ def main(dataset_folder = "C:\\Users\\Jordi\\Anaconda3\\celeba-dataset"):
 
     feat_df = celeba.attributes
     feat_df['image_id'] = feat_df['image_id'].apply(
-    lambda x: dataset_folder + '\\img_align_celeba\\img_align_celeba'+x)
+    lambda x: dataset_folder + '/img_align_celeba/img_align_celeba/'+x)
 
     bald_people = feat_df[feat_df.Bald == 1]
     print("bald_people " + str(len(bald_people)))
@@ -83,7 +83,7 @@ def main(dataset_folder = "C:\\Users\\Jordi\\Anaconda3\\celeba-dataset"):
     CLASS_NAMES = celeba.features_name
     
     print('Total images ' + str(NUM_IMAGES_USED))
-    exit()
+
     img_shape = (IMG_HEIGHT, IMG_WIDTH, 3)
 
     def _parse_function(filename, labels):
