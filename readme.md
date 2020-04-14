@@ -8,6 +8,8 @@ This is the final project of the postgraduate course of *Artificial Intelligence
 
 This project started on 10th of February, which implementation occured from 27th of February to 8th of April.
 
+This network has been implemented with Tensorflow 2.0 and Keras. Experiments were run in Google Colab.
+
 ## Table of Contents
 
 - [HomoGAN](#homogan)
