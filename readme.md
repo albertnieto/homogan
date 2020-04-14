@@ -6,6 +6,8 @@
 
 This is the final project of the postgraduate course of *Artificial Intelligence with Deep Learning* by *Universitat Politècnica de Catalunya (UPC)*. The goal is to build a conditioned GAN that generate faces given some features. To do so, different architectures and known methods have been tested.
 
+This project started on 10th of February, which implementation occured from 27th of February to 8th of April.
+
 ## Table of Contents
 
 - [HomoGAN](#homogan)
