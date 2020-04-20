@@ -391,11 +391,11 @@ __Loss Charts__:
 |![](docs/Experiment15/GenLoss.png)|
 |Generator Loss|
 
-![](docs/Experiment15/results/png_to_gif_Exp15.gif)|
+![](docs/Experiment15/results/png_to_gif_Exp15.gif)
 
 
 ## Authors
 * Albert Nieto
-* Luís Tuzón
+* Luis Tuzón
 * Jordi Sans
 * Mauro Álvarez
