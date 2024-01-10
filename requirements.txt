@@ -20,7 +20,7 @@ textgenrnn==1.4.1
 Theano==1.0.4
 thinc==7.4.0
 toolz==0.10.0
-tornado==4.5.3
+tornado==6.3.3
 tqdm==4.38.0
 traitlets==4.3.3
 tweepy==3.6.0
